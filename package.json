@@ -1,0 +1,17 @@
+{
+  "name": "chatz-web",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "webpack"
+  },
+  "dependencies": {
+    "react": "15.6.1",
+    "react-dom": "15.6.1"
+  },
+  "devDependencies": {
+    "ts-loader": "2.2.0",
+    "typescript": "2.3.4",
+    "typings": "2.1.1",
+    "webpack": "3.0.0"
+  }
+}
