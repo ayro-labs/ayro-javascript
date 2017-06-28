@@ -1,11 +1,9 @@
 'use strict';
 
-let path = require('path');
-
 module.exports = {
-  entry: ['./src/app.tsx'],
+  entry: './src/app.tsx',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: __dirname + '/dist',
     filename: 'chatz.js'
   },
   resolve: {
@@ -16,7 +14,12 @@ module.exports = {
       {
         test: /\.tsx?$/,
         loader: 'ts-loader',
-        exclude: /node_modules/
+        include: __dirname + '/src'
+      },
+      {
+        test: /\.css/,
+        loaders: ['style-loader', 'css-loader'],
+        include: __dirname + '/src'
       }
     ]
   }
