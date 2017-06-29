@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  entry: './src/app.tsx',
+  entry: './src/umd.js',
   output: {
     path: __dirname + '/dist',
     filename: 'chatz.js'
