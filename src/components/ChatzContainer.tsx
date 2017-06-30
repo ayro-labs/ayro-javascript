@@ -7,7 +7,7 @@ import classes from '../utils/classes';
 
 interface Properties {}
 interface State {
-  chatOpened: boolean
+  opened: boolean
 }
 
 export default class ChatzContainer extends React.Component<Properties, State> {
@@ -15,37 +15,27 @@ export default class ChatzContainer extends React.Component<Properties, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      chatOpened: false
+      opened: false
     };
     this.toggleConversation = this.toggleConversation.bind(this)
   }
 
   private toggleConversation(): void {
-    this.setState({chatOpened: !this.state.chatOpened});
-  }
-
-  private chatboxContainerClasses(): string {
-    return classes({
-      'chatz-chatbox-container': true,
-      'chatz-show': this.state.chatOpened,
-      'chatz-hide': !this.state.chatOpened
-    });
+    this.setState({opened: !this.state.opened});
   }
 
   private buttonClasses(): string {
     return classes({
       'chatz-button': true,
-      'chatz-show': !this.state.chatOpened,
-      'chatz-hide': this.state.chatOpened
+      'chatz-show': !this.state.opened,
+      'chatz-hide': this.state.opened
     });
   }
 
   render() {
     return (
       <div id="chatz-container">
-        <div className={this.chatboxContainerClasses()}>
-          <ChatBox/>
-        </div>
+        <ChatBox opened={this.state.opened}/>
         <button className={this.buttonClasses()} onClick={this.toggleConversation}></button>
       </div>
     );
