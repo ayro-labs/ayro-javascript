@@ -2,9 +2,9 @@
 
 export default class DeviceInfo {
 
-  public manufacturer: string;
-  public model: string;
-  public osName: string;
-  public osVersion: string;
+  manufacturer: string;
+  model: string;
+  osName: string;
+  osVersion: string;
 
 }

@@ -4,11 +4,11 @@ import DeviceInfo from './DeviceInfo';
 
 export default class Device {
 
-  public uid: string;
-  public platform: string;
-  public app_id: string;
-  public app_version: string;
-  public push_token: string;
-  public info: DeviceInfo;
+  uid: string;
+  platform: string;
+  app_id: string;
+  app_version: string;
+  push_token: string;
+  info: DeviceInfo;
 
 }

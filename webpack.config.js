@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  entry: './src/umd.js',
+  entry: ['whatwg-fetch', './src/umd.js'],
   output: {
     path: __dirname + '/dist',
     filename: 'chatz.js'

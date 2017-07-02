@@ -1,25 +1,25 @@
 'use strict';
 
 import * as React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
+import * as actions from './store/actions';
 import classes from '../utils/classes';
 
 interface Properties {
-  opened: boolean
+  chatOpened: boolean,
+  dispatch: Function
 }
 interface State {}
 
-export default class ChatBox extends React.Component<Properties, State> {
-
-  constructor(props: any) {
-    super(props);
-  }
+class ChatBox extends React.Component<Properties, State> {
 
   private getClasses(): string {
     return classes({
       'chatz-chatbox': true,
-      'chatz-show': this.props.opened,
-      'chatz-hide': !this.props.opened
+      'chatz-show': this.props.chatOpened,
+      'chatz-hide': !this.props.chatOpened
     });
   }
 
@@ -41,3 +41,11 @@ export default class ChatBox extends React.Component<Properties, State> {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    chatOpened: state.chatOpened
+  };
+}
+
+export default connect(mapStateToProps)(ChatBox);

@@ -29,7 +29,7 @@
 }
 
 .chatz-hide {
-  animation: bounceOut 0.8s ease-out;
+  animation: bounceOut 0.8s ease-in-out;
 }
 
 .chatz-show {
