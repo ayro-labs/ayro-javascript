@@ -4,6 +4,8 @@ import { createStore } from 'redux'
 
 import * as actions from './actions';
 
+import ChatMessage from '../../models/ChatMessage';
+
 let reducer = (state, action) => {
   if (!state) {
     return {};
@@ -16,6 +18,12 @@ let reducer = (state, action) => {
       break;
     case actions.SET_API_TOKEN:
       newState.apiToken = action.value;
+      break;
+    case actions.ADD_MESSAGE:
+      if (!newState.chatMessages) {
+        newState.chatMessages = new Array<ChatMessage>();
+      }
+      newState.chatMessages.push(action.value);
       break;
   }
   return newState;

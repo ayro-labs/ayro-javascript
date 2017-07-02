@@ -6,9 +6,12 @@ export default class Device {
 
   uid: string;
   platform: string;
-  app_id: string;
-  app_version: string;
-  push_token: string;
   info: DeviceInfo;
 
+  constructor(data?: any) {
+    if (data) {
+      this.uid = data.uid;
+      this.platform = data.platform;
+    }
+  }
 }

@@ -2,6 +2,11 @@
 
 export default class Settings {
 
-  public app_token: string
+  app_token: string
 
+  constructor(data?: any) {
+    if (data) {
+      this.app_token = data.app_token;
+    }
+  }
 }

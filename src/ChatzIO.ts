@@ -2,13 +2,16 @@
 
 import { v4 as uuid } from 'uuid';
 
+import * as actions from './components/store/actions';
+import store from './components/store';
+import App from './components/App';
+
+import { apiService } from './services/api';
+import { storage } from './utils/storage';
+
 import Settings from './Settings';
 import User from './models/User';
-import App from './components/App';
-import store from './components/store';
-import * as actions from './components/store/actions';
-import { http } from './utils/http';
-import { storage } from './utils/storage';
+import Device from './models/Device';
 
 import '../assets/css/styles.css';
 
@@ -26,14 +29,9 @@ export default class ChatzIO {
   }
 
   login(user: User): void {
-    let context = this;
     this.user = user;
-    http.post('/auth/users', {
-      app_token: this.settings.app_token,
-      user: this.user,
-      device: this.getDevice()
-    }).then(function(apiToken) {
-      context.apiToken = apiToken;
+    apiService.login(this.settings.app_token, this.user, this.getDevice()).then((apiToken) => {
+      this.apiToken = apiToken;
       store.dispatch(actions.setApiToken(apiToken));
       App.init(store);
     });
@@ -49,9 +47,9 @@ export default class ChatzIO {
       uid = uuid();
       storage.set(ChatzIO.DEVICE_UID, uid);
     }
-    return {
+    return new Device({
       uid: uid,
       platform: 'web'
-    }
+    });
   }
 }

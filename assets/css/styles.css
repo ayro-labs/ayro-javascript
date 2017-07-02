@@ -29,11 +29,11 @@
 }
 
 .chatz-hide {
-  animation: bounceOut 0.8s ease-in-out;
+  animation: bounceOut 0.8s ease-in-out !important;
 }
 
 .chatz-show {
-  animation: bounceIn 0.8s ease-in-out;
+  animation: bounceIn 0.8s ease-in-out !important;
 }
 
 #chatz-container .chatz-button {
