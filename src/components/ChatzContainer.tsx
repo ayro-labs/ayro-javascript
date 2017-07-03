@@ -11,7 +11,8 @@ import ChatBox from './ChatBox';
 
 interface Properties {
   chatOpened: boolean,
-  dispatch: Function
+  openChat: Function,
+  closeChat: Function,
 }
 interface State {}
 
@@ -23,7 +24,11 @@ class ChatzContainer extends React.Component<Properties, State> {
   }
 
   private toggleConversation(): void {
-    this.props.dispatch(this.props.chatOpened ? actions.closeChat() : actions.openChat());
+    if (this.props.chatOpened) {
+      this.props.closeChat();
+    } else {
+      this.props.openChat();
+    }
   }
 
   private buttonClasses(): string {
@@ -50,4 +55,15 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ChatzContainer);
+function mapDispatchToProps(dispatch) {
+  return {
+    openChat: () => {
+      dispatch(actions.openChat());
+    },
+    closeChat: () => {
+      dispatch(actions.closeChat());
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatzContainer);

@@ -22,8 +22,11 @@ class Conversation extends React.Component<Properties, State> {
   }
 
   render() {
+    let messages = this.props.chatMessages.map((chatMessage) =>
+      <div key={chatMessage.date.getTime()}>{chatMessage.text}</div>
+    );
     return (
-      <div></div>
+      <div>{messages}</div>
     );
   }
 }

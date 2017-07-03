@@ -15,7 +15,7 @@ import Conversation from './Conversation';
 interface Properties {
   apiToken: string,
   chatOpened: boolean,
-  dispatch: Function
+  addMessage: Function
 }
 interface State {
   message: string
@@ -42,7 +42,7 @@ class ChatBox extends React.Component<Properties, State> {
       date: new Date()
     });
     apiService.postMessage(this.props.apiToken, chatMessage.text).then(() => {
-      this.props.dispatch(actions.addMessage(chatMessage));
+      this.props.addMessage(chatMessage);
       this.setState({message: ''});
     });
   }
@@ -82,4 +82,12 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ChatBox);
+function mapDispatchToProps(dispatch) {
+  return {
+    addMessage: (chatMessage: ChatMessage) => {
+      dispatch(actions.addMessage(chatMessage));
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatBox);

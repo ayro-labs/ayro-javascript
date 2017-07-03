@@ -6,9 +6,15 @@ import * as actions from './actions';
 
 import ChatMessage from '../../models/ChatMessage';
 
+const INITIAL_STATE = {
+  apiToken: null,
+  chatOpened: false,
+  chatMessages: new Array<ChatMessage>()
+};
+
 let reducer = (state, action) => {
   if (!state) {
-    return {};
+    return INITIAL_STATE;
   }
   let newState: any = {};
   Object.assign(newState, state);
@@ -20,10 +26,7 @@ let reducer = (state, action) => {
       newState.apiToken = action.value;
       break;
     case actions.ADD_MESSAGE:
-      if (!newState.chatMessages) {
-        newState.chatMessages = new Array<ChatMessage>();
-      }
-      newState.chatMessages.push(action.value);
+      newState.chatMessages = newState.chatMessages.concat(action.value);
       break;
   }
   return newState;
