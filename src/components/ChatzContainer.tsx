@@ -4,8 +4,8 @@ import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import * as actions from './store/actions';
-import classes from '../utils/classes';
+import Actions from './store/Actions';
+import Classes from '../utils/Classes';
 
 import ChatBox from './ChatBox';
 
@@ -32,7 +32,7 @@ class ChatzContainer extends React.Component<Properties, State> {
   }
 
   private buttonClasses(): string {
-    return classes({
+    return Classes.get({
       'chatz-button': true,
       'chatz-show': !this.props.chatOpened,
       'chatz-hide': this.props.chatOpened
@@ -58,10 +58,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     openChat: () => {
-      dispatch(actions.openChat());
+      dispatch(Actions.openChat());
     },
     closeChat: () => {
-      dispatch(actions.closeChat());
+      dispatch(Actions.closeChat());
     }
   }
 }

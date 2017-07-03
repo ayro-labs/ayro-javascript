@@ -2,16 +2,18 @@
 
 import { v4 as uuid } from 'uuid';
 
-import * as actions from './components/store/actions';
+import Actions from './components/store/Actions';
 import store from './components/store';
 import App from './components/App';
 
-import { apiService } from './services/api';
-import { storage } from './utils/storage';
+import Storage from './utils/Storage';
+import ChatzClient from './services/ChatzClient';
+import Notifications from './services/Notifications';
 
 import Settings from './Settings';
 import User from './models/User';
 import Device from './models/Device';
+import ChatMessage from './models/ChatMessage';
 
 import '../assets/css/styles.css';
 
@@ -21,7 +23,6 @@ export default class ChatzIO {
 
   private settings: Settings;
   private user: User;
-  private apiToken: string;
 
   init(settings: Settings): void {
     this.settings = settings;
@@ -30,9 +31,9 @@ export default class ChatzIO {
 
   login(user: User): void {
     this.user = user;
-    apiService.login(this.settings.app_token, this.user, this.getDevice()).then((apiToken) => {
-      this.apiToken = apiToken;
-      store.dispatch(actions.setApiToken(apiToken));
+    ChatzClient.login(this.settings.app_token, this.user, this.getDevice()).then((apiToken) => {
+      store.dispatch(Actions.setApiToken(apiToken));
+      Notifications.start(apiToken, this.onMessage);
       App.init(store);
     });
   }
@@ -42,14 +43,25 @@ export default class ChatzIO {
   }
 
   private getDevice() {
-    let uid = storage.get(ChatzIO.DEVICE_UID);
+    let uid = Storage.get(ChatzIO.DEVICE_UID);
     if (!uid) {
       uid = uuid();
-      storage.set(ChatzIO.DEVICE_UID, uid);
+      Storage.set(ChatzIO.DEVICE_UID, uid);
     }
     return new Device({
       uid: uid,
       platform: 'web'
     });
+  }
+
+  private onMessage(event: string, message: any) {
+    switch (event) {
+      case Notifications.EVENT_CHAT_MESSAGE:
+        let chatMessage = new ChatMessage(message);
+        chatMessage.status = ChatMessage.STATUS_SENT;
+        chatMessage.direction = ChatMessage.DIRECTION_INCOMING;
+        store.dispatch(Actions.addMessage(message));
+        break;
+    }
   }
 }

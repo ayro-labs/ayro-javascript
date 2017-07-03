@@ -4,9 +4,9 @@ import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import * as actions from './store/actions';
-import { apiService } from '../services/api';
-import classes from '../utils/classes';
+import Actions from './store/Actions';
+import Classes from '../utils/Classes';
+import ChatzClient from '../services/ChatzClient';
 
 import ChatMessage from '../models/ChatMessage';
 
@@ -41,14 +41,14 @@ class ChatBox extends React.Component<Properties, State> {
       text: this.state.message,
       date: new Date()
     });
-    apiService.postMessage(this.props.apiToken, chatMessage.text).then(() => {
+    ChatzClient.postMessage(this.props.apiToken, chatMessage.text).then(() => {
       this.props.addMessage(chatMessage);
       this.setState({message: ''});
     });
   }
 
   private getClasses(): string {
-    return classes({
+    return Classes.get({
       'chatz-chatbox': true,
       'chatz-show': this.props.chatOpened,
       'chatz-hide': !this.props.chatOpened
@@ -85,7 +85,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     addMessage: (chatMessage: ChatMessage) => {
-      dispatch(actions.addMessage(chatMessage));
+      dispatch(Actions.addMessage(chatMessage));
     }
   }
 }
