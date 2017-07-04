@@ -1,10 +1,12 @@
 'use strict';
 
+import User from '../models/User';
+
 import * as Faye from 'faye';
 
 interface Listener {
 
-  (event: string, message: any): void;
+  (data: any): void;
 
 }
 
@@ -12,21 +14,20 @@ export default class Notifications {
 
   public static readonly EVENT_CHAT_MESSAGE = 'chat_message';
 
-  private static readonly URL = 'http://api.chatz.io:3100';
+  private static readonly URL = 'http://api.chatz.io:3102';
 
-  private static websocket = null;
+  private static ws = null;
 
   private constructor() {
 
   }
 
-  public static start(apiToken: string, listener: Listener) {
-    if (!Notifications.websocket) {
-      Notifications.websocket = new Faye.Client(Notifications.URL);
-      Notifications.websocket.setHeader('X-Token', apiToken);
-      Notifications.websocket.subscribe('/messages', (message: any) => {
+  public static start(user: User, listener: Listener) {
+    if (!Notifications.ws) {
+      Notifications.ws = new Faye.Client(Notifications.URL);
+      Notifications.ws.subscribe(`/users/${user._id}`, (data: any) => {
         if (listener) {
-          listener(Notifications.EVENT_CHAT_MESSAGE, message);
+          listener(data);
         }
       });
     }

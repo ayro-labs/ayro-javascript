@@ -23,7 +23,7 @@ export default class ChatMessage {
       this.text = data.text;
       this.status = data.status;
       this.direction = data.direction;
-      this.date = data.date;
+      this.date = data.date instanceof Date ? data.date : new Date(data.date);
     }
   }
 }

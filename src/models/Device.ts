@@ -12,6 +12,7 @@ export default class Device {
     if (data) {
       this.uid = data.uid;
       this.platform = data.platform;
+      this.info = data.info instanceof Device ? data.info : new DeviceInfo(data.info);
     }
   }
 }

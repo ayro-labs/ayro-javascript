@@ -2,6 +2,7 @@
 
 export default class User {
 
+  _id: string;
   uid: string;
   first_name: string;
   last_name: string;
@@ -12,6 +13,7 @@ export default class User {
 
   constructor(data?: any) {
     if (data) {
+      this._id = data._id;
       this.uid = data.uid;
       this.first_name = data.first_name;
       this.last_name = data.last_name;

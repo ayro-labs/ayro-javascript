@@ -30,10 +30,10 @@ export default class ChatzIO {
   }
 
   login(user: User): void {
-    this.user = user;
-    ChatzClient.login(this.settings.app_token, this.user, this.getDevice()).then((apiToken) => {
-      store.dispatch(Actions.setApiToken(apiToken));
-      Notifications.start(apiToken, this.onMessage);
+    ChatzClient.login(this.settings.app_token, user, this.getDevice()).then((result) => {
+      this.user = new User(result.user);
+      store.dispatch(Actions.setApiToken(result.token));
+      Notifications.start(this.user, this.onDataReceived);
       App.init(store);
     });
   }
@@ -54,13 +54,13 @@ export default class ChatzIO {
     });
   }
 
-  private onMessage(event: string, message: any) {
-    switch (event) {
+  private onDataReceived(data: any) {
+    switch (data.event) {
       case Notifications.EVENT_CHAT_MESSAGE:
-        let chatMessage = new ChatMessage(message);
+        let chatMessage = new ChatMessage(data);
         chatMessage.status = ChatMessage.STATUS_SENT;
         chatMessage.direction = ChatMessage.DIRECTION_INCOMING;
-        store.dispatch(Actions.addMessage(message));
+        store.dispatch(Actions.addMessage(chatMessage));
         break;
     }
   }

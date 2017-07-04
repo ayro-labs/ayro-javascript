@@ -5,6 +5,13 @@ import Device from '../models/Device';
 
 import 'whatwg-fetch';
 
+interface LoginResult {
+
+  token: string;
+  user: User;
+
+}
+
 class ApiError extends Error {
 
   response: any;
@@ -41,11 +48,11 @@ export default class ChatzClient {
     }
   }
 
-  private static  parseJSON(response) {
+  private static parseJSON(response) {
     return response.json();
   }
 
-  public static login(appToken: string, user: User, device: Device): Promise<string> {
+  public static login(appToken: string, user: User, device: Device): Promise<LoginResult> {
     return fetch(ChatzClient.getUrl('/auth/users'), {
       method: 'POST',
       headers: ChatzClient.HEADERS,
