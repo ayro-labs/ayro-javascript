@@ -5,14 +5,14 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Store } from 'redux'
 
-import ChatzContainer from './ChatzContainer';
+import Container from './Container';
 
 export default class Components {
 
   static init(store: Store<any>) {
     ReactDOM.render(
       <Provider store={store}>
-        <ChatzContainer/>
+        <Container/>
       </Provider>,
       document.getElementById('chatz')
     );

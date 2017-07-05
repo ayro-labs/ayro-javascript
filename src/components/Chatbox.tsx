@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import Actions from '../store/Actions';
 import Classes from '../utils/Classes';
-import ChatzClient from '../services/ChatzClient';
+import ChatzService from '../services/Chatz';
 
 import ChatMessage from '../models/ChatMessage';
 
@@ -14,34 +14,34 @@ import Conversation from './Conversation';
 interface Properties {
   apiToken: string,
   chatOpened: boolean,
-  addMessage: Function
+  addChatMessage: Function
 }
 interface State {
   message: string
 }
 
-class ChatBox extends React.Component<Properties, State> {
+class Chatbox extends React.Component<Properties, State> {
 
   constructor(props: Properties) {
     super(props);
     this.state = {message: ''};
     this.onMessageChanged = this.onMessageChanged.bind(this)
-    this.postMessage = this.postMessage.bind(this)
+    this.postChatMessage = this.postChatMessage.bind(this)
   }
 
   private onMessageChanged(event) {
     this.setState({message: event.target.value});
   }
 
-  private postMessage() {
+  private postChatMessage() {
     let chatMessage = new ChatMessage({
       direction: ChatMessage.DIRECTION_OUTGOING,
       status: ChatMessage.STATUS_SENDING,
       text: this.state.message,
       date: new Date()
     });
-    ChatzClient.postMessage(this.props.apiToken, chatMessage.text).then(() => {
-      this.props.addMessage(chatMessage);
+    ChatzService.postChatMessage(this.props.apiToken, chatMessage.text).then(() => {
+      this.props.addChatMessage(chatMessage);
       this.setState({message: ''});
     });
   }
@@ -66,7 +66,7 @@ class ChatBox extends React.Component<Properties, State> {
             <div className="chatz-input">
               <input type="text" name="message" placeholder="Type a message..." value={this.state.message} onChange={this.onMessageChanged}/>
             </div>
-            <button onClick={this.postMessage}>Send</button>
+            <button onClick={this.postChatMessage}>Send</button>
           </div>
         </div>
       </div>
@@ -83,10 +83,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addMessage: (chatMessage: ChatMessage) => {
-      dispatch(Actions.addMessage(chatMessage));
+    addChatMessage: (chatMessage: ChatMessage) => {
+      dispatch(Actions.addChatMessage(chatMessage));
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatBox);
+export default connect(mapStateToProps, mapDispatchToProps)(Chatbox);

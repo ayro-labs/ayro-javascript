@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Actions from '../store/Actions';
 import Classes from '../utils/Classes';
 
-import ChatBox from './ChatBox';
+import Chatbox from './Chatbox';
 
 interface Properties {
   chatOpened: boolean,
@@ -15,7 +15,7 @@ interface Properties {
 }
 interface State {}
 
-class ChatzContainer extends React.Component<Properties, State> {
+class Container extends React.Component<Properties, State> {
 
   constructor(props: Properties) {
     super(props);
@@ -41,7 +41,7 @@ class ChatzContainer extends React.Component<Properties, State> {
   render() {
     return (
       <div id="chatz-container">
-        <ChatBox/>
+        <Chatbox/>
         <button className={this.buttonClasses()} onClick={this.toggleConversation}></button>
       </div>
     );
@@ -65,4 +65,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatzContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(Container);

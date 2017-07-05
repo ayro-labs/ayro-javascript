@@ -32,7 +32,10 @@ const REDUCER = (state, action) => {
     case Actions.UNSET_USER:
       newState.user = null;
       break;
-    case Actions.ADD_MESSAGE:
+    case Actions.SET_CHAT_MESSAGES:
+      newState.chatMessages = action.value;
+      break;
+    case Actions.ADD_CHAT_MESSAGE:
       newState.chatMessages = newState.chatMessages.concat(action.value);
       break;
   }

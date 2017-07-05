@@ -4,8 +4,8 @@ import Components from './components';
 import Actions from './store/Actions';
 import store from './store';
 
-import ChatzClient from './services/ChatzClient';
-import Notifications from './services/Notifications';
+import ChatzService from './services/Chatz';
+import NotificationService from './services/Notification';
 import App from './utils/App';
 
 import Settings from './Settings';
@@ -23,10 +23,10 @@ export default class ChatzIO {
   }
 
   login(user: User) {
-    ChatzClient.login(this.settings.app_token, user, App.getDevice()).then((result) => {
+    ChatzService.login(this.settings.app_token, user, App.getDevice()).then((result) => {
       store.dispatch(Actions.setApiToken(result.token));
       store.dispatch(Actions.setUser(new User(result.user)));
-      Notifications.start(store);
+      NotificationService.start(store);
       Components.init(store);
     });
   }

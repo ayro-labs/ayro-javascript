@@ -7,7 +7,7 @@ import Actions from '../store/Actions';
 
 import ChatMessage from '../models/ChatMessage';
 
-export default class Notifications {
+export default class NotificationService {
 
   public static readonly EVENT_CHAT_MESSAGE = 'chat_message';
 
@@ -21,24 +21,24 @@ export default class Notifications {
   }
 
   public static start(store: Store<any>) {
-    if (!Notifications.faye) {
+    if (!NotificationService.faye) {
       let user = store.getState().user;
-      Notifications.store = store;
-      Notifications.faye = new Faye.Client(Notifications.URL);
-      Notifications.faye.addExtension(Notifications.authenticate(store));
-      Notifications.faye.subscribe(`/users/${user._id}`, (data: any) => {
-        Notifications.messageReceived(data);
+      NotificationService.store = store;
+      NotificationService.faye = new Faye.Client(NotificationService.URL);
+      NotificationService.faye.addExtension(NotificationService.authenticate(store));
+      NotificationService.faye.subscribe(`/users/${user._id}`, (data: any) => {
+        NotificationService.messageReceived(data);
       });
     }
   }
 
   private static messageReceived(data: any) {
     switch (data.event) {
-      case Notifications.EVENT_CHAT_MESSAGE:
+      case NotificationService.EVENT_CHAT_MESSAGE:
         let chatMessage = new ChatMessage(data.message);
         chatMessage.status = ChatMessage.STATUS_SENT;
         chatMessage.direction = ChatMessage.DIRECTION_INCOMING;
-        Notifications.store.dispatch(Actions.addMessage(chatMessage));
+        NotificationService.store.dispatch(Actions.addChatMessage(chatMessage));
         break;
     }
   }

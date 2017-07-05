@@ -3,10 +3,15 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import Actions from '../store/Actions';
+import ChatzService from '../services/Chatz';
+
 import ChatMessage from '../models/ChatMessage';
 
 interface Properties {
-  chatMessages: Array<ChatMessage>
+  apiToken: string,
+  chatMessages: Array<ChatMessage>,
+  setChatMessages: Function
 }
 interface State {}
 
@@ -14,6 +19,12 @@ class Conversation extends React.Component<Properties, State> {
 
   constructor(props: Properties) {
     super(props);
+  }
+
+  componentDidMount() {
+    ChatzService.listChatMessages(this.props.apiToken).then((chatMessages) => {
+      this.props.setChatMessages(chatMessages);
+    });
   }
 
   render() {
@@ -37,7 +48,11 @@ class Conversation extends React.Component<Properties, State> {
       } else {
         return (
           <div key={chatMessage.date.getTime()} className="chatz-message-outgoing">
-            {chatMessage.text}
+            <div className="chatz-message">
+              <div className="chatz-message-text">
+                {chatMessage.text}
+              </div>
+            </div>
           </div>
         );
       }
@@ -50,8 +65,17 @@ class Conversation extends React.Component<Properties, State> {
 
 function mapStateToProps(state) {
   return {
+    apiToken: state.apiToken,
     chatMessages: state.chatMessages
   };
 }
 
-export default connect(mapStateToProps)(Conversation);
+function mapDispatchToProps(dispatch) {
+  return {
+    setChatMessages: (chatMessages: Array<ChatMessage>) => {
+      dispatch(Actions.setChatMessages(chatMessages));
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Conversation);
