@@ -2,7 +2,8 @@
   "name": "chatz-web",
   "version": "1.0.0",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "server": "node app.js"
   },
   "dependencies": {
     "faye": "1.2.4",

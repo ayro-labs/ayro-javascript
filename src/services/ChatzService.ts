@@ -68,7 +68,7 @@ export default class ChatzService {
   };
 
   public static listChatMessages(apiToken): Promise<Array<ChatMessage>> {
-    return fetch(ChatzService.getUrl('/chat/web'), {
+    return fetch(ChatzService.getUrl('/chat'), {
       method: 'GET',
       headers: Object.assign({'X-Token': apiToken}, ChatzService.HEADERS)
     }).then(function(response) {

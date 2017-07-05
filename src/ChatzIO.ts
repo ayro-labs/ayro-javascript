@@ -4,8 +4,8 @@ import Components from './components';
 import Actions from './store/Actions';
 import store from './store';
 
-import ChatzService from './services/Chatz';
-import NotificationService from './services/Notification';
+import ChatzService from './services/ChatzService';
+import NotificationService from './services/NotificationService';
 import App from './utils/App';
 
 import Settings from './Settings';

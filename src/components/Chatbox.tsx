@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import Actions from '../store/Actions';
 import Classes from '../utils/Classes';
-import ChatzService from '../services/Chatz';
+import ChatzService from '../services/ChatzService';
 
 import ChatMessage from '../models/ChatMessage';
 

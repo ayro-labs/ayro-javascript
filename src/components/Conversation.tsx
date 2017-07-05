@@ -4,7 +4,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import Actions from '../store/Actions';
-import ChatzService from '../services/Chatz';
+import ChatzService from '../services/ChatzService';
 
 import ChatMessage from '../models/ChatMessage';
 
