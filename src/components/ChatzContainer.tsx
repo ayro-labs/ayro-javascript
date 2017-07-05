@@ -1,10 +1,9 @@
 'use strict';
 
 import * as React from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Actions from './store/Actions';
+import Actions from '../store/Actions';
 import Classes from '../utils/Classes';
 
 import ChatBox from './ChatBox';
@@ -23,7 +22,7 @@ class ChatzContainer extends React.Component<Properties, State> {
     this.toggleConversation = this.toggleConversation.bind(this)
   }
 
-  private toggleConversation(): void {
+  private toggleConversation() {
     if (this.props.chatOpened) {
       this.props.closeChat();
     } else {

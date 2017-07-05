@@ -1,10 +1,9 @@
 'use strict';
 
 import * as React from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Actions from './store/Actions';
+import Actions from '../store/Actions';
 import Classes from '../utils/Classes';
 import ChatzClient from '../services/ChatzClient';
 
@@ -30,11 +29,11 @@ class ChatBox extends React.Component<Properties, State> {
     this.postMessage = this.postMessage.bind(this)
   }
 
-  private onMessageChanged(event): void {
+  private onMessageChanged(event) {
     this.setState({message: event.target.value});
   }
 
-  private postMessage(): void {
+  private postMessage() {
     let chatMessage = new ChatMessage({
       direction: ChatMessage.DIRECTION_OUTGOING,
       status: ChatMessage.STATUS_SENDING,

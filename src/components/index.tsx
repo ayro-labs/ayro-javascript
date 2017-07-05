@@ -7,14 +7,14 @@ import { Store } from 'redux'
 
 import ChatzContainer from './ChatzContainer';
 
-export default class App {
+export default class Components {
 
-  static init(store: Store<any>): void {
+  static init(store: Store<any>) {
     ReactDOM.render(
       <Provider store={store}>
         <ChatzContainer/>
       </Provider>,
-      document.getElementById('root')
+      document.getElementById('chatz')
     );
   }
 }

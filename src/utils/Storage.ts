@@ -2,13 +2,13 @@
 
 export default class Storage {
 
-  private static readonly MEMORY_STORAGE = {};
+  private static readonly MEMORY_STORAGE: any = {};
 
   private constructor() {
 
   }
 
-  public static set(key: string, value: string): void {
+  public static set(key: string, value: string) {
     try {
       if (localStorage) {
         localStorage.setItem(key, value);
@@ -30,7 +30,7 @@ export default class Storage {
     return value || null;
   }
 
-  public static remove(key: string): void {
+  public static remove(key: string) {
     if (localStorage) {
       localStorage.removeItem(key);
     }

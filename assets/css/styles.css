@@ -30,12 +30,12 @@
 
 .chatz-hide {
   animation: bounceOut 0.8s ease-in-out !important;
+  display: none;
 }
-
 .chatz-show {
   animation: bounceIn 0.8s ease-in-out !important;
+  display: block;
 }
-
 #chatz-container .chatz-button {
   background-color: #00c7a0;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
@@ -50,7 +50,6 @@
   cursor: pointer;
   animation: bounceIn 0.8s ease-in-out;
 }
-
 #chatz-container .chatz-chatbox {
   background-color: #ffffff;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
@@ -65,7 +64,6 @@
   width: 320px;
   height: 75%;
 }
-
 #chatz-container .chatz-chatbox .chatz-header {
   background-color: #00c7a0;
   flex: 0 1 60px;
@@ -73,28 +71,23 @@
   font-size: 20px;
   text-align: center;
 }
-
 #chatz-container .chatz-chatbox .chatz-conversation {
   background-color: #ffffff;
   flex: 1 1 auto;
 }
-
 #chatz-container .chatz-chatbox .chatz-footer {
   background-color: #868686;
   flex: 0 1 50px;
 }
-
 .chatz-footer .chatz-compose {
   display: flex;
   align-items: center;
   padding: 0px 15px;
   height: 50px;
 }
-
 .chatz-footer .chatz-compose .chatz-input {
   flex: 1 1 auto;
 }
-
 .chatz-input input {
   background: none;
   border: none;
@@ -102,4 +95,26 @@
   font-size: 15px;
   color: #ffffff;
   width: 100%;
+}
+.chatz-message-incoming, .chatz-message-outgoing {
+  margin-top: 10px;
+}
+.chatz-author-photo {
+  display: inline-block;
+}
+.chatz-author-photo img {
+  border-radius: 50%;
+  width: 35px;
+  height: auto;
+  margin-right: 5px;
+  margin-left: 10px;
+}
+.chatz-message {
+  background-color: #e2e2e2;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 6px 10px;
+}
+.chatz-message-text {
+  margin-top: 10px;
 }

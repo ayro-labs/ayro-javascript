@@ -1,18 +1,15 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "jsx": "react",
-    "module": "commonjs",
-    "preserveConstEnums": true,
-    "removeComments": true,
     "target": "es5",
-    "typeRoots": [
-      "./node_modules/@types"
-    ]
-  },
-  "exclude": [
-    "node_modules",
-    "typings/browser.d.ts",
-    "typings/browser"
-  ]
+    "module": "commonjs",
+    "jsx": "react",
+    "removeComments": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplictReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "typeRoots": ["./node_modules/@types"]
+  }
 }

@@ -1,7 +1,6 @@
 'use strict';
 
 import * as React from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import ChatMessage from '../models/ChatMessage';
@@ -18,9 +17,31 @@ class Conversation extends React.Component<Properties, State> {
   }
 
   render() {
-    let messages = this.props.chatMessages.map((chatMessage) =>
-      <div key={chatMessage.date.getTime()}>{chatMessage.text}</div>
-    );
+    let messages = this.props.chatMessages.map((chatMessage) => {
+      if (chatMessage.direction === ChatMessage.DIRECTION_INCOMING) {
+        return (
+          <div key={chatMessage.date.getTime()} className="chatz-message-incoming">
+            <div className="chatz-author-photo">
+              <img src={chatMessage.author.photo}/>
+            </div>
+            <div className="chatz-message">
+              <div className="chatz-author-name">
+                {chatMessage.author.name}
+              </div>
+              <div className="chatz-message-text">
+                {chatMessage.text}
+              </div>
+            </div>
+          </div>
+        );
+      } else {
+        return (
+          <div key={chatMessage.date.getTime()} className="chatz-message-outgoing">
+            {chatMessage.text}
+          </div>
+        );
+      }
+    });
     return (
       <div>{messages}</div>
     );
