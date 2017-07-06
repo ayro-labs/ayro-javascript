@@ -40,7 +40,7 @@ class Chatbox extends React.Component<Properties, State> {
       text: this.state.message,
       date: new Date()
     });
-    ChatzService.postChatMessage(this.props.apiToken, chatMessage.text).then(() => {
+    ChatzService.postChatMessage(chatMessage.text).then(() => {
       this.props.addChatMessage(chatMessage);
       this.setState({message: ''});
     });
@@ -58,9 +58,7 @@ class Chatbox extends React.Component<Properties, State> {
     return (
       <div className={this.getClasses()}>
         <div className="chatz-header">How can we help?</div>
-        <div className="chatz-conversation">
-          <Conversation/>
-        </div>
+        <Conversation/>
         <div className="chatz-footer">
           <div className="chatz-compose">
             <div className="chatz-input">

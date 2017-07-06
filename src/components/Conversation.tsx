@@ -22,7 +22,7 @@ class Conversation extends React.Component<Properties, State> {
   }
 
   componentDidMount() {
-    ChatzService.listChatMessages(this.props.apiToken).then((chatMessages) => {
+    ChatzService.listChatMessages().then((chatMessages) => {
       this.props.setChatMessages(chatMessages);
     });
   }
@@ -33,16 +33,17 @@ class Conversation extends React.Component<Properties, State> {
         return (
           <div key={chatMessage.date.getTime()} className="chatz-message-incoming">
             <div className="chatz-author-photo">
-              <img src={chatMessage.author.photo}/>
+              <img src={chatMessage.author.photo_url}/>
             </div>
             <div className="chatz-message">
               <div className="chatz-author-name">
                 {chatMessage.author.name}
               </div>
               <div className="chatz-message-text">
-                {chatMessage.text}
+                <span>{chatMessage.text}</span>
               </div>
             </div>
+            <div className="chatz-clear"></div>
           </div>
         );
       } else {
@@ -50,15 +51,18 @@ class Conversation extends React.Component<Properties, State> {
           <div key={chatMessage.date.getTime()} className="chatz-message-outgoing">
             <div className="chatz-message">
               <div className="chatz-message-text">
-                {chatMessage.text}
+                <span>{chatMessage.text}</span>
               </div>
             </div>
+            <div className="chatz-clear"></div>
           </div>
         );
       }
     });
     return (
-      <div>{messages}</div>
+      <div className="chatz-conversation">
+        {messages}
+      </div>
     );
   }
 }

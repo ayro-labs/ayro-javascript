@@ -31,6 +31,8 @@ export default class ChatzService {
     'Content-Type': 'application/json'
   };
 
+  private static apiToken: string;
+
   private constructor() {
 
   }
@@ -64,30 +66,35 @@ export default class ChatzService {
       return ChatzService.checkStatus(response)
     }).then(function(response) {
       return ChatzService.parseJSON(response);
+    }).then(function(response) {
+      ChatzService.apiToken = response.token;
+      return response;
     });
   };
 
-  public static listChatMessages(apiToken): Promise<Array<ChatMessage>> {
+  public static listChatMessages(): Promise<Array<ChatMessage>> {
     return fetch(ChatzService.getUrl('/chat'), {
       method: 'GET',
-      headers: Object.assign({'X-Token': apiToken}, ChatzService.HEADERS)
+      headers: Object.assign({'X-Token': ChatzService.apiToken}, ChatzService.HEADERS)
     }).then(function(response) {
       return ChatzService.checkStatus(response)
     }).then(function(response) {
       return ChatzService.parseJSON(response);
     }).then(function(response) {
-      let messages = new Array<ChatMessage>();
+      let chatMessages = new Array<ChatMessage>();
       response.forEach(function(message) {
-        messages.push(new ChatMessage(message));
+        let chatMessage = new ChatMessage(message);
+        chatMessage.status = ChatMessage.STATUS_SENT;
+        chatMessages.push(chatMessage);
       });
-      return messages;
+      return chatMessages;
     });
   };
 
-  public static postChatMessage(apiToken: string, message: string): Promise<void> {
+  public static postChatMessage(message: string): Promise<void> {
     return fetch(ChatzService.getUrl('/chat/web'), {
       method: 'POST',
-      headers: Object.assign({'X-Token': apiToken}, ChatzService.HEADERS),
+      headers: Object.assign({'X-Token': ChatzService.apiToken}, ChatzService.HEADERS),
       body: JSON.stringify({
         text: message
       })

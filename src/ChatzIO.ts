@@ -5,7 +5,7 @@ import Actions from './store/Actions';
 import store from './store';
 
 import ChatzService from './services/ChatzService';
-import NotificationService from './services/NotificationService';
+import MessagingService from './services/MessagingService';
 import App from './utils/App';
 
 import Settings from './Settings';
@@ -26,7 +26,7 @@ export default class ChatzIO {
     ChatzService.login(this.settings.app_token, user, App.getDevice()).then((result) => {
       store.dispatch(Actions.setApiToken(result.token));
       store.dispatch(Actions.setUser(new User(result.user)));
-      NotificationService.start(store);
+      MessagingService.start(store);
       Components.init(store);
     });
   }

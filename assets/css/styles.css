@@ -27,7 +27,6 @@
     transform: scale(0);
   }
 }
-
 .chatz-hide {
   animation: bounceOut 0.8s ease-in-out !important;
   display: none;
@@ -35,6 +34,9 @@
 .chatz-show {
   animation: bounceIn 0.8s ease-in-out !important;
   display: block;
+}
+.chatz-clear {
+  clear: both;
 }
 #chatz-container .chatz-button {
   background-color: #00c7a0;
@@ -61,29 +63,27 @@
   flex-direction: column;
   right: 30px;
   bottom: 30px;
-  width: 320px;
+  width: 340px;
   height: 75%;
 }
-#chatz-container .chatz-chatbox .chatz-header {
+.chatz-chatbox .chatz-header {
   background-color: #00c7a0;
+  box-shadow: 0 -1px 3px rgba(0,0,0,.1);
   flex: 0 1 60px;
   color: #ffffff;
   font-size: 20px;
   text-align: center;
 }
-#chatz-container .chatz-chatbox .chatz-conversation {
+.chatz-chatbox .chatz-footer {
   background-color: #ffffff;
-  flex: 1 1 auto;
-}
-#chatz-container .chatz-chatbox .chatz-footer {
-  background-color: #868686;
+  box-shadow: 0 -1px 3px rgba(0,0,0,.1);
   flex: 0 1 50px;
 }
 .chatz-footer .chatz-compose {
   display: flex;
   align-items: center;
   padding: 0px 15px;
-  height: 50px;
+  height: 100%;
 }
 .chatz-footer .chatz-compose .chatz-input {
   flex: 1 1 auto;
@@ -92,12 +92,30 @@
   background: none;
   border: none;
   outline: none;
-  font-size: 15px;
-  color: #ffffff;
+  font-size: 14px;
   width: 100%;
 }
+.chatz-conversation {
+  background-color: #ffffff;
+  flex: 1 1 auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 15px;
+}
 .chatz-message-incoming, .chatz-message-outgoing {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+.chatz-message-incoming .chatz-message {
+  background-color: #e2e2e2;
+}
+.chatz-message-incoming .chatz-message-text {
   margin-top: 10px;
+}
+.chatz-message-outgoing .chatz-message {
+  background-color: #00c7a0;
+  color: #ffffff;
+  float: right;
 }
 .chatz-author-photo {
   display: inline-block;
@@ -107,14 +125,9 @@
   width: 35px;
   height: auto;
   margin-right: 5px;
-  margin-left: 10px;
 }
 .chatz-message {
-  background-color: #e2e2e2;
   border-radius: 5px;
   display: inline-block;
   padding: 6px 10px;
-}
-.chatz-message-text {
-  margin-top: 10px;
 }
