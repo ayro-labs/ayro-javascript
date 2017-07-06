@@ -12,7 +12,6 @@ import ChatMessage from '../models/ChatMessage';
 import Conversation from './Conversation';
 
 interface Properties {
-  apiToken: string,
   chatOpened: boolean,
   addChatMessage: Function
 }
@@ -74,7 +73,6 @@ class Chatbox extends React.Component<Properties, State> {
 
 function mapStateToProps(state) {
   return {
-    apiToken: state.apiToken,
     chatOpened: state.chatOpened
   };
 }

@@ -9,7 +9,6 @@ import ChatzService from '../services/ChatzService';
 import ChatMessage from '../models/ChatMessage';
 
 interface Properties {
-  apiToken: string,
   chatMessages: Array<ChatMessage>,
   setChatMessages: Function
 }
@@ -36,7 +35,7 @@ class Conversation extends React.Component<Properties, State> {
               <img src={chatMessage.author.photo_url}/>
             </div>
             <div className="chatz-message">
-              <div className="chatz-author-name">
+              <div className="chatz-message-author">
                 {chatMessage.author.name}
               </div>
               <div className="chatz-message-text">
@@ -61,7 +60,9 @@ class Conversation extends React.Component<Properties, State> {
     });
     return (
       <div className="chatz-conversation">
-        {messages}
+        <div className="chatz-messages">
+          {messages}
+        </div>
       </div>
     );
   }
@@ -69,7 +70,6 @@ class Conversation extends React.Component<Properties, State> {
 
 function mapStateToProps(state) {
   return {
-    apiToken: state.apiToken,
     chatMessages: state.chatMessages
   };
 }
