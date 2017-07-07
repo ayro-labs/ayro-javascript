@@ -13,6 +13,7 @@ import Conversation from './Conversation';
 
 interface Properties {
   chatOpened: boolean,
+  closeChat: Function,
   addChatMessage: Function
 }
 interface State {
@@ -24,22 +25,27 @@ class Chatbox extends React.Component<Properties, State> {
   constructor(props: Properties) {
     super(props);
     this.state = {message: ''};
+    this.closeChat = this.closeChat.bind(this)
     this.onMessageChanged = this.onMessageChanged.bind(this)
-    this.postChatMessage = this.postChatMessage.bind(this)
+    this.postMessage = this.postMessage.bind(this)
+  }
+
+  private closeChat() {
+    this.props.closeChat();
   }
 
   private onMessageChanged(event) {
     this.setState({message: event.target.value});
   }
 
-  private postChatMessage() {
+  private postMessage() {
     let chatMessage = new ChatMessage({
       direction: ChatMessage.DIRECTION_OUTGOING,
       status: ChatMessage.STATUS_SENDING,
       text: this.state.message,
       date: new Date()
     });
-    ChatzService.postChatMessage(chatMessage.text).then(() => {
+    ChatzService.postMessage(chatMessage.text).then(() => {
       this.props.addChatMessage(chatMessage);
       this.setState({message: ''});
     });
@@ -56,14 +62,19 @@ class Chatbox extends React.Component<Properties, State> {
   render() {
     return (
       <div className={this.getClasses()}>
-        <div className="chatz-header">How can we help?</div>
+        <div className="chatz-header">
+          How can we help?
+          <div className="chatz-close" onClick={this.closeChat}>
+            <i className="fa fa-times"></i>
+          </div>
+        </div>
         <Conversation/>
         <div className="chatz-footer">
-          <div className="chatz-compose">
-            <div className="chatz-input">
-              <input type="text" name="message" placeholder="Type a message..." value={this.state.message} onChange={this.onMessageChanged}/>
-            </div>
-            <button onClick={this.postChatMessage}>Send</button>
+          <div className="chatz-input">
+            <input type="text" name="message" placeholder="Type a message..." value={this.state.message} onChange={this.onMessageChanged}/>
+          </div>
+          <div className="chatz-send" onClick={this.postMessage}>
+            <i className="fa fa-paper-plane"></i>
           </div>
         </div>
       </div>
@@ -81,6 +92,9 @@ function mapDispatchToProps(dispatch) {
   return {
     addChatMessage: (chatMessage: ChatMessage) => {
       dispatch(Actions.addChatMessage(chatMessage));
+    },
+    closeChat: () => {
+      dispatch(Actions.closeChat());
     }
   }
 }

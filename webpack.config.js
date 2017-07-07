@@ -19,7 +19,12 @@ module.exports = {
       {
         test: /\.css$/,
         loaders: ['style-loader', 'css-loader'],
-        include: __dirname + '/assets/css'
+        include: __dirname + '/assets/stylesheets'
+      },
+      {
+        test: /\.less$/,
+        loaders: ['style-loader', 'css-loader', 'less-loader'],
+        include: __dirname + '/assets/stylesheets'
       }
     ]
   }

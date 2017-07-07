@@ -21,7 +21,7 @@ class Conversation extends React.Component<Properties, State> {
   }
 
   componentDidMount() {
-    ChatzService.listChatMessages().then((chatMessages) => {
+    ChatzService.listMessages().then((chatMessages) => {
       this.props.setChatMessages(chatMessages);
     });
   }

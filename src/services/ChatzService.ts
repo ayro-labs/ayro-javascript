@@ -4,8 +4,6 @@ import User from '../models/User';
 import Device from '../models/Device';
 import ChatMessage from '../models/ChatMessage';
 
-import 'whatwg-fetch';
-
 interface LoginResult {
 
   token: string;
@@ -13,13 +11,13 @@ interface LoginResult {
 
 }
 
-class ApiError extends Error {
+class ChatzError extends Error {
 
   response: any;
 
   constructor(response: any) {
     super(response.statusText);
-    Object.setPrototypeOf(this, ApiError.prototype);
+    Object.setPrototypeOf(this, ChatzError.prototype);
     this.response = response;
   }
 }
@@ -45,7 +43,7 @@ export default class ChatzService {
     if (response.status >= 200 && response.status < 300) {
       return response;
     } else {
-      throw new ApiError(response);
+      throw new ChatzError(response);
     }
   }
 
@@ -72,7 +70,7 @@ export default class ChatzService {
     });
   };
 
-  public static listChatMessages(): Promise<Array<ChatMessage>> {
+  public static listMessages(): Promise<Array<ChatMessage>> {
     return fetch(ChatzService.getUrl('/chat'), {
       method: 'GET',
       headers: Object.assign({'X-Token': ChatzService.apiToken}, ChatzService.HEADERS)
@@ -91,7 +89,7 @@ export default class ChatzService {
     });
   };
 
-  public static postChatMessage(message: string): Promise<void> {
+  public static postMessage(message: string): Promise<void> {
     return fetch(ChatzService.getUrl('/chat/web'), {
       method: 'POST',
       headers: Object.assign({'X-Token': ChatzService.apiToken}, ChatzService.HEADERS),

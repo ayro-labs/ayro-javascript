@@ -10,8 +10,7 @@ import Chatbox from './Chatbox';
 
 interface Properties {
   chatOpened: boolean,
-  openChat: Function,
-  closeChat: Function,
+  openChat: Function
 }
 interface State {}
 
@@ -19,15 +18,11 @@ class Container extends React.Component<Properties, State> {
 
   constructor(props: Properties) {
     super(props);
-    this.toggleConversation = this.toggleConversation.bind(this)
+    this.openChat = this.openChat.bind(this)
   }
 
-  private toggleConversation() {
-    if (this.props.chatOpened) {
-      this.props.closeChat();
-    } else {
-      this.props.openChat();
-    }
+  private openChat() {
+    this.props.openChat();
   }
 
   private buttonClasses(): string {
@@ -42,7 +37,7 @@ class Container extends React.Component<Properties, State> {
     return (
       <div id="chatz-container">
         <Chatbox/>
-        <button className={this.buttonClasses()} onClick={this.toggleConversation}></button>
+        <button className={this.buttonClasses()} onClick={this.openChat}></button>
       </div>
     );
   }
@@ -58,9 +53,6 @@ function mapDispatchToProps(dispatch) {
   return {
     openChat: () => {
       dispatch(Actions.openChat());
-    },
-    closeChat: () => {
-      dispatch(Actions.closeChat());
     }
   }
 }

@@ -3,12 +3,12 @@
     "target": "es5",
     "module": "commonjs",
     "jsx": "react",
-    "removeComments": true,
     "strict": true,
     "noImplicitAny": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "removeComments": true,
     "typeRoots": ["./node_modules/@types"]
   }
 }

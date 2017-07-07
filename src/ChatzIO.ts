@@ -1,5 +1,8 @@
 'use strict';
 
+import '../assets/stylesheets/main.less';
+import 'whatwg-fetch';
+
 import Components from './components';
 import Actions from './store/Actions';
 import store from './store';
@@ -10,8 +13,6 @@ import App from './utils/App';
 
 import Settings from './Settings';
 import User from './models/User';
-
-import '../assets/css/styles.css';
 
 export default class ChatzIO {
 
