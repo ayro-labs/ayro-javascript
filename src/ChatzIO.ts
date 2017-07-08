@@ -4,8 +4,8 @@ import '../assets/stylesheets/main.less';
 import 'whatwg-fetch';
 
 import Components from './components';
-import Actions from './store/Actions';
-import store from './store';
+import Actions from './stores/Actions';
+import Store from './stores/Store';
 
 import ChatzService from './services/ChatzService';
 import MessagingService from './services/MessagingService';
@@ -25,14 +25,14 @@ export default class ChatzIO {
 
   login(user: User) {
     ChatzService.login(this.settings.app_token, user, App.getDevice()).then((result) => {
-      store.dispatch(Actions.setApiToken(result.token));
-      store.dispatch(Actions.setUser(new User(result.user)));
-      MessagingService.start(store);
-      Components.init(store);
+      Store.dispatch(Actions.setApiToken(result.token));
+      Store.dispatch(Actions.setUser(new User(result.user)));
+      MessagingService.start();
+      Components.init();
     });
   }
 
   logout() {
-    store.dispatch(Actions.unsetUser());
+    Store.dispatch(Actions.unsetUser());
   }
 }

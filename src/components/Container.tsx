@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import Actions from '../store/Actions';
+import Actions from '../stores/Actions';
 import Classes from '../utils/Classes';
 
 import Chatbox from './Chatbox';
@@ -37,7 +37,9 @@ class Container extends React.Component<Properties, State> {
     return (
       <div id="chatz-container">
         <Chatbox/>
-        <button className={this.buttonClasses()} onClick={this.openChat}></button>
+        <button className={this.buttonClasses()} onClick={this.openChat}>
+          <i className="fa fa-comments"></i>
+        </button>
       </div>
     );
   }

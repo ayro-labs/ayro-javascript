@@ -1,33 +1,35 @@
 'use strict';
 
 import * as Faye from 'faye';
-import { Store } from 'redux';
 
-import Actions from '../store/Actions';
+import Actions from '../stores/Actions';
+import Store from '../stores/Store';
 
 import ChatMessage from '../models/ChatMessage';
 
 export default class MessagingService {
 
-  public static readonly EVENT_CHAT_MESSAGE = 'chat_message';
+  public static readonly EVENT_CHAT_MESSAGE: string = 'chat_message';
 
-  private static readonly URL = 'http://api.chatz.io:3102';
+  private static readonly URL: string = 'http://api.chatz.io:3102';
 
   private static faye: any;
-  private static store: Store<any>;
 
   private constructor() {
 
   }
 
-  public static start(store: Store<any>) {
+  public static start() {
     if (!MessagingService.faye) {
-      let user = store.getState().user;
-      MessagingService.store = store;
+      let user = Store.getState().user;
       MessagingService.faye = new Faye.Client(MessagingService.URL);
-      MessagingService.faye.addExtension(MessagingService.authenticate(store));
+      MessagingService.faye.addExtension(MessagingService.authenticate());
       MessagingService.faye.subscribe(`/users/${user._id}`, (data: any) => {
         MessagingService.messageReceived(data);
+      }).then(null, () => {
+        setTimeout(() => {
+          MessagingService.start();
+        }, 20000);
       });
     }
   }
@@ -38,18 +40,18 @@ export default class MessagingService {
         let chatMessage = new ChatMessage(data.message);
         chatMessage.status = ChatMessage.STATUS_SENT;
         chatMessage.direction = ChatMessage.DIRECTION_INCOMING;
-        MessagingService.store.dispatch(Actions.addChatMessage(chatMessage));
+        Store.dispatch(Actions.addChatMessage(chatMessage));
         break;
     }
   }
 
-  private static authenticate(store: Store<any>): any {
+  private static authenticate(): any {
     return {
       outgoing: function(message, callback) {
         if (!message.ext) {
           message.ext = {};
         }
-        message.ext.api_token = store.getState().apiToken;
+        message.ext.api_token = Store.getState().apiToken;
         callback(message);
       }
     };

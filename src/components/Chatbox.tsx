@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import Actions from '../store/Actions';
+import Actions from '../stores/Actions';
 import Classes from '../utils/Classes';
 import ChatzService from '../services/ChatzService';
 
@@ -14,7 +14,8 @@ import Conversation from './Conversation';
 interface Properties {
   chatOpened: boolean,
   closeChat: Function,
-  addChatMessage: Function
+  addChatMessage: Function,
+  updateChatMessage: Function
 }
 interface State {
   message: string
@@ -39,19 +40,24 @@ class Chatbox extends React.Component<Properties, State> {
   }
 
   private postMessage() {
-    let chatMessage = new ChatMessage({
-      direction: ChatMessage.DIRECTION_OUTGOING,
-      status: ChatMessage.STATUS_SENDING,
-      text: this.state.message,
-      date: new Date()
-    });
-    ChatzService.postMessage(chatMessage.text).then(() => {
+    if (this.state.message.length > 0) {
+      let now = new Date();
+      let chatMessage = new ChatMessage({
+        _id: String(now.getTime()),
+        direction: ChatMessage.DIRECTION_OUTGOING,
+        status: ChatMessage.STATUS_SENDING,
+        text: this.state.message,
+        date: now
+      });
       this.props.addChatMessage(chatMessage);
-      this.setState({message: ''});
-    });
+      ChatzService.postMessage(chatMessage.text).then((postedChatMessage) => {
+        this.props.updateChatMessage(chatMessage._id, postedChatMessage);
+        this.setState({message: ''});
+      });
+    }
   }
 
-  private getClasses(): string {
+  private chatboxClasses(): string {
     return Classes.get({
       'chatz-chatbox': true,
       'chatz-show': this.props.chatOpened,
@@ -61,10 +67,10 @@ class Chatbox extends React.Component<Properties, State> {
 
   render() {
     return (
-      <div className={this.getClasses()}>
-        <div className="chatz-header">
+      <div className={this.chatboxClasses()}>
+        <div className="chatz-header" onClick={this.closeChat}>
           How can we help?
-          <div className="chatz-close" onClick={this.closeChat}>
+          <div className="chatz-close">
             <i className="fa fa-times"></i>
           </div>
         </div>
@@ -90,11 +96,14 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    closeChat: () => {
+      dispatch(Actions.closeChat());
+    },
     addChatMessage: (chatMessage: ChatMessage) => {
       dispatch(Actions.addChatMessage(chatMessage));
     },
-    closeChat: () => {
-      dispatch(Actions.closeChat());
+    updateChatMessage: (id: string, chatMessage: ChatMessage) => {
+      dispatch(Actions.updateChatMessage(id, chatMessage));
     }
   }
 }
