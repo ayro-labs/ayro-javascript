@@ -11,8 +11,9 @@ import ChatMessage from '../models/ChatMessage';
 export default class Store {
 
   private static readonly INITIAL_STATE = {
-    apiToken: null,
+    settings: null,
     user: null,
+    apiToken: null,
     chatOpened: false,
     chatMessages: new Array<ChatMessage>()
   };
@@ -29,14 +30,17 @@ export default class Store {
       case Actions.CLOSE_CHAT:
         newState = props.set(state, 'chatOpened', false);
         break;
-      case Actions.SET_API_TOKEN:
-        newState = props.set(state, 'apiToken', action.value);
+      case Actions.SET_SETTINGS:
+        newState = props.set(state, 'settings', action.value);
         break;
       case Actions.SET_USER:
         newState = props.set(state, 'user', action.value);
         break;
       case Actions.UNSET_USER:
         newState = props.set(state, 'user', null);
+        break;
+      case Actions.SET_API_TOKEN:
+        newState = props.set(state, 'apiToken', action.value);
         break;
       case Actions.SET_CHAT_MESSAGES:
         newState = props.set(state, 'chatMessages', action.value);

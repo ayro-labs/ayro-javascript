@@ -1,5 +1,6 @@
 'use strict';
 
+import Settings from '../models/Settings';
 import User from '../models/User';
 import ChatMessage from '../models/ChatMessage';
 
@@ -7,8 +8,9 @@ export default class Actions {
 
   public static readonly OPEN_CHAT: string = 'OPEN_CHAT';
   public static readonly CLOSE_CHAT: string = 'CLOSE_CHAT';
-  public static readonly SET_API_TOKEN: string = 'SET_API_TOKEN';
+  public static readonly SET_SETTINGS: string = 'SET_SETTINGS';
   public static readonly SET_USER: string = 'SET_USER';
+  public static readonly SET_API_TOKEN: string = 'SET_API_TOKEN';
   public static readonly UNSET_USER: string = 'UNSET_USER';
   public static readonly SET_CHAT_MESSAGES: string = 'SET_CHAT_MESSAGES';
   public static readonly ADD_CHAT_MESSAGE: string = 'ADD_CHAT_MESSAGE';
@@ -30,10 +32,10 @@ export default class Actions {
     };
   }
 
-  public static setApiToken(apiToken: string) {
+  public static setSettings(settings: Settings) {
     return {
-      type: Actions.SET_API_TOKEN,
-      value: apiToken
+      type: Actions.SET_SETTINGS,
+      value: settings
     }
   }
 
@@ -41,6 +43,13 @@ export default class Actions {
     return {
       type: Actions.SET_USER,
       value: user
+    }
+  }
+
+  public static setApiToken(apiToken: string) {
+    return {
+      type: Actions.SET_API_TOKEN,
+      value: apiToken
     }
   }
 

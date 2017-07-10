@@ -7,11 +7,13 @@ import Actions from '../stores/Actions';
 import Classes from '../utils/Classes';
 import ChatzService from '../services/ChatzService';
 
+import Settings from '../models/Settings';
 import ChatMessage from '../models/ChatMessage';
 
 import Conversation from './Conversation';
 
 interface Properties {
+  settings: Settings,
   chatOpened: boolean,
   closeChat: Function,
   addChatMessage: Function,
@@ -69,7 +71,7 @@ class Chatbox extends React.Component<Properties, State> {
     return (
       <div className={this.chatboxClasses()}>
         <div className="chatz-header" onClick={this.closeChat}>
-          How can we help?
+          {this.props.settings.chatbox.title}
           <div className="chatz-close">
             <i className="fa fa-times"></i>
           </div>
@@ -77,7 +79,7 @@ class Chatbox extends React.Component<Properties, State> {
         <Conversation/>
         <div className="chatz-footer">
           <div className="chatz-input">
-            <input type="text" name="message" placeholder="Type a message..." value={this.state.message} onChange={this.onMessageChanged}/>
+            <input type="text" name="message" placeholder={this.props.settings.chatbox.message_placeholder} value={this.state.message} onChange={this.onMessageChanged}/>
           </div>
           <div className="chatz-send" onClick={this.postMessage}>
             <i className="fa fa-paper-plane"></i>
@@ -90,6 +92,7 @@ class Chatbox extends React.Component<Properties, State> {
 
 function mapStateToProps(state) {
   return {
+    settings: state.settings,
     chatOpened: state.chatOpened
   };
 }
