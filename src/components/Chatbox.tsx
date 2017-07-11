@@ -1,7 +1,6 @@
-'use strict';
-
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
 
 import Actions from '../stores/Actions';
 import Classes from '../utils/Classes';
@@ -12,48 +11,71 @@ import ChatMessage from '../models/ChatMessage';
 
 import Conversation from './Conversation';
 
-interface Properties {
-  settings: Settings,
-  chatOpened: boolean,
-  closeChat: Function,
-  addChatMessage: Function,
-  updateChatMessage: Function
-}
-interface State {
-  message: string
+interface IProperties {
+  settings: Settings;
+  chatOpened: boolean;
+  closeChat: () => void;
+  addChatMessage: (message: ChatMessage) => void;
+  updateChatMessage: (id: string, message: ChatMessage) => void;
 }
 
-class Chatbox extends React.Component<Properties, State> {
+interface IState {
+  message: string;
+}
 
-  constructor(props: Properties) {
+class Chatbox extends React.Component<IProperties, IState> {
+
+  constructor(props: IProperties) {
     super(props);
     this.state = {message: ''};
-    this.closeChat = this.closeChat.bind(this)
-    this.onMessageChanged = this.onMessageChanged.bind(this)
-    this.postMessage = this.postMessage.bind(this)
+    this.closeChat = this.closeChat.bind(this);
+    this.onMessageChanged = this.onMessageChanged.bind(this);
+    this.postMessage = this.postMessage.bind(this);
+  }
+
+  public render() {
+    return (
+      <div className={this.chatboxClasses()}>
+        <div className="chatz-header" onClick={this.closeChat}>
+          {this.props.settings.chatbox.title}
+          <div className="chatz-close">
+            <i className="fa fa-times"/>
+          </div>
+        </div>
+        <Conversation/>
+        <div className="chatz-footer">
+          <div className="chatz-input">
+            <input type="text" name="message" placeholder={this.props.settings.chatbox.message_placeholder} value={this.state.message} onChange={this.onMessageChanged}/>
+          </div>
+          <div className="chatz-send" onClick={this.postMessage}>
+            <i className="fa fa-paper-plane"/>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   private closeChat() {
     this.props.closeChat();
   }
 
-  private onMessageChanged(event) {
+  private onMessageChanged(event: any) {
     this.setState({message: event.target.value});
   }
 
   private postMessage() {
     if (this.state.message.length > 0) {
-      let now = new Date();
-      let chatMessage = new ChatMessage({
+      const now = new Date();
+      const chatMessage = new ChatMessage({
         _id: String(now.getTime()),
         direction: ChatMessage.DIRECTION_OUTGOING,
         status: ChatMessage.STATUS_SENDING,
         text: this.state.message,
-        date: now
+        date: now,
       });
       this.props.addChatMessage(chatMessage);
-      ChatzService.postMessage(chatMessage.text).then((postedChatMessage) => {
-        this.props.updateChatMessage(chatMessage._id, postedChatMessage);
+      ChatzService.postMessage(chatMessage.text).then((postedMessage: ChatMessage) => {
+        this.props.updateChatMessage(chatMessage._id, postedMessage);
         this.setState({message: ''});
       });
     }
@@ -63,41 +85,19 @@ class Chatbox extends React.Component<Properties, State> {
     return Classes.get({
       'chatz-chatbox': true,
       'chatz-show': this.props.chatOpened,
-      'chatz-hide': !this.props.chatOpened
+      'chatz-hide': !this.props.chatOpened,
     });
-  }
-
-  render() {
-    return (
-      <div className={this.chatboxClasses()}>
-        <div className="chatz-header" onClick={this.closeChat}>
-          {this.props.settings.chatbox.title}
-          <div className="chatz-close">
-            <i className="fa fa-times"></i>
-          </div>
-        </div>
-        <Conversation/>
-        <div className="chatz-footer">
-          <div className="chatz-input">
-            <input type="text" name="message" placeholder={this.props.settings.chatbox.message_placeholder} value={this.state.message} onChange={this.onMessageChanged}/>
-          </div>
-          <div className="chatz-send" onClick={this.postMessage}>
-            <i className="fa fa-paper-plane"></i>
-          </div>
-        </div>
-      </div>
-    );
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any): any {
   return {
     settings: state.settings,
-    chatOpened: state.chatOpened
+    chatOpened: state.chatOpened,
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<any>): any {
   return {
     closeChat: () => {
       dispatch(Actions.closeChat());
@@ -107,8 +107,8 @@ function mapDispatchToProps(dispatch) {
     },
     updateChatMessage: (id: string, chatMessage: ChatMessage) => {
       dispatch(Actions.updateChatMessage(id, chatMessage));
-    }
-  }
+    },
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chatbox);

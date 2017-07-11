@@ -1,11 +1,9 @@
-'use strict';
-
 import ChatboxSettings from './ChatboxSettings';
 
 export default class Settings {
 
-  app_token: string;
-  chatbox: ChatboxSettings;
+  public app_token: string;
+  public chatbox: ChatboxSettings;
 
   constructor(data?: any) {
     if (data) {

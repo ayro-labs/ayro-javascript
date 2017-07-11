@@ -1,9 +1,7 @@
-'use strict';
-
 import '../assets/stylesheets/main.less';
 import 'whatwg-fetch';
 
-import Components from './components';
+import Components from './components/Components';
 import Actions from './stores/Actions';
 import Store from './stores/Store';
 
@@ -18,14 +16,14 @@ export default class ChatzIO {
 
   private settings: Settings;
 
-  init(data: any) {
+  public init(data: any) {
     this.settings = new Settings(data);
     Store.dispatch(Actions.setSettings(this.settings));
     this.login(new User());
   }
 
-  login(data: any) {
-    let user = new User(data);
+  public login(data: any) {
+    const user = new User(data);
     Store.dispatch(Actions.setUser(user));
     ChatzService.login(this.settings.app_token, user, App.getDevice()).then((result) => {
       Store.dispatch(Actions.setApiToken(result.token));
@@ -35,7 +33,7 @@ export default class ChatzIO {
     });
   }
 
-  logout() {
+  public logout() {
     Store.dispatch(Actions.unsetUser());
   }
 }

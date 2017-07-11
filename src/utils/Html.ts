@@ -1,12 +1,6 @@
-'use strict';
-
 export default class Html {
 
-  private constructor() {
-
-  }
-
-  public static whenReady() {
+  public static whenReady(): Promise<{}> {
     return new Promise((resolve) => {
       if (document.readyState === 'complete' || document.readyState === 'loaded' || document.readyState === 'interactive') {
         resolve();
@@ -16,5 +10,9 @@ export default class Html {
         });
       }
     });
+  }
+
+  private constructor() {
+
   }
 }

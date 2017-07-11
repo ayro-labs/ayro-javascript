@@ -1,8 +1,6 @@
-'use strict';
-
-import { Store as ReduxStore, createStore } from 'redux'
+import {Store as ReduxStore, createStore} from 'redux';
 import * as PubSub from 'pubsub-js';
-import * as props from 'dot-prop-immutable';
+import * as DotProp from 'dot-prop-immutable';
 
 import Actions from './Actions';
 
@@ -10,12 +8,24 @@ import ChatMessage from '../models/ChatMessage';
 
 export default class Store {
 
-  private static readonly INITIAL_STATE = {
+  public static get(): ReduxStore<any> {
+    return Store.STORE;
+  }
+
+  public static getState() {
+    return Store.STORE.getState();
+  }
+
+  public static dispatch(action: any) {
+    Store.STORE.dispatch(action);
+  }
+
+  private static readonly INITIAL_STATE: any = {
     settings: null,
     user: null,
     apiToken: null,
     chatOpened: false,
-    chatMessages: new Array<ChatMessage>()
+    chatMessages: [],
   };
 
   private static STORE: ReduxStore<any> = createStore((state: any, action: any) => {
@@ -25,32 +35,32 @@ export default class Store {
     let newState: any = null;
     switch (action.type) {
       case Actions.OPEN_CHAT:
-        newState = props.set(state, 'chatOpened', true);
+        newState = DotProp.set(state, 'chatOpened', true);
         break;
       case Actions.CLOSE_CHAT:
-        newState = props.set(state, 'chatOpened', false);
+        newState = DotProp.set(state, 'chatOpened', false);
         break;
       case Actions.SET_SETTINGS:
-        newState = props.set(state, 'settings', action.value);
+        newState = DotProp.set(state, 'settings', action.value);
         break;
       case Actions.SET_USER:
-        newState = props.set(state, 'user', action.value);
+        newState = DotProp.set(state, 'user', action.value);
         break;
       case Actions.UNSET_USER:
-        newState = props.set(state, 'user', null);
+        newState = DotProp.set(state, 'user', null);
         break;
       case Actions.SET_API_TOKEN:
-        newState = props.set(state, 'apiToken', action.value);
+        newState = DotProp.set(state, 'apiToken', action.value);
         break;
       case Actions.SET_CHAT_MESSAGES:
-        newState = props.set(state, 'chatMessages', action.value);
+        newState = DotProp.set(state, 'chatMessages', action.value);
         break;
       case Actions.ADD_CHAT_MESSAGE:
-        newState = props.set(state, 'chatMessages', (chatMessages: Array<ChatMessage>) => [...chatMessages, action.value]);
+        newState = DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => [...chatMessages, action.value]);
         break;
       case Actions.UPDATE_CHAT_MESSAGE:
-        newState = props.set(state, 'chatMessages', (chatMessages: Array<ChatMessage>) => {
-          let newChatMessages = new Array<ChatMessage>();
+        newState = DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => {
+          const newChatMessages: ChatMessage[] = [];
           chatMessages.forEach((chatMessage) => {
             if (chatMessage._id === action.id) {
               newChatMessages.push(action.value);
@@ -68,17 +78,5 @@ export default class Store {
 
   private constructor() {
 
-  }
-
-  public static get(): ReduxStore<any> {
-    return Store.STORE;
-  }
-
-  public static getState() {
-    return Store.STORE.getState();
-  }
-
-  public static dispatch(action: any) {
-    Store.STORE.dispatch(action);
   }
 }

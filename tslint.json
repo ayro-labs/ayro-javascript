@@ -1,0 +1,48 @@
+{
+  "rules": {
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "space-before-function-paren": false,
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore",
+      "allow-snake-case",
+      "allow-pascal-case"
+    ],
+    "max-line-length": [
+      true,
+      "999"
+    ],
+    "align": [
+      true,
+      "elements",
+      "members",
+      "parameters",
+      "statements"
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "singleline": "never",
+        "multiline": {
+          "objects": "always",
+          "arrays": "always",
+          "functions": "never",
+          "typeLiterals": "ignore"
+        }
+      }
+    ],
+    "object-curly-spacing": [
+      true,
+      "never"
+    ]
+  },
+  "extends": [
+    "tslint:recommended",
+    "tslint-eslint-rules",
+    "tslint-react",
+    "tslint-config-airbnb"
+  ]
+}

@@ -1,12 +1,4 @@
-'use strict';
-
 export default class Storage {
-
-  private static readonly MEMORY_STORAGE: any = {};
-
-  private constructor() {
-
-  }
 
   public static set(key: string, value: string) {
     try {
@@ -35,5 +27,11 @@ export default class Storage {
       localStorage.removeItem(key);
     }
     delete Storage.MEMORY_STORAGE[key];
+  }
+
+  private static readonly MEMORY_STORAGE: any = {};
+
+  private constructor() {
+
   }
 }

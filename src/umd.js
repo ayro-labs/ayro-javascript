@@ -1,5 +1,3 @@
-'use strict';
-
 import ChatzIO from './ChatzIO';
 
 (function(root, factory) {

@@ -4,11 +4,17 @@
     "module": "commonjs",
     "jsx": "react",
     "strict": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "removeComments": true,
-    "typeRoots": ["./node_modules/@types"]
-  }
+    "skipLibCheck": true,
+    "lib": ["es6", "dom"]
+  },
+  "typeRoots": [
+    "./node_modules/@types",
+    "./@types"
+  ]
 }

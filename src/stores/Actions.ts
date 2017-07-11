@@ -1,5 +1,3 @@
-'use strict';
-
 import Settings from '../models/Settings';
 import User from '../models/User';
 import ChatMessage from '../models/ChatMessage';
@@ -16,68 +14,68 @@ export default class Actions {
   public static readonly ADD_CHAT_MESSAGE: string = 'ADD_CHAT_MESSAGE';
   public static readonly UPDATE_CHAT_MESSAGE: string = 'UPDATE_CHAT_MESSAGE';
 
-  private constructor() {
-
-  }
-
   public static openChat() {
     return {
-      type: Actions.OPEN_CHAT
+      type: Actions.OPEN_CHAT,
     };
   }
 
   public static closeChat() {
     return {
-      type: Actions.CLOSE_CHAT
+      type: Actions.CLOSE_CHAT,
     };
   }
 
   public static setSettings(settings: Settings) {
     return {
       type: Actions.SET_SETTINGS,
-      value: settings
-    }
+      value: settings,
+    };
   }
 
   public static setUser(user: User) {
     return {
       type: Actions.SET_USER,
-      value: user
-    }
+      value: user,
+    };
   }
 
   public static setApiToken(apiToken: string) {
     return {
       type: Actions.SET_API_TOKEN,
-      value: apiToken
-    }
+      value: apiToken,
+    };
   }
 
   public static unsetUser() {
     return {
-      type: Actions.UNSET_USER
-    }
+      type: Actions.UNSET_USER,
+    };
   }
 
-  public static setChatMessages(chatMessages: Array<ChatMessage>) {
+  public static setChatMessages(chatMessages: ChatMessage[]) {
     return {
       type: Actions.SET_CHAT_MESSAGES,
-      value: chatMessages
-    }
+      value: chatMessages,
+    };
   }
 
   public static addChatMessage(chatMessage: ChatMessage) {
     return {
       type: Actions.ADD_CHAT_MESSAGE,
-      value: chatMessage
-    }
+      value: chatMessage,
+    };
   }
 
   public static updateChatMessage(id: string, chatMessage: ChatMessage) {
     return {
+      id,
       type: Actions.UPDATE_CHAT_MESSAGE,
-      id: id,
-      value: chatMessage
-    }
+      value: chatMessage,
+    };
+  }
+
+  private constructor() {
+
   }
 }

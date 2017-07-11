@@ -1,9 +1,7 @@
-'use strict';
-
 export default class DeviceInfo {
 
-  browser_name: string;
-  browser_version: string;
+  public browser_name: string;
+  public browser_version: string;
 
   constructor(data?: any) {
     if (data) {

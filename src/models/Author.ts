@@ -1,10 +1,8 @@
-'use strict';
-
 export default class Author {
 
-  id: string;
-  name: string;
-  photo_url: string;
+  public id: string;
+  public name: string;
+  public photo_url: string;
 
   constructor(data?: any) {
     if (data) {

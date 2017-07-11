@@ -1,23 +1,21 @@
-'use strict';
-
 import Author from './Author';
 
 export default class ChatMessage {
 
-  public static readonly DIRECTION_OUTGOING = 'outgoing';
-  public static readonly DIRECTION_INCOMING = 'incoming';
+  public static readonly DIRECTION_OUTGOING: string = 'outgoing';
+  public static readonly DIRECTION_INCOMING: string = 'incoming';
 
-  public static readonly STATUS_SENDING = 'sending';
-  public static readonly STATUS_SENT = 'sent';
-  public static readonly STATUS_ERROR_SENDING = 'error_sending';
+  public static readonly STATUS_SENDING: string = 'sending';
+  public static readonly STATUS_SENT: string = 'sent';
+  public static readonly STATUS_ERROR_SENDING: string = 'error_sending';
 
-  _id: string;
-  device: string;
-  author: Author;
-  text: string;
-  status: string;
-  direction: string;
-  date: Date;
+  public _id: string;
+  public device: string;
+  public author: Author;
+  public text: string;
+  public status: string;
+  public direction: string;
+  public date: Date;
 
   constructor(data?: any) {
     if (data) {

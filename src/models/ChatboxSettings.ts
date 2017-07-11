@@ -1,9 +1,7 @@
-'use strict';
-
 export default class ChatboxSettings {
 
-  title: string;
-  message_placeholder: string;
+  public title: string;
+  public message_placeholder: string;
 
   constructor(data?: any) {
     if (data) {

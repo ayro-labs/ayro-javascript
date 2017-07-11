@@ -1,8 +1,6 @@
-'use strict';
-
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
 import * as PubSub from 'pubsub-js';
 
 import Actions from '../stores/Actions';
@@ -11,22 +9,23 @@ import ChatzService from '../services/ChatzService';
 
 import ChatMessage from '../models/ChatMessage';
 
-interface Properties {
-  chatMessages: Array<ChatMessage>,
-  setChatMessages: Function
+interface IProperties {
+  chatMessages: ChatMessage[];
+  setChatMessages: (chatMessages: ChatMessage[]) => void;
 }
-interface State {}
 
-class Conversation extends React.Component<Properties, State> {
+class Conversation extends React.Component<IProperties, {}> {
 
-  subscriptions: Array<any> = new Array<any>();
+  private subscriptions: any[] = [];
+  private conversationElement: HTMLDivElement;
 
-  constructor(props: Properties) {
+  constructor(props: IProperties) {
     super(props);
-    this.onConversationChanged = this.onConversationChanged.bind(this)
+    this.setConversationElement = this.setConversationElement.bind(this);
+    this.onConversationChanged = this.onConversationChanged.bind(this);
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     this.subscriptions.push(PubSub.subscribe(Actions.OPEN_CHAT, this.onConversationChanged));
     this.subscriptions.push(PubSub.subscribe(Actions.ADD_CHAT_MESSAGE, this.onConversationChanged));
     ChatzService.listMessages().then((chatMessages) => {
@@ -34,63 +33,25 @@ class Conversation extends React.Component<Properties, State> {
     });
   }
 
-  componentWillUnmount() {
-    this.subscriptions.forEach((subscription) => PubSub.unsubscribe(subscription));
+  public componentWillUnmount() {
+    this.subscriptions.forEach(subscription => PubSub.unsubscribe(subscription));
   }
 
-  private onConversationChanged() {
-    let element = ReactDOM.findDOMNode(this.refs.conversation);
-    if (element) {
-      element.scrollTop = element.scrollHeight;
-    }
-  }
-
-  private incomingClasses(continuation: boolean): string {
-    return Classes.get({
-      'chatz-message-incoming': true,
-      'chatz-message-discontinuation' : !continuation
-    });
-  }
-
-  private outgoingClasses(continuation: boolean): string {
-    return Classes.get({
-      'chatz-message-outgoing': true,
-      'chatz-message-discontinuation' : !continuation
-    });
-  }
-
-  private messageClasses(chatMessage: ChatMessage): string {
-    return Classes.get({
-      'chatz-message': true,
-      'chatz-message-sending': chatMessage.status === ChatMessage.STATUS_SENDING,
-      'chatz-message-sent': !chatMessage.status || chatMessage.status === ChatMessage.STATUS_SENT,
-      'chatz-message-error': chatMessage.status === ChatMessage.STATUS_ERROR_SENDING
-    });
-  }
-
-  render() {
-    let messages = this.props.chatMessages.map((chatMessage, index) => {
-      let previousChatMessage = this.props.chatMessages[index - 1];
-      let continuation = previousChatMessage && previousChatMessage.author.id === chatMessage.author.id;
+  public render() {
+    const messages = this.props.chatMessages.map((chatMessage, index) => {
+      const previousChatMessage = this.props.chatMessages[index - 1];
+      const continuation = previousChatMessage && previousChatMessage.author.id === chatMessage.author.id;
       if (chatMessage.direction === ChatMessage.DIRECTION_INCOMING) {
         return (
           <div key={chatMessage._id} className={this.incomingClasses(continuation)}>
-            {!continuation &&
-              <div className="chatz-author-photo">
-                <img src={chatMessage.author.photo_url}/>
-              </div>
-            }
+            {this.renderAuthorPhoto(chatMessage, continuation)}
             <div className={this.messageClasses(chatMessage)}>
-              {!continuation &&
-                <div className="chatz-message-author">
-                  {chatMessage.author.name}
-                </div>
-              }
+              {this.renderAuthorName(chatMessage, continuation)}
               <div className="chatz-message-text">
                 <span>{chatMessage.text}</span>
               </div>
             </div>
-            <div className="chatz-clear"></div>
+            <div className="chatz-clear"/>
           </div>
         );
       } else {
@@ -101,33 +62,86 @@ class Conversation extends React.Component<Properties, State> {
                 <span>{chatMessage.text}</span>
               </div>
             </div>
-            <div className="chatz-clear"></div>
+            <div className="chatz-clear"/>
           </div>
         );
       }
     });
     return (
-      <div className="chatz-conversation" ref="conversation">
+      <div className="chatz-conversation" ref={this.setConversationElement}>
         <div className="chatz-messages">
           {messages}
         </div>
       </div>
     );
   }
+
+  private renderAuthorPhoto(chatMessage: ChatMessage, continuation: boolean) {
+    if (!continuation) {
+      return (
+        <div className="chatz-author-photo">
+          <img src={chatMessage.author.photo_url}/>
+        </div>
+      );
+    }
+    return null;
+  }
+
+  private renderAuthorName(chatMessage: ChatMessage, continuation: boolean) {
+    if (!continuation) {
+      return (
+        <div className="chatz-message-author">
+          {chatMessage.author.name}
+        </div>
+      );
+    }
+    return null;
+  }
+
+  private setConversationElement(div: HTMLDivElement) {
+    this.conversationElement = div;
+  }
+
+  private onConversationChanged() {
+    this.conversationElement.scrollTop = this.conversationElement.scrollHeight;
+  }
+
+  private incomingClasses(continuation: boolean): string {
+    return Classes.get({
+      'chatz-message-incoming': true,
+      'chatz-message-discontinuation' : !continuation,
+    });
+  }
+
+  private outgoingClasses(continuation: boolean): string {
+    return Classes.get({
+      'chatz-message-outgoing': true,
+      'chatz-message-discontinuation' : !continuation,
+    });
+  }
+
+  private messageClasses(chatMessage: ChatMessage): string {
+    return Classes.get({
+      'chatz-message': true,
+      'chatz-message-sending': chatMessage.status === ChatMessage.STATUS_SENDING,
+      'chatz-message-sent': !chatMessage.status || chatMessage.status === ChatMessage.STATUS_SENT,
+      'chatz-message-error': chatMessage.status === ChatMessage.STATUS_ERROR_SENDING,
+    });
+  }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any): any {
   return {
-    chatMessages: state.chatMessages
+    chatMessages: state.chatMessages,
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<any>): any {
   return {
-    setChatMessages: (chatMessages: Array<ChatMessage>) => {
+    setChatMessages: (chatMessages: ChatMessage[]) => {
       dispatch(Actions.setChatMessages(chatMessages));
-    }
-  }
+    },
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Conversation);
