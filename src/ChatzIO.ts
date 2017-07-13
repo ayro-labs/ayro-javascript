@@ -14,18 +14,17 @@ import User from './models/User';
 
 export default class ChatzIO {
 
-  private settings: Settings;
-
   public init(data: any) {
-    this.settings = new Settings(data);
-    Store.dispatch(Actions.setSettings(this.settings));
+    const settings = new Settings(data);
+    Store.dispatch(Actions.setSettings(settings));
     this.login(new User());
   }
 
   public login(data: any) {
     const user = new User(data);
+    const appToken = Store.getState().settings.app_token;
     Store.dispatch(Actions.setUser(user));
-    ChatzService.login(this.settings.app_token, user, App.getDevice()).then((result) => {
+    ChatzService.login(appToken, user, App.getDevice()).then((result) => {
       Store.dispatch(Actions.setApiToken(result.token));
       Store.dispatch(Actions.setUser(new User(result.user)));
       MessagingService.start();
