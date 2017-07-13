@@ -1,4 +1,4 @@
-import '../assets/stylesheets/main.less';
+import './assets/css/main.less';
 import 'whatwg-fetch';
 
 import Components from './components/Components';
