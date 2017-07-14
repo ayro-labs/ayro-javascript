@@ -12,7 +12,7 @@ export default class MessagingService {
       const user = Store.getState().user;
       MessagingService.faye = new Faye.Client(MessagingService.URL);
       MessagingService.faye.addExtension(MessagingService.authenticationExtension());
-      MessagingService.faye.subscribe(`/users/${user._id}`, (data: any) => {
+      MessagingService.faye.subscribe(`/users/${user.id}`, (data: any) => {
         MessagingService.messageReceived(data);
       }).then(null, () => {
         setTimeout(() => {

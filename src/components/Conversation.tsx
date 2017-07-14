@@ -43,7 +43,7 @@ class Conversation extends React.Component<IProperties, {}> {
       const continuation = previousChatMessage && previousChatMessage.author.id === chatMessage.author.id;
       if (chatMessage.direction === ChatMessage.DIRECTION_INCOMING) {
         return (
-          <div key={chatMessage._id} className={this.incomingClasses(continuation)}>
+          <div key={chatMessage.id} className={this.incomingClasses(continuation)}>
             {this.renderAuthorPhoto(chatMessage, continuation)}
             <div className={this.messageClasses(chatMessage)}>
               {this.renderAuthorName(chatMessage, continuation)}
@@ -56,7 +56,7 @@ class Conversation extends React.Component<IProperties, {}> {
         );
       } else {
         return (
-          <div key={chatMessage._id} className={this.outgoingClasses(continuation)}>
+          <div key={chatMessage.id} className={this.outgoingClasses(continuation)}>
             <div className={this.messageClasses(chatMessage)}>
               <div className="chatz-message-text">
                 <span>{chatMessage.text}</span>

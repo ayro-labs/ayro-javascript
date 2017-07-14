@@ -67,7 +67,7 @@ class Chatbox extends React.Component<IProperties, IState> {
     if (this.state.message.length > 0) {
       const now = new Date();
       const chatMessage = new ChatMessage({
-        _id: String(now.getTime()),
+        id: String(now.getTime()),
         direction: ChatMessage.DIRECTION_OUTGOING,
         status: ChatMessage.STATUS_SENDING,
         text: this.state.message,
@@ -75,7 +75,7 @@ class Chatbox extends React.Component<IProperties, IState> {
       });
       this.props.addChatMessage(chatMessage);
       ChatzService.postMessage(chatMessage.text).then((postedMessage: ChatMessage) => {
-        this.props.updateChatMessage(chatMessage._id, postedMessage);
+        this.props.updateChatMessage(chatMessage.id, postedMessage);
         this.setState({message: ''});
       });
     }

@@ -9,7 +9,7 @@ export default class ChatMessage {
   public static readonly STATUS_SENT: string = 'sent';
   public static readonly STATUS_ERROR_SENDING: string = 'error_sending';
 
-  public _id: string;
+  public id: string;
   public device: string;
   public author: Author;
   public text: string;
@@ -19,7 +19,7 @@ export default class ChatMessage {
 
   constructor(data?: any) {
     if (data) {
-      this._id = data._id;
+      this.id = data.id;
       this.device = data.device;
       this.author = new Author(data.author);
       this.text = data.text;

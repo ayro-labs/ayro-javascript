@@ -62,7 +62,7 @@ export default class Store {
         newState = DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => {
           const newChatMessages: ChatMessage[] = [];
           chatMessages.forEach((chatMessage) => {
-            if (chatMessage._id === action.id) {
+            if (chatMessage.id === action.id) {
               newChatMessages.push(action.value);
             } else {
               newChatMessages.push(chatMessage);
