@@ -1,4 +1,4 @@
-import DeviceInfo from './DeviceInfo';
+import DeviceInfo from 'models/DeviceInfo';
 
 export default class Device {
 

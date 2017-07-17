@@ -1,4 +1,4 @@
-import Author from './Author';
+import Author from 'models/Author';
 
 export default class ChatMessage {
 

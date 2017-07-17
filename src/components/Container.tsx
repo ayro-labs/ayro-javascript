@@ -2,10 +2,9 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
-import Actions from '../stores/Actions';
-import Classes from '../utils/Classes';
-
-import Chatbox from './Chatbox';
+import Chatbox from 'components/Chatbox';
+import Actions from 'stores/Actions';
+import Classes from 'utils/Classes';
 
 interface IProperties {
   chatOpened: boolean;

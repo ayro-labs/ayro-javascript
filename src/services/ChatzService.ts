@@ -1,10 +1,7 @@
-import 'whatwg-fetch';
-
-import ChatzError from './ChatzError';
-
-import User from '../models/User';
-import Device from '../models/Device';
-import ChatMessage from '../models/ChatMessage';
+import ChatzError from 'services/ChatzError';
+import User from 'models/User';
+import Device from 'models/Device';
+import ChatMessage from 'models/ChatMessage';
 
 interface ILoginResult {
   token: string;

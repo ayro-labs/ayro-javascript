@@ -1,4 +1,4 @@
-import ChatboxSettings from './ChatboxSettings';
+import ChatboxSettings from 'models/ChatboxSettings';
 
 export default class Settings {
 

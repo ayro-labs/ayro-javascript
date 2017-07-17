@@ -1,9 +1,8 @@
 import * as Faye from 'faye';
 
-import Actions from '../stores/Actions';
-import Store from '../stores/Store';
-
-import ChatMessage from '../models/ChatMessage';
+import ChatMessage from 'models/ChatMessage';
+import Actions from 'stores/Actions';
+import Store from 'stores/Store';
 
 export default class MessagingService {
 

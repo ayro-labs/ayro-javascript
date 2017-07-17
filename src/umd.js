@@ -1,4 +1,4 @@
-import ChatzIO from './ChatzIO';
+import ChatzIO from 'ChatzIO';
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {

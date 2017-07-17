@@ -1,7 +1,7 @@
 import {v4 as uuid} from 'uuid';
 
-import Device from '../models/Device';
-import Storage from './Storage';
+import Device from 'models/Device';
+import Storage from 'utils/Storage';
 
 export default class App {
 

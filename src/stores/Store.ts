@@ -2,9 +2,8 @@ import {Store as ReduxStore, createStore} from 'redux';
 import * as PubSub from 'pubsub-js';
 import * as DotProp from 'dot-prop-immutable';
 
-import Actions from './Actions';
-
-import ChatMessage from '../models/ChatMessage';
+import ChatMessage from 'models/ChatMessage';
+import Actions from 'stores/Actions';
 
 export default class Store {
 

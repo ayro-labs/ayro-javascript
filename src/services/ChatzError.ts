@@ -1,5 +1,3 @@
-import 'whatwg-fetch';
-
 export default class ChatzError extends Error {
 
   public response: Response;

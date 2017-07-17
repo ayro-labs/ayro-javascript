@@ -2,14 +2,12 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
-import Actions from '../stores/Actions';
-import Classes from '../utils/Classes';
-import ChatzService from '../services/ChatzService';
-
-import Settings from '../models/Settings';
-import ChatMessage from '../models/ChatMessage';
-
-import Conversation from './Conversation';
+import Conversation from 'components/Conversation';
+import ChatzService from 'services/ChatzService';
+import Settings from 'models/Settings';
+import ChatMessage from 'models/ChatMessage';
+import Actions from 'stores/Actions';
+import Classes from 'utils/Classes';
 
 interface IProperties {
   settings: Settings;

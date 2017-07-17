@@ -2,10 +2,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 
-import Store from '../stores/Store';
-import Html from '../utils/Html';
-
-import Container from './Container';
+import Container from 'components/Container';
+import Store from 'stores/Store';
+import Html from 'utils/Html';
 
 export default class Components {
 

@@ -1,6 +1,6 @@
-import Settings from '../models/Settings';
-import User from '../models/User';
-import ChatMessage from '../models/ChatMessage';
+import Settings from 'models/Settings';
+import User from 'models/User';
+import ChatMessage from 'models/ChatMessage';
 
 export default class Actions {
 

@@ -1,16 +1,16 @@
-import './assets/css/main.less';
+import 'assets/css/main.less';
 import 'whatwg-fetch';
 
-import Components from './components/Components';
-import Actions from './stores/Actions';
-import Store from './stores/Store';
+import Components from 'components/Components';
+import Actions from 'stores/Actions';
+import Store from 'stores/Store';
 
-import ChatzService from './services/ChatzService';
-import MessagingService from './services/MessagingService';
-import App from './utils/App';
+import ChatzService from 'services/ChatzService';
+import MessagingService from 'services/MessagingService';
+import App from 'utils/App';
 
-import Settings from './models/Settings';
-import User from './models/User';
+import Settings from 'models/Settings';
+import User from 'models/User';
 
 export default class ChatzIO {
 

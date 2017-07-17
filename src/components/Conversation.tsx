@@ -3,11 +3,10 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 import * as PubSub from 'pubsub-js';
 
-import Actions from '../stores/Actions';
-import Classes from '../utils/Classes';
-import ChatzService from '../services/ChatzService';
-
-import ChatMessage from '../models/ChatMessage';
+import ChatzService from 'services/ChatzService';
+import ChatMessage from 'models/ChatMessage';
+import Actions from 'stores/Actions';
+import Classes from 'utils/Classes';
 
 interface IProperties {
   chatMessages: ChatMessage[];
