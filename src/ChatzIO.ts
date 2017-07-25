@@ -17,6 +17,7 @@ export default class ChatzIO {
   public init(data: any) {
     const settings = new Settings(data);
     Store.dispatch(Actions.setSettings(settings));
+    ChatzService.init(settings.app_token);
     this.login({});
   }
 

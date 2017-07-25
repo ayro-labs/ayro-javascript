@@ -10,6 +10,21 @@ interface ILoginResult {
 
 export default class ChatzService {
 
+  public static init(appToken: string): Promise<void> {
+    return fetch(ChatzService.getUrl('/apps/integrations/website/init'), {
+      method: 'POST',
+      headers: ChatzService.HEADERS,
+      body: JSON.stringify({
+        app_token: appToken,
+      }),
+    }).then((response: Response) => {
+      return ChatzService.parseResponse(response);
+    }).then((response: any) => {
+      ChatzService.apiToken = response.token;
+      return response;
+    });
+  }
+
   public static login(appToken: string, user: User, device: Device): Promise<ILoginResult> {
     return fetch(ChatzService.getUrl('/auth/users'), {
       method: 'POST',
