@@ -3,16 +3,19 @@
     "baseUrl": "./src",
     "target": "es5",
     "module": "commonjs",
-    "jsx": "react",
     "strict": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
+    "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "removeComments": true,
     "skipLibCheck": true,
-    "lib": ["es6", "dom"]
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "lib": ["es6", "dom"],
+    "jsx": "react"
   },
   "typeRoots": [
     "./node_modules/@types",

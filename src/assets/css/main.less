@@ -8,10 +8,8 @@
   clear: both;
 }
 #chatz-container {
-  @import './font-awesome/icons.less';
-
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-
+  @import "./font-awesome/font-awesome.less";
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   .chatz-button {
     background-color: #00c7a0;
     box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.2);
@@ -41,7 +39,6 @@
   }
 }
 .chatz-chatbox {
-
   .chatz-header {
     background-color: #00c7a0;
     box-shadow: 0 -1px 3px rgba(0,0,0,.1);
@@ -56,7 +53,7 @@
   }
   .chatz-conversation {
     background-color: #f9f9f9;
-    height: ~'calc(100% - 90px)';
+    height: ~"calc(100% - 90px)";
     overflow-y: scroll;
     overflow-x: hidden;
   }
@@ -70,7 +67,6 @@
   }
 }
 .chatz-header {
-
   .chatz-close {
     margin-left: auto;
   }
@@ -79,7 +75,6 @@
   }
 }
 .chatz-conversation {
-
   &::-webkit-scrollbar {
     width: 12px;
   }
@@ -92,11 +87,9 @@
 }
 .chatz-footer {
   color: #989898;
-
   .chatz-input {
     flex: 1 1 auto;
     margin-right: 15px;
-
     input {
       background: none;
       border: none;
@@ -128,7 +121,6 @@
 .chatz-message-incoming, .chatz-message-outgoing {
   margin-top: 4px;
   margin-bottom: 4px;
-
   &.chatz-message-discontinuation {
     margin-top: 12px;
   }
@@ -138,10 +130,8 @@
 }
 .chatz-message-incoming {
   position: relative;
-
   .chatz-author-photo {
     position: absolute;
-
     img {
       border-radius: 50%;
       width: 35px;
@@ -163,12 +153,10 @@
   }
 }
 .chatz-message-outgoing {
-
   .chatz-message {
     background-color: #00c7a0;
     color: #ffffff;
     float: right;
-
     &.chatz-message-sending {
       opacity: 0.5;
     }

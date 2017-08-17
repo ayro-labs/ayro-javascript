@@ -1,5 +1,4 @@
 import 'assets/css/main.less';
-import 'whatwg-fetch';
 
 import Components from 'components/Components';
 import Actions from 'stores/Actions';

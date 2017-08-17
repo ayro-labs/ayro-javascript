@@ -1,6 +1,7 @@
 'use strict';
 
 const helpers = require('./helpers');
+const webpack = require('webpack');
 const CleanPlugin = require('clean-webpack-plugin');
 
 module.exports = {
@@ -36,8 +37,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new CleanPlugin(['dist'], {
-      root: helpers.root('/'),
-    }),
+    new CleanPlugin(['dist'], {root: helpers.root('/')}),
+    new webpack.optimize.ModuleConcatenationPlugin(),
   ],
 };
