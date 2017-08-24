@@ -1,4 +1,4 @@
-export default class Html {
+export class Html {
 
   public static whenReady(): Promise<{}> {
     return new Promise((resolve) => {

@@ -3,10 +3,11 @@ import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 
 import Container from 'components/Container';
-import Store from 'stores/Store';
-import Html from 'utils/Html';
 
-export default class Components {
+import {Store} from 'stores/Store';
+import {Html} from 'utils/Html';
+
+export class Components {
 
   public static init() {
     Html.whenReady().then(() => {

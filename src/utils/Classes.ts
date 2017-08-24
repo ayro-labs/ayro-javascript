@@ -1,4 +1,4 @@
-export default class Classes {
+export class Classes {
 
   public static get(classes: any): string {
     const array: string[] = [];

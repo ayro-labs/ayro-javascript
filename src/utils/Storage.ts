@@ -1,4 +1,4 @@
-export default class Storage {
+export class Storage {
 
   public static set(key: string, value: string) {
     try {

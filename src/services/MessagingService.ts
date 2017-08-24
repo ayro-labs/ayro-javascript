@@ -1,17 +1,17 @@
 import * as Faye from 'faye';
 
-import ChatMessage from 'models/ChatMessage';
-import Actions from 'stores/Actions';
-import Store from 'stores/Store';
+import {ChatMessage} from 'models/ChatMessage';
+import {Actions} from 'stores/Actions';
+import {Store} from 'stores/Store';
 
-export default class MessagingService {
+export class MessagingService {
 
   public static start() {
     if (!MessagingService.faye) {
       const user = Store.getState().user;
       MessagingService.faye = new Faye.Client(MessagingService.URL);
       MessagingService.faye.addExtension(MessagingService.authenticationExtension());
-      MessagingService.faye.subscribe(`/users/${user.id}`, (data: any) => {
+      MessagingService.subscription = MessagingService.faye.subscribe(`/users/${user.id}`, (data: any) => {
         MessagingService.messageReceived(data);
       }).then(null, () => {
         setTimeout(() => {
@@ -21,10 +21,17 @@ export default class MessagingService {
     }
   }
 
+  public static stop() {
+    if (MessagingService.subscription) {
+      MessagingService.subscription.cancel();
+    }
+  }
+
   private static readonly EVENT_CHAT_MESSAGE: string = 'chat_message';
   private static readonly URL: string = 'http://api.chatz.io:3102';
 
   private static faye: any;
+  private static subscription: any;
 
   private static messageReceived(data: any) {
     switch (data.event) {

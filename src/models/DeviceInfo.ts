@@ -1,4 +1,4 @@
-export default class DeviceInfo {
+export class DeviceInfo {
 
   public browser_name: string;
   public browser_version: string;

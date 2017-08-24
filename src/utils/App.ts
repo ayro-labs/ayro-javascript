@@ -1,14 +1,14 @@
 import {v4 as uuid} from 'uuid';
 
-import Device from 'models/Device';
-import Storage from 'utils/Storage';
+import {Device} from 'models/Device';
+import {Storage} from 'utils/Storage';
 
-export default class App {
+export class App {
 
   public static getDevice(): Device {
     let uid = Storage.get(App.DEVICE_UID);
     if (!uid) {
-      uid = uuid();
+      uid = uuid().replace(/-/g, '');
       Storage.set(App.DEVICE_UID, uid);
     }
     return new Device({

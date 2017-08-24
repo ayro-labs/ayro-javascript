@@ -3,12 +3,14 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 import * as PubSub from 'pubsub-js';
 
-import ChatzService from 'services/ChatzService';
-import ChatMessage from 'models/ChatMessage';
-import Actions from 'stores/Actions';
-import Classes from 'utils/Classes';
+import {ChatzService} from 'services/ChatzService';
+import {ChatMessage} from 'models/ChatMessage';
+import {Actions} from 'stores/Actions';
+import {IState as IStoreState} from 'stores/Store';
+import {Classes} from 'utils/Classes';
 
 interface IProperties {
+  apiToken: string;
   chatMessages: ChatMessage[];
   setChatMessages: (chatMessages: ChatMessage[]) => void;
 }
@@ -27,7 +29,7 @@ class Conversation extends React.Component<IProperties, {}> {
   public componentDidMount() {
     this.subscriptions.push(PubSub.subscribe(Actions.OPEN_CHAT, this.onConversationChanged));
     this.subscriptions.push(PubSub.subscribe(Actions.ADD_CHAT_MESSAGE, this.onConversationChanged));
-    ChatzService.listMessages().then((chatMessages) => {
+    ChatzService.listMessages(this.props.apiToken).then((chatMessages) => {
       this.props.setChatMessages(chatMessages);
     });
   }
@@ -129,8 +131,9 @@ class Conversation extends React.Component<IProperties, {}> {
   }
 }
 
-function mapStateToProps(state: any): any {
+function mapStateToProps(state: IStoreState): any {
   return {
+    apiToken: state.apiToken,
     chatMessages: state.chatMessages,
   };
 }

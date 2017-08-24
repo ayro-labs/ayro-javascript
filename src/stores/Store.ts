@@ -2,16 +2,34 @@ import {Store as ReduxStore, createStore} from 'redux';
 import * as PubSub from 'pubsub-js';
 import * as DotProp from 'dot-prop-immutable';
 
-import ChatMessage from 'models/ChatMessage';
-import Actions from 'stores/Actions';
+import {AppStatus} from 'enums/AppStatus';
+import {UserStatus} from 'enums/UserStatus';
+import {Settings} from 'models/Settings';
+import {App} from 'models/App';
+import {Integration} from 'models/Integration';
+import {User} from 'models/User';
+import {ChatMessage} from 'models/ChatMessage';
+import {Actions} from 'stores/Actions';
 
-export default class Store {
+export interface IState {
+  appStatus: AppStatus;
+  userStatus: UserStatus;
+  settings: Settings;
+  app: App;
+  integration: Integration;
+  user: User;
+  apiToken: string;
+  chatOpened: boolean;
+  chatMessages: ChatMessage[];
+}
 
-  public static get(): ReduxStore<any> {
+export class Store {
+
+  public static get(): ReduxStore<IState> {
     return Store.STORE;
   }
 
-  public static getState() {
+  public static getState(): IState {
     return Store.STORE.getState();
   }
 
@@ -19,28 +37,38 @@ export default class Store {
     Store.STORE.dispatch(action);
   }
 
-  private static readonly INITIAL_STATE: any = {
+  private static readonly INITIAL_STATE: IState = {
+    appStatus: null,
+    userStatus: null,
     settings: null,
+    app: null,
+    integration: null,
     user: null,
     apiToken: null,
     chatOpened: false,
     chatMessages: [],
   };
 
-  private static STORE: ReduxStore<any> = createStore((state: any, action: any) => {
+  private static STORE: ReduxStore<IState> = createStore((state: IState, action: any) => {
     if (!state) {
       return Store.INITIAL_STATE;
     }
-    let newState: any = null;
+    let newState: IState = null;
     switch (action.type) {
-      case Actions.OPEN_CHAT:
-        newState = DotProp.set(state, 'chatOpened', true);
+      case Actions.SET_APP_STATUS:
+        newState = DotProp.set(state, 'appStatus', action.value);
         break;
-      case Actions.CLOSE_CHAT:
-        newState = DotProp.set(state, 'chatOpened', false);
+      case Actions.SET_USER_STATUS:
+        newState = DotProp.set(state, 'userStatus', action.value);
         break;
       case Actions.SET_SETTINGS:
         newState = DotProp.set(state, 'settings', action.value);
+        break;
+      case Actions.SET_APP:
+        newState = DotProp.set(state, 'app', action.value);
+        break;
+      case Actions.SET_INTEGRATION:
+        newState = DotProp.set(state, 'integration', action.value);
         break;
       case Actions.SET_USER:
         newState = DotProp.set(state, 'user', action.value);
@@ -50,6 +78,15 @@ export default class Store {
         break;
       case Actions.SET_API_TOKEN:
         newState = DotProp.set(state, 'apiToken', action.value);
+        break;
+      case Actions.UNSET_API_TOKEN:
+        newState = DotProp.set(state, 'apiToken', null);
+        break;
+      case Actions.OPEN_CHAT:
+        newState = DotProp.set(state, 'chatOpened', true);
+        break;
+      case Actions.CLOSE_CHAT:
+        newState = DotProp.set(state, 'chatOpened', false);
         break;
       case Actions.SET_CHAT_MESSAGES:
         newState = DotProp.set(state, 'chatMessages', action.value);

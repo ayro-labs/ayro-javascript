@@ -1,6 +1,6 @@
-import Author from 'models/Author';
+import {Author} from 'models/Author';
 
-export default class ChatMessage {
+export class ChatMessage {
 
   public static readonly DIRECTION_OUTGOING: string = 'outgoing';
   public static readonly DIRECTION_INCOMING: string = 'incoming';

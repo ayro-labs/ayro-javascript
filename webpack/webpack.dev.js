@@ -5,7 +5,7 @@ const webpack = require('webpack');
 const CleanPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: ['whatwg-fetch', './src/umd.js'],
+  entry: ['./src/umd.js'],
   output: {
     path: helpers.root('dist'),
     filename: 'chatz.js',

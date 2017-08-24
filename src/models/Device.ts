@@ -1,6 +1,6 @@
-import DeviceInfo from 'models/DeviceInfo';
+import {DeviceInfo} from 'models/DeviceInfo';
 
-export default class Device {
+export class Device {
 
   public uid: string;
   public platform: string;

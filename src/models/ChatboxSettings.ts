@@ -1,4 +1,4 @@
-export default class ChatboxSettings {
+export class ChatboxSettings {
 
   public title: string;
   public message_placeholder: string;

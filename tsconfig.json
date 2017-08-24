@@ -4,6 +4,7 @@
     "target": "es5",
     "module": "commonjs",
     "strict": true,
+    "strictNullChecks": false,
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "suppressImplicitAnyIndexErrors": true,

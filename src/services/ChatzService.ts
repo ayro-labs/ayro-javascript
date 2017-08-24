@@ -1,16 +1,23 @@
-import ChatzError from 'services/ChatzError';
-import User from 'models/User';
-import Device from 'models/Device';
-import ChatMessage from 'models/ChatMessage';
+import {ChatzError} from 'errors/ChatzError';
+import {App} from 'models/App';
+import {Integration} from 'models/Integration';
+import {User} from 'models/User';
+import {Device} from 'models/Device';
+import {ChatMessage} from 'models/ChatMessage';
 
-interface ILoginResult {
+export interface IInitResult {
+  app: App;
+  integration: Integration;
+}
+
+export interface ILoginResult {
   token: string;
   user: User;
 }
 
-export default class ChatzService {
+export class ChatzService {
 
-  public static init(appToken: string): Promise<void> {
+  public static init(appToken: string): Promise<IInitResult> {
     return fetch(ChatzService.getUrl('/apps/integrations/website/init'), {
       method: 'POST',
       headers: ChatzService.HEADERS,
@@ -19,9 +26,6 @@ export default class ChatzService {
       }),
     }).then((response: Response) => {
       return ChatzService.parseResponse(response);
-    }).then((response: any) => {
-      ChatzService.apiToken = response.token;
-      return response;
     });
   }
 
@@ -36,21 +40,27 @@ export default class ChatzService {
       }),
     }).then((response: Response) => {
       return ChatzService.parseResponse(response);
-    }).then((response: any) => {
-      ChatzService.apiToken = response.token;
-      return response;
     });
   }
 
-  public static listMessages(): Promise<ChatMessage[]> {
+  public static logout(apiToken: string): Promise<any> {
+    return fetch(ChatzService.getUrl('/auth/users'), {
+      method: 'DELETE',
+      headers: Object.assign({'X-Token': apiToken}, ChatzService.HEADERS),
+    }).then(() => {
+      return null;
+    });
+  }
+
+  public static listMessages(apiToken: string): Promise<ChatMessage[]> {
     return fetch(ChatzService.getUrl('/chat'), {
       method: 'GET',
-      headers: Object.assign({'X-Token': ChatzService.apiToken}, ChatzService.HEADERS),
+      headers: Object.assign({'X-Token': apiToken}, ChatzService.HEADERS),
     }).then((response: Response) => {
       return ChatzService.parseResponse(response);
-    }).then((response: any) => {
+    }).then((response: any[]) => {
       const chatMessages: ChatMessage[] = [];
-      response.forEach((message: ChatMessage) => {
+      response.forEach((message: any) => {
         const chatMessage = new ChatMessage(message);
         chatMessage.status = ChatMessage.STATUS_SENT;
         chatMessages.push(chatMessage);
@@ -59,10 +69,10 @@ export default class ChatzService {
     });
   }
 
-  public static postMessage(message: string): Promise<ChatMessage> {
+  public static postMessage(apiToken: string, message: string): Promise<ChatMessage> {
     return fetch(ChatzService.getUrl('/chat/web'), {
       method: 'POST',
-      headers: Object.assign({'X-Token': ChatzService.apiToken}, ChatzService.HEADERS),
+      headers: Object.assign({'X-Token': apiToken}, ChatzService.HEADERS),
       body: JSON.stringify({
         text: message,
       }),
@@ -75,8 +85,6 @@ export default class ChatzService {
 
   private static readonly BASE_URL: string = 'http://api.chatz.io';
   private static readonly HEADERS: any = {'Content-Type': 'application/json'};
-
-  private static apiToken: string;
 
   private static getUrl(url: string): string {
     return ChatzService.BASE_URL + url;

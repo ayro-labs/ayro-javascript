@@ -3,8 +3,10 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
 import Chatbox from 'components/Chatbox';
-import Actions from 'stores/Actions';
-import Classes from 'utils/Classes';
+
+import {Actions} from 'stores/Actions';
+import {IState as IStoreState} from 'stores/Store';
+import {Classes} from 'utils/Classes';
 
 interface IProperties {
   chatOpened: boolean;
@@ -13,24 +15,15 @@ interface IProperties {
 
 class Container extends React.Component<IProperties, {}> {
 
-  constructor(props: IProperties) {
-    super(props);
-    this.openChat = this.openChat.bind(this);
-  }
-
   public render() {
     return (
       <div id="chatz-container">
         <Chatbox/>
-        <button className={this.buttonClasses()} onClick={this.openChat}>
+        <button className={this.buttonClasses()} onClick={this.props.openChat}>
           <i className="fa fa-comments"/>
         </button>
       </div>
     );
-  }
-
-  private openChat(): void {
-    this.props.openChat();
   }
 
   private buttonClasses(): string {
@@ -42,7 +35,7 @@ class Container extends React.Component<IProperties, {}> {
   }
 }
 
-function mapStateToProps(state: any): any {
+function mapStateToProps(state: IStoreState): any {
   return {
     chatOpened: state.chatOpened,
   };
