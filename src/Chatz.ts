@@ -24,7 +24,7 @@ export class Chatz {
 
   private assertInitCalledFirst() {
     if (this.chatzApp == null) {
-      throw new Error('Init method should be called first!');
+      throw new Error('Init function should be called first!');
     }
   }
 }

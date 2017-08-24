@@ -4,12 +4,14 @@ import {Dispatch} from 'redux';
 import * as PubSub from 'pubsub-js';
 
 import {ChatzService} from 'services/ChatzService';
+import {Integration} from 'models/Integration';
 import {ChatMessage} from 'models/ChatMessage';
-import {Actions} from 'stores/Actions';
-import {IState as IStoreState} from 'stores/Store';
+import {Actions, IAction} from 'stores/Actions';
+import {IStoreState} from 'stores/Store';
 import {Classes} from 'utils/Classes';
 
 interface IProperties {
+  integration: Integration;
   apiToken: string;
   chatMessages: ChatMessage[];
   setChatMessages: (chatMessages: ChatMessage[]) => void;
@@ -57,7 +59,7 @@ class Conversation extends React.Component<IProperties, {}> {
         );
       } else {
         return (
-          <div key={chatMessage.id} className={this.outgoingClasses(continuation)}>
+          <div key={chatMessage.id} className={this.outgoingClasses(continuation)} style={this.outgoingStyles()}>
             <div className={this.messageClasses(chatMessage)}>
               <div className="chatz-message-text">
                 <span>{chatMessage.text}</span>
@@ -107,6 +109,15 @@ class Conversation extends React.Component<IProperties, {}> {
     this.conversationElement.scrollTop = this.conversationElement.scrollHeight;
   }
 
+  private messageClasses(chatMessage: ChatMessage): string {
+    return Classes.get({
+      'chatz-message': true,
+      'chatz-message-sending': chatMessage.status === ChatMessage.STATUS_SENDING,
+      'chatz-message-sent': !chatMessage.status || chatMessage.status === ChatMessage.STATUS_SENT,
+      'chatz-message-error': chatMessage.status === ChatMessage.STATUS_ERROR_SENDING,
+    });
+  }
+
   private incomingClasses(continuation: boolean): string {
     return Classes.get({
       'chatz-message-incoming': true,
@@ -121,24 +132,22 @@ class Conversation extends React.Component<IProperties, {}> {
     });
   }
 
-  private messageClasses(chatMessage: ChatMessage): string {
-    return Classes.get({
-      'chatz-message': true,
-      'chatz-message-sending': chatMessage.status === ChatMessage.STATUS_SENDING,
-      'chatz-message-sent': !chatMessage.status || chatMessage.status === ChatMessage.STATUS_SENT,
-      'chatz-message-error': chatMessage.status === ChatMessage.STATUS_ERROR_SENDING,
-    });
+  private outgoingStyles(): any {
+    return {
+      backgroundColor: this.props.integration.configuration.conversation_color,
+    };
   }
 }
 
 function mapStateToProps(state: IStoreState): any {
   return {
+    integration: state.integration,
     apiToken: state.apiToken,
     chatMessages: state.chatMessages,
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<any>): any {
+function mapDispatchToProps(dispatch: Dispatch<IAction>): any {
   return {
     setChatMessages: (chatMessages: ChatMessage[]) => {
       dispatch(Actions.setChatMessages(chatMessages));

@@ -41,12 +41,11 @@ export class ChatzApp {
     const appToken = Store.getState().settings.app_token;
     Store.dispatch(Actions.setUser(user));
     return ChatzService.login(appToken, user, App.getDevice()).then((result) => {
-      const loggedUser = new User(result.user);
       Store.dispatch(Actions.setUserStatus(UserStatus.LOGGED_IN));
-      Store.dispatch(Actions.setUser(user));
+      Store.dispatch(Actions.setUser(result.user));
       Store.dispatch(Actions.setApiToken(result.token));
       MessagingService.start();
-      return loggedUser;
+      return result.user;
     });
   }
 

@@ -1,3 +1,4 @@
+import {Action} from 'redux';
 import {AppStatus} from 'enums/AppStatus';
 import {UserStatus} from 'enums/UserStatus';
 import {Settings} from 'models/Settings';
@@ -5,6 +6,10 @@ import {App} from 'models/App';
 import {Integration} from 'models/Integration';
 import {User} from 'models/User';
 import {ChatMessage} from 'models/ChatMessage';
+
+export interface IAction extends Action {
+  value: any;
+}
 
 export class Actions {
 
@@ -23,98 +28,104 @@ export class Actions {
   public static readonly ADD_CHAT_MESSAGE: string = 'ADD_CHAT_MESSAGE';
   public static readonly UPDATE_CHAT_MESSAGE: string = 'UPDATE_CHAT_MESSAGE';
 
-  public static openChat() {
+  public static openChat(): IAction {
     return {
       type: Actions.OPEN_CHAT,
+      value: null,
     };
   }
 
-  public static closeChat() {
+  public static closeChat(): IAction {
     return {
       type: Actions.CLOSE_CHAT,
+      value: null,
     };
   }
 
-  public static setAppStatus(status: AppStatus) {
+  public static setAppStatus(status: AppStatus): IAction {
     return {
       type: Actions.SET_APP_STATUS,
       value: status,
     };
   }
 
-  public static setUserStatus(status: UserStatus) {
+  public static setUserStatus(status: UserStatus): IAction {
     return {
       type: Actions.SET_USER_STATUS,
       value: status,
     };
   }
 
-  public static setSettings(settings: Settings) {
+  public static setSettings(settings: Settings): IAction {
     return {
       type: Actions.SET_SETTINGS,
       value: settings,
     };
   }
 
-  public static setApp(app: App) {
+  public static setApp(app: App): IAction {
     return {
       type: Actions.SET_APP,
       value: app,
     };
   }
 
-  public static setIntegration(integration: Integration) {
+  public static setIntegration(integration: Integration): IAction {
     return {
       type: Actions.SET_INTEGRATION,
       value: integration,
     };
   }
 
-  public static setUser(user: User) {
+  public static setUser(user: User): IAction {
     return {
       type: Actions.SET_USER,
       value: user,
     };
   }
 
-  public static unsetUser() {
+  public static unsetUser(): IAction {
     return {
       type: Actions.UNSET_USER,
+      value: null,
     };
   }
 
-  public static setApiToken(apiToken: string) {
+  public static setApiToken(apiToken: string): IAction {
     return {
       type: Actions.SET_API_TOKEN,
       value: apiToken,
     };
   }
 
-  public static unsetApiToken() {
+  public static unsetApiToken(): IAction {
     return {
       type: Actions.UNSET_API_TOKEN,
+      value: null,
     };
   }
 
-  public static setChatMessages(chatMessages: ChatMessage[]) {
+  public static setChatMessages(chatMessages: ChatMessage[]): IAction {
     return {
       type: Actions.SET_CHAT_MESSAGES,
       value: chatMessages,
     };
   }
 
-  public static addChatMessage(chatMessage: ChatMessage) {
+  public static addChatMessage(chatMessage: ChatMessage): IAction {
     return {
       type: Actions.ADD_CHAT_MESSAGE,
       value: chatMessage,
     };
   }
 
-  public static updateChatMessage(id: string, chatMessage: ChatMessage) {
+  public static updateChatMessage(id: string, chatMessage: ChatMessage): IAction {
     return {
-      id,
       type: Actions.UPDATE_CHAT_MESSAGE,
-      value: chatMessage,
+      value: {
+        id,
+        chatMessage,
+      },
     };
   }
 

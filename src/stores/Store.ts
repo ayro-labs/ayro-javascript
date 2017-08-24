@@ -9,9 +9,9 @@ import {App} from 'models/App';
 import {Integration} from 'models/Integration';
 import {User} from 'models/User';
 import {ChatMessage} from 'models/ChatMessage';
-import {Actions} from 'stores/Actions';
+import {Actions, IAction} from 'stores/Actions';
 
-export interface IState {
+export interface IStoreState {
   appStatus: AppStatus;
   userStatus: UserStatus;
   settings: Settings;
@@ -25,19 +25,19 @@ export interface IState {
 
 export class Store {
 
-  public static get(): ReduxStore<IState> {
+  public static get(): ReduxStore<IStoreState> {
     return Store.STORE;
   }
 
-  public static getState(): IState {
+  public static getState(): IStoreState {
     return Store.STORE.getState();
   }
 
-  public static dispatch(action: any) {
+  public static dispatch(action: IAction) {
     Store.STORE.dispatch(action);
   }
 
-  private static readonly INITIAL_STATE: IState = {
+  private static readonly INITIAL_STATE: IStoreState = {
     appStatus: null,
     userStatus: null,
     settings: null,
@@ -49,11 +49,11 @@ export class Store {
     chatMessages: [],
   };
 
-  private static STORE: ReduxStore<IState> = createStore((state: IState, action: any) => {
+  private static STORE: ReduxStore<IStoreState> = createStore((state: IStoreState, action: IAction) => {
     if (!state) {
       return Store.INITIAL_STATE;
     }
-    let newState: IState = null;
+    let newState: IStoreState = null;
     switch (action.type) {
       case Actions.SET_APP_STATUS:
         newState = DotProp.set(state, 'appStatus', action.value);
@@ -98,8 +98,8 @@ export class Store {
         newState = DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => {
           const newChatMessages: ChatMessage[] = [];
           chatMessages.forEach((chatMessage) => {
-            if (chatMessage.id === action.id) {
-              newChatMessages.push(action.value);
+            if (chatMessage.id === action.value.id) {
+              newChatMessages.push(action.value.chatMessage);
             } else {
               newChatMessages.push(chatMessage);
             }

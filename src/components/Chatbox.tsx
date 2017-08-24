@@ -8,14 +8,16 @@ import {ChatzApp} from 'core/ChatzApp';
 import {ChatzService} from 'services/ChatzService';
 import {UserStatus} from 'enums/UserStatus';
 import {Settings} from 'models/Settings';
+import {Integration} from 'models/Integration';
 import {ChatMessage} from 'models/ChatMessage';
-import {Actions} from 'stores/Actions';
-import {IState as IStoreState} from 'stores/Store';
+import {Actions, IAction} from 'stores/Actions';
+import {IStoreState} from 'stores/Store';
 import {Classes} from 'utils/Classes';
 
 interface IProperties {
   userStatus: UserStatus;
   settings: Settings;
+  integration: Integration;
   apiToken: string;
   chatOpened: boolean;
   closeChat: () => void;
@@ -40,7 +42,7 @@ class Chatbox extends React.Component<IProperties, IState> {
   public render() {
     return (
       <div className={this.chatboxClasses()}>
-        <div className="chatz-header" onClick={this.closeChat}>
+        <div className="chatz-header" style={this.headerStyles()} onClick={this.closeChat}>
           {this.props.settings.chatbox.title}
           <div className="chatz-close">
             <i className="fa fa-times"/>
@@ -89,7 +91,7 @@ class Chatbox extends React.Component<IProperties, IState> {
       date: now,
     });
     this.props.addChatMessage(chatMessage);
-    ChatzService.postMessage(this.props.apiToken, chatMessage.text).then((postedMessage: ChatMessage) => {
+    ChatzService.postMessage(this.props.apiToken, chatMessage.text).then((postedMessage) => {
       this.props.updateChatMessage(chatMessage.id, postedMessage);
       this.setState({message: ''});
     });
@@ -102,18 +104,25 @@ class Chatbox extends React.Component<IProperties, IState> {
       'chatz-hide': !this.props.chatOpened,
     });
   }
+
+  private headerStyles(): any {
+    return {
+      backgroundColor: this.props.integration.configuration.primary_color,
+    };
+  }
 }
 
 function mapStateToProps(state: IStoreState): any {
   return {
     userStatus: state.userStatus,
     settings: state.settings,
+    integration: state.integration,
     apiToken: state.apiToken,
     chatOpened: state.chatOpened,
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<any>): any {
+function mapDispatchToProps(dispatch: Dispatch<IAction>): any {
   return {
     closeChat: () => {
       dispatch(Actions.closeChat());

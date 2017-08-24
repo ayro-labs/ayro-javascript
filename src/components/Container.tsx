@@ -4,11 +4,13 @@ import {Dispatch} from 'redux';
 
 import Chatbox from 'components/Chatbox';
 
-import {Actions} from 'stores/Actions';
-import {IState as IStoreState} from 'stores/Store';
+import {Integration} from 'models/Integration';
+import {Actions, IAction} from 'stores/Actions';
+import {IStoreState} from 'stores/Store';
 import {Classes} from 'utils/Classes';
 
 interface IProperties {
+  integration: Integration;
   chatOpened: boolean;
   openChat: () => void;
 }
@@ -19,7 +21,7 @@ class Container extends React.Component<IProperties, {}> {
     return (
       <div id="chatz-container">
         <Chatbox/>
-        <button className={this.buttonClasses()} onClick={this.props.openChat}>
+        <button className={this.buttonClasses()} style={this.buttonStyles()} onClick={this.props.openChat}>
           <i className="fa fa-comments"/>
         </button>
       </div>
@@ -33,15 +35,22 @@ class Container extends React.Component<IProperties, {}> {
       'chatz-hide': this.props.chatOpened,
     });
   }
+
+  private buttonStyles(): any {
+    return {
+      backgroundColor: this.props.integration.configuration.primary_color,
+    };
+  }
 }
 
 function mapStateToProps(state: IStoreState): any {
   return {
+    integration: state.integration,
     chatOpened: state.chatOpened,
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<any>): any {
+function mapDispatchToProps(dispatch: Dispatch<IAction>): any {
   return {
     openChat: () => {
       dispatch(Actions.openChat());

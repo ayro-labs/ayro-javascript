@@ -26,6 +26,11 @@ export class ChatzService {
       }),
     }).then((response: Response) => {
       return ChatzService.parseResponse(response);
+    }).then((result: IInitResult) => {
+      return {
+        app: new App(result.app),
+        integration: new Integration(result.integration),
+      };
     });
   }
 
@@ -40,6 +45,11 @@ export class ChatzService {
       }),
     }).then((response: Response) => {
       return ChatzService.parseResponse(response);
+    }).then((result: ILoginResult) => {
+      return {
+        token: result.token,
+        user: new User(result.user),
+      };
     });
   }
 
@@ -60,7 +70,7 @@ export class ChatzService {
       return ChatzService.parseResponse(response);
     }).then((response: any[]) => {
       const chatMessages: ChatMessage[] = [];
-      response.forEach((message: any) => {
+      response.forEach((message) => {
         const chatMessage = new ChatMessage(message);
         chatMessage.status = ChatMessage.STATUS_SENT;
         chatMessages.push(chatMessage);
