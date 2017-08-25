@@ -2,24 +2,30 @@ import 'whatwg-fetch';
 import 'assets/css/main.less';
 
 import {ChatzApp} from 'core/ChatzApp';
+import {User} from 'models/User';
 
 export class Chatz {
 
   private chatzApp: ChatzApp;
 
-  public init(data: any) {
+  public init(data: any): Promise<void> {
     this.chatzApp = ChatzApp.getInstance();
-    this.chatzApp.init(data);
+    return this.chatzApp.init(data);
   }
 
-  public login(data: any) {
+  public login(data: any): Promise<User> {
     this.assertInitCalledFirst();
-    this.chatzApp.login(data);
+    return this.chatzApp.login(data);
   }
 
-  public logout() {
+  public logout(): Promise<void> {
     this.assertInitCalledFirst();
-    this.chatzApp.logout();
+    return this.chatzApp.logout();
+  }
+
+  public updateUser(data: any): Promise<User> {
+    this.assertInitCalledFirst();
+    return this.chatzApp.updateUser(data);
   }
 
   private assertInitCalledFirst() {

@@ -7,18 +7,18 @@ import {Store} from 'stores/Store';
 export class MessagingService {
 
   public static start() {
-    if (!MessagingService.faye) {
-      const user = Store.getState().user;
-      MessagingService.faye = new Faye.Client(MessagingService.URL);
-      MessagingService.faye.addExtension(MessagingService.authenticationExtension());
-      MessagingService.subscription = MessagingService.faye.subscribe(`/users/${user.id}`, (data: any) => {
-        MessagingService.messageReceived(data);
-      }).then(null, () => {
-        setTimeout(() => {
-          MessagingService.start();
-        }, 20000);
-      });
+    if (!MessagingService.socket) {
+      MessagingService.socket = new Faye.Client(MessagingService.URL);
+      MessagingService.socket.addExtension(MessagingService.authenticationExtension());
     }
+    const user = Store.getState().user;
+    MessagingService.subscription = MessagingService.socket.subscribe(`/users/${user.id}`, (data: any) => {
+      MessagingService.messageReceived(data);
+    }).then(null, () => {
+      setTimeout(() => {
+        MessagingService.start();
+      }, 20000);
+    });
   }
 
   public static stop() {
@@ -30,7 +30,7 @@ export class MessagingService {
   private static readonly EVENT_CHAT_MESSAGE: string = 'chat_message';
   private static readonly URL: string = 'http://api.chatz.io:3102';
 
-  private static faye: any;
+  private static socket: any;
   private static subscription: any;
 
   private static messageReceived(data: any) {

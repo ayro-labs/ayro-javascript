@@ -7,6 +7,7 @@ import {ChatzApp} from 'core/ChatzApp';
 import {ChatzService} from 'services/ChatzService';
 import {UserStatus} from 'enums/UserStatus';
 import {Integration} from 'models/Integration';
+import {User} from 'models/User';
 import {ChatMessage} from 'models/ChatMessage';
 import {Actions, IAction} from 'stores/Actions';
 import {IStoreState} from 'stores/Store';
@@ -15,6 +16,7 @@ import {Classes} from 'utils/Classes';
 interface IProperties {
   userStatus: UserStatus;
   integration: Integration;
+  user: User;
   apiToken: string;
   chatMessages: ChatMessage[];
   setChatMessages: (chatMessages: ChatMessage[]) => void;
@@ -108,7 +110,7 @@ class Conversation extends React.Component<IProperties, {}> {
 
   private onChatOpened() {
     if (UserStatus.LOGGED_IN !== this.props.userStatus) {
-      ChatzApp.getInstance().login({}).then(() => {
+      ChatzApp.getInstance().login(this.props.user).then(() => {
         this.loadMessages();
       });
     } else {
@@ -161,6 +163,7 @@ function mapStateToProps(state: IStoreState): any {
   return {
     userStatus: state.userStatus,
     integration: state.integration,
+    user: state.user,
     apiToken: state.apiToken,
     chatMessages: state.chatMessages,
   };
