@@ -3,7 +3,9 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 import * as PubSub from 'pubsub-js';
 
+import {ChatzApp} from 'core/ChatzApp';
 import {ChatzService} from 'services/ChatzService';
+import {UserStatus} from 'enums/UserStatus';
 import {Integration} from 'models/Integration';
 import {ChatMessage} from 'models/ChatMessage';
 import {Actions, IAction} from 'stores/Actions';
@@ -11,6 +13,7 @@ import {IStoreState} from 'stores/Store';
 import {Classes} from 'utils/Classes';
 
 interface IProperties {
+  userStatus: UserStatus;
   integration: Integration;
   apiToken: string;
   chatMessages: ChatMessage[];
@@ -25,15 +28,13 @@ class Conversation extends React.Component<IProperties, {}> {
   constructor(props: IProperties) {
     super(props);
     this.setConversationElement = this.setConversationElement.bind(this);
-    this.onConversationChanged = this.onConversationChanged.bind(this);
+    this.onChatOpened = this.onChatOpened.bind(this);
+    this.onChatMessageAdded = this.onChatMessageAdded.bind(this);
   }
 
   public componentDidMount() {
-    this.subscriptions.push(PubSub.subscribe(Actions.OPEN_CHAT, this.onConversationChanged));
-    this.subscriptions.push(PubSub.subscribe(Actions.ADD_CHAT_MESSAGE, this.onConversationChanged));
-    ChatzService.listMessages(this.props.apiToken).then((chatMessages) => {
-      this.props.setChatMessages(chatMessages);
-    });
+    this.subscriptions.push(PubSub.subscribe(Actions.OPEN_CHAT, this.onChatOpened));
+    this.subscriptions.push(PubSub.subscribe(Actions.ADD_CHAT_MESSAGE, this.onChatMessageAdded));
   }
 
   public componentWillUnmount() {
@@ -59,8 +60,8 @@ class Conversation extends React.Component<IProperties, {}> {
         );
       } else {
         return (
-          <div key={chatMessage.id} className={this.outgoingClasses(continuation)} style={this.outgoingStyles()}>
-            <div className={this.messageClasses(chatMessage)}>
+          <div key={chatMessage.id} className={this.outgoingClasses(continuation)}>
+            <div className={this.messageClasses(chatMessage)} style={this.outgoingStyles()}>
               <div className="chatz-message-text">
                 <span>{chatMessage.text}</span>
               </div>
@@ -105,8 +106,25 @@ class Conversation extends React.Component<IProperties, {}> {
     this.conversationElement = div;
   }
 
-  private onConversationChanged() {
+  private onChatOpened() {
+    if (UserStatus.LOGGED_IN !== this.props.userStatus) {
+      ChatzApp.getInstance().login({}).then(() => {
+        this.loadMessages();
+      });
+    } else {
+      this.loadMessages();
+    }
+  }
+
+  private onChatMessageAdded() {
     this.conversationElement.scrollTop = this.conversationElement.scrollHeight;
+  }
+
+  private loadMessages() {
+    ChatzService.listMessages(this.props.apiToken).then((chatMessages) => {
+      this.props.setChatMessages(chatMessages);
+      this.conversationElement.scrollTop = this.conversationElement.scrollHeight;
+    });
   }
 
   private messageClasses(chatMessage: ChatMessage): string {
@@ -141,6 +159,7 @@ class Conversation extends React.Component<IProperties, {}> {
 
 function mapStateToProps(state: IStoreState): any {
   return {
+    userStatus: state.userStatus,
     integration: state.integration,
     apiToken: state.apiToken,
     chatMessages: state.chatMessages,

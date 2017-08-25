@@ -6,13 +6,13 @@ import {Storage} from 'utils/Storage';
 export class App {
 
   public static getDevice(): Device {
-    let uid = Storage.get(App.DEVICE_UID);
-    if (!uid) {
-      uid = uuid().replace(/-/g, '');
-      Storage.set(App.DEVICE_UID, uid);
+    let deviceId = Storage.get(App.DEVICE_UID);
+    if (!deviceId) {
+      deviceId = uuid().replace(/-/g, '');
+      Storage.set(App.DEVICE_UID, deviceId);
     }
     return new Device({
-      uid,
+      uid: deviceId,
       platform: 'web',
     });
   }

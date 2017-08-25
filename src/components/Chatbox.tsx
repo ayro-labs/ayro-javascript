@@ -4,9 +4,7 @@ import {Dispatch} from 'redux';
 
 import Conversation from 'components/Conversation';
 
-import {ChatzApp} from 'core/ChatzApp';
 import {ChatzService} from 'services/ChatzService';
-import {UserStatus} from 'enums/UserStatus';
 import {Settings} from 'models/Settings';
 import {Integration} from 'models/Integration';
 import {ChatMessage} from 'models/ChatMessage';
@@ -15,7 +13,6 @@ import {IStoreState} from 'stores/Store';
 import {Classes} from 'utils/Classes';
 
 interface IProperties {
-  userStatus: UserStatus;
   settings: Settings;
   integration: Integration;
   apiToken: string;
@@ -71,30 +68,20 @@ class Chatbox extends React.Component<IProperties, IState> {
 
   private postMessage() {
     if (this.state.message.length > 0) {
-      if (this.props.userStatus === UserStatus.LOGGED_OUT) {
-        ChatzApp.getInstance().login({}).then(() => {
-          this.sendMessage();
-        });
-      } else {
-        this.sendMessage();
-      }
+      const now = new Date();
+      const chatMessage = new ChatMessage({
+        id: String(now.getTime()),
+        direction: ChatMessage.DIRECTION_OUTGOING,
+        status: ChatMessage.STATUS_SENDING,
+        text: this.state.message,
+        date: now,
+      });
+      this.props.addChatMessage(chatMessage);
+      ChatzService.postMessage(this.props.apiToken, chatMessage.text).then((postedMessage) => {
+        this.props.updateChatMessage(chatMessage.id, postedMessage);
+        this.setState({message: ''});
+      });
     }
-  }
-
-  private sendMessage() {
-    const now = new Date();
-    const chatMessage = new ChatMessage({
-      id: String(now.getTime()),
-      direction: ChatMessage.DIRECTION_OUTGOING,
-      status: ChatMessage.STATUS_SENDING,
-      text: this.state.message,
-      date: now,
-    });
-    this.props.addChatMessage(chatMessage);
-    ChatzService.postMessage(this.props.apiToken, chatMessage.text).then((postedMessage) => {
-      this.props.updateChatMessage(chatMessage.id, postedMessage);
-      this.setState({message: ''});
-    });
   }
 
   private chatboxClasses(): string {
@@ -114,7 +101,6 @@ class Chatbox extends React.Component<IProperties, IState> {
 
 function mapStateToProps(state: IStoreState): any {
   return {
-    userStatus: state.userStatus,
     settings: state.settings,
     integration: state.integration,
     apiToken: state.apiToken,
