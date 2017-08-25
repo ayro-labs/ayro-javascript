@@ -19,6 +19,9 @@ export class Messages {
   private static readonly APP_DOES_NOT_EXIST: string = 'app.doesNotExist';
   private static readonly MESSAGES: Map<string, string> = new Map<string, string>();
 
+  private constructor() {
+
+  }
 }
 
 Messages.init();

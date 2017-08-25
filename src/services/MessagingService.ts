@@ -14,10 +14,6 @@ export class MessagingService {
     const user = Store.getState().user;
     MessagingService.subscription = MessagingService.socket.subscribe(`/users/${user.id}`, (data: any) => {
       MessagingService.messageReceived(data);
-    }).then(null, () => {
-      setTimeout(() => {
-        MessagingService.start();
-      }, 20000);
     });
   }
 

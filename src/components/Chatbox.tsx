@@ -77,9 +77,9 @@ class Chatbox extends React.Component<IProperties, IState> {
         date: now,
       });
       this.props.addChatMessage(chatMessage);
+      this.setState({message: ''});
       ChatzService.postMessage(this.props.apiToken, chatMessage.text).then((postedMessage) => {
         this.props.updateChatMessage(chatMessage.id, postedMessage);
-        this.setState({message: ''});
       });
     }
   }
