@@ -110,14 +110,29 @@
   padding: 15px;
 }
 .chatz-message {
-  border-radius: 8px;
+  position: relative;
   display: inline-block;
+  border-radius: 8px;
   padding: 8px 10px;
   max-width: 180px;
+  .chatz-message-text {
+    font-size: 15px;
+    &::after {
+      content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
+      display: inline;
+    }
+  }
+  .chatz-message-status {
+    position: absolute;
+    font-size: 11px;
+    bottom: 6px;
+    right: 10px;
+    .chatz-message-time {
+      margin-right: 4px;
+    }
+  }
 }
-.chatz-message-text {
-  font-size: 15px;
-}
+
 .chatz-message-incoming, .chatz-message-outgoing {
   margin-top: 4px;
   margin-bottom: 4px;
@@ -141,15 +156,15 @@
   .chatz-message {
     background-color: #ffffff;
     margin-left: 44px;
-  }
-  .chatz-message-author {
-    font-size: 13px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #a0a0a0
-  }
-  .chatz-message-text {
-    color: #525252;
+    .chatz-message-author {
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #a0a0a0
+    }
+    .chatz-message-text {
+      color: #525252;
+    }
   }
 }
 .chatz-message-outgoing {
@@ -157,8 +172,5 @@
     background-color: #00c7a0;
     color: #ffffff;
     float: right;
-    &.chatz-message-sending {
-      opacity: 0.5;
-    }
   }
 }

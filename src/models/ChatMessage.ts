@@ -7,7 +7,7 @@ export class ChatMessage {
 
   public static readonly STATUS_SENDING: string = 'sending';
   public static readonly STATUS_SENT: string = 'sent';
-  public static readonly STATUS_ERROR_SENDING: string = 'error_sending';
+  public static readonly STATUS_ERROR: string = 'error';
 
   public id: string;
   public device: string;

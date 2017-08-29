@@ -49,12 +49,15 @@ class Conversation extends React.Component<IProperties, {}> {
       const continuation = previousChatMessage && previousChatMessage.author.id === chatMessage.author.id;
       if (chatMessage.direction === ChatMessage.DIRECTION_INCOMING) {
         return (
-          <div key={chatMessage.id} className={this.incomingClasses(continuation)}>
+          <div key={chatMessage.id} className={this.incomingMessageClasses(continuation)}>
             {this.renderAuthorPhoto(chatMessage, continuation)}
-            <div className={this.messageClasses(chatMessage)}>
+            <div className="chatz-message">
               {this.renderAuthorName(chatMessage, continuation)}
               <div className="chatz-message-text">
                 <span>{chatMessage.text}</span>
+              </div>
+              <div className="chatz-message-status">
+                {this.formatMessageTime(chatMessage)}
               </div>
             </div>
             <div className="chatz-clear"/>
@@ -62,10 +65,14 @@ class Conversation extends React.Component<IProperties, {}> {
         );
       } else {
         return (
-          <div key={chatMessage.id} className={this.outgoingClasses(continuation)}>
-            <div className={this.messageClasses(chatMessage)} style={this.outgoingStyles()}>
+          <div key={chatMessage.id} className={this.outgoingMessageClasses(continuation)}>
+            <div className="chatz-message" style={this.outgoingMessageStyles()}>
               <div className="chatz-message-text">
                 <span>{chatMessage.text}</span>
+              </div>
+              <div className="chatz-message-status">
+                <span className="chatz-message-time">{this.formatMessageTime(chatMessage)}</span>
+                <i className={this.messageStatusClasses(chatMessage)}/>
               </div>
             </div>
             <div className="chatz-clear"/>
@@ -80,28 +87,6 @@ class Conversation extends React.Component<IProperties, {}> {
         </div>
       </div>
     );
-  }
-
-  private renderAuthorPhoto(chatMessage: ChatMessage, continuation: boolean) {
-    if (!continuation) {
-      return (
-        <div className="chatz-author-photo">
-          <img src={chatMessage.author.photo_url}/>
-        </div>
-      );
-    }
-    return null;
-  }
-
-  private renderAuthorName(chatMessage: ChatMessage, continuation: boolean) {
-    if (!continuation) {
-      return (
-        <div className="chatz-message-author">
-          {chatMessage.author.name}
-        </div>
-      );
-    }
-    return null;
   }
 
   private setConversationElement(div: HTMLDivElement) {
@@ -129,33 +114,62 @@ class Conversation extends React.Component<IProperties, {}> {
     });
   }
 
-  private messageClasses(chatMessage: ChatMessage): string {
-    return Classes.get({
-      'chatz-message': true,
-      'chatz-message-sending': chatMessage.status === ChatMessage.STATUS_SENDING,
-      'chatz-message-sent': !chatMessage.status || chatMessage.status === ChatMessage.STATUS_SENT,
-      'chatz-message-error': chatMessage.status === ChatMessage.STATUS_ERROR_SENDING,
-    });
+  private renderAuthorPhoto(chatMessage: ChatMessage, continuation: boolean) {
+    if (!continuation) {
+      return (
+        <div className="chatz-author-photo">
+          <img src={chatMessage.author.photo_url}/>
+        </div>
+      );
+    }
+    return null;
   }
 
-  private incomingClasses(continuation: boolean): string {
+  private renderAuthorName(chatMessage: ChatMessage, continuation: boolean) {
+    if (!continuation) {
+      return (
+        <div className="chatz-message-author">
+          {chatMessage.author.name}
+        </div>
+      );
+    }
+    return null;
+  }
+
+  private formatMessageTime(chatMessage: ChatMessage): string {
+    const date = chatMessage.date;
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return [hours > 9 ? hours : '0' + hours, minutes > 9 ? minutes : '0' + minutes].join(':');
+  }
+
+  private incomingMessageClasses(continuation: boolean): string {
     return Classes.get({
       'chatz-message-incoming': true,
-      'chatz-message-discontinuation' : !continuation,
+      'chatz-message-discontinuation': !continuation,
     });
   }
 
-  private outgoingClasses(continuation: boolean): string {
+  private outgoingMessageClasses(continuation: boolean): string {
     return Classes.get({
       'chatz-message-outgoing': true,
-      'chatz-message-discontinuation' : !continuation,
+      'chatz-message-discontinuation': !continuation,
     });
   }
 
-  private outgoingStyles(): any {
+  private outgoingMessageStyles(): any {
     return {
       backgroundColor: this.props.integration.configuration.conversation_color,
     };
+  }
+
+  private messageStatusClasses(chatMessage: ChatMessage) {
+    return Classes.get({
+      fa: true,
+      'fa-check': chatMessage.status === ChatMessage.STATUS_SENT,
+      'fa-clock-o': chatMessage.status === ChatMessage.STATUS_SENDING,
+      'fa-times': chatMessage.status === ChatMessage.STATUS_ERROR,
+    });
   }
 }
 
