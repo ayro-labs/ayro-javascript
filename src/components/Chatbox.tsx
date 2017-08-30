@@ -28,10 +28,14 @@ interface IState {
 
 class Chatbox extends React.Component<IProperties, IState> {
 
+  private inputElement: HTMLInputElement;
+
   constructor(props: IProperties) {
     super(props);
     this.state = {message: ''};
+    this.setInputElement = this.setInputElement.bind(this);
     this.closeChat = this.closeChat.bind(this);
+    this.onKeyPress = this.onKeyPress.bind(this);
     this.onMessageChanged = this.onMessageChanged.bind(this);
     this.postMessage = this.postMessage.bind(this);
   }
@@ -48,7 +52,7 @@ class Chatbox extends React.Component<IProperties, IState> {
         <Conversation/>
         <div className="chatz-footer">
           <div className="chatz-input">
-            <input type="text" name="message" placeholder={this.props.settings.chatbox.message_placeholder} value={this.state.message} onChange={this.onMessageChanged}/>
+            <input type="text" name="message" ref={this.setInputElement} placeholder={this.props.settings.chatbox.message_placeholder} value={this.state.message} onChange={this.onMessageChanged} onKeyPress={this.onKeyPress}/>
           </div>
           <div className="chatz-send" onClick={this.postMessage}>
             <i className="fa fa-paper-plane"/>
@@ -58,8 +62,18 @@ class Chatbox extends React.Component<IProperties, IState> {
     );
   }
 
+  private setInputElement(input: HTMLInputElement) {
+    this.inputElement = input;
+  }
+
   private closeChat() {
     this.props.closeChat();
+  }
+
+  private onKeyPress(event: any) {
+    if (event.key === 'Enter') {
+      this.postMessage();
+    }
   }
 
   private onMessageChanged(event: any) {
@@ -68,6 +82,7 @@ class Chatbox extends React.Component<IProperties, IState> {
 
   private postMessage() {
     if (this.state.message.length > 0) {
+      this.inputElement.focus();
       const now = new Date();
       const chatMessage = new ChatMessage({
         id: String(now.getTime()),
@@ -81,6 +96,9 @@ class Chatbox extends React.Component<IProperties, IState> {
       ChatzService.postMessage(this.props.apiToken, chatMessage.text).then((postedMessage) => {
         postedMessage.status = ChatMessage.STATUS_SENT;
         this.props.updateChatMessage(chatMessage.id, postedMessage);
+      }).catch(() => {
+        chatMessage.status = ChatMessage.STATUS_ERROR;
+        this.props.updateChatMessage(chatMessage.id, chatMessage);
       });
     }
   }

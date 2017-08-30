@@ -75,6 +75,7 @@ class Conversation extends React.Component<IProperties, {}> {
                 <i className={this.messageStatusClasses(chatMessage)}/>
               </div>
             </div>
+            {this.renderRefreshButton(chatMessage)}
             <div className="chatz-clear"/>
           </div>
         );
@@ -130,6 +131,17 @@ class Conversation extends React.Component<IProperties, {}> {
       return (
         <div className="chatz-message-author">
           {chatMessage.author.name}
+        </div>
+      );
+    }
+    return null;
+  }
+
+  private renderRefreshButton(chatMessage: ChatMessage) {
+    if (chatMessage.status === ChatMessage.STATUS_ERROR) {
+      return (
+        <div className="chatz-message-refresh">
+          <i className="fa fa-refresh"/>
         </div>
       );
     }

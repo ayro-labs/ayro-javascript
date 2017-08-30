@@ -11,11 +11,11 @@
   @import "./font-awesome/font-awesome.less";
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   .chatz-button {
+    position: fixed;
     background-color: #00c7a0;
     box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.2);
     border: none;
     border-radius: 50%;
-    position: fixed;
     outline: none;
     right: 30px;
     bottom: 30px;
@@ -26,12 +26,12 @@
     cursor: pointer;
   }
   .chatz-chatbox {
+    position: fixed;
+    overflow: hidden;
     background-color: #ffffff;
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 8px;
-    position: fixed;
-    overflow: hidden;
     right: 30px;
     bottom: 30px;
     width: 340px;
@@ -40,70 +40,64 @@
 }
 .chatz-chatbox {
   .chatz-header {
+    display: flex;
+    align-items: center;
     background-color: #00c7a0;
     box-shadow: 0 -1px 3px rgba(0,0,0,.1);
     height: 45px;
-    display: flex;
-    align-items: center;
     padding: 0px 15px;
     color: #ffffff;
     font-size: 17px;
     text-align: center;
     cursor: pointer;
+    .chatz-close {
+      margin-left: auto;
+    }
+    .fa {
+      font-size: 20px !important;
+    }
   }
   .chatz-conversation {
     background-color: #f9f9f9;
     height: ~"calc(100% - 90px)";
     overflow-y: scroll;
     overflow-x: hidden;
+    &::-webkit-scrollbar {
+      width: 12px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: #efefef;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #989898;
+    }
   }
   .chatz-footer {
+    display: flex;
+    align-items: center;
     background-color: #ffffff;
     box-shadow: 0 -1px 3px rgba(0,0,0,.1);
     height: 45px;
-    display: flex;
-    align-items: center;
     padding: 0px 15px;
-  }
-}
-.chatz-header {
-  .chatz-close {
-    margin-left: auto;
-  }
-  .fa {
-    font-size: 20px !important;
-  }
-}
-.chatz-conversation {
-  &::-webkit-scrollbar {
-    width: 12px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: #efefef;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #989898;
-  }
-}
-.chatz-footer {
-  color: #989898;
-  .chatz-input {
-    flex: 1 1 auto;
-    margin-right: 15px;
-    input {
-      background: none;
-      border: none;
-      outline: none;
-      width: 100%;
-      font-size: 14px;
-      color: #4e4e4e;
+    color: #989898;
+    .chatz-input {
+      flex: 1 1 auto;
+      margin-right: 15px;
+      input {
+        background: none;
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: 14px;
+        color: #4e4e4e;
+      }
     }
-  }
-  .chatz-send {
-    cursor: pointer;
-  }
-  .fa {
-    font-size: 20px !important;
+    .chatz-send {
+      cursor: pointer;
+    }
+    .fa {
+      font-size: 20px !important;
+    }
   }
 }
 .chatz-messages {
@@ -113,8 +107,8 @@
   position: relative;
   display: inline-block;
   border-radius: 8px;
-  padding: 8px 10px;
   max-width: 180px;
+  padding: 8px 10px;
   .chatz-message-text {
     font-size: 15px;
     &::after {
@@ -124,15 +118,14 @@
   }
   .chatz-message-status {
     position: absolute;
-    font-size: 11px;
     bottom: 6px;
     right: 10px;
+    font-size: 11px;
     .chatz-message-time {
       margin-right: 4px;
     }
   }
 }
-
 .chatz-message-incoming, .chatz-message-outgoing {
   margin-top: 4px;
   margin-bottom: 4px;
@@ -157,9 +150,9 @@
     background-color: #ffffff;
     margin-left: 44px;
     .chatz-message-author {
+      margin-bottom: 5px;
       font-size: 13px;
       font-weight: bold;
-      margin-bottom: 5px;
       color: #a0a0a0
     }
     .chatz-message-text {
@@ -168,9 +161,17 @@
   }
 }
 .chatz-message-outgoing {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   .chatz-message {
     background-color: #00c7a0;
     color: #ffffff;
-    float: right;
+  }
+  .chatz-message-refresh {
+    margin-left: 8px;
+    height: 100%;
+    color: #989898;
+    font-size: 22px;
   }
 }
