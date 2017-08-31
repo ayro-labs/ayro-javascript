@@ -12,25 +12,28 @@ import {Actions, IAction} from 'stores/Actions';
 import {IStoreState} from 'stores/Store';
 import {Classes} from 'utils/Classes';
 
-interface IProperties {
+interface IStateProps {
   settings: Settings;
   integration: Integration;
   apiToken: string;
   chatOpened: boolean;
+}
+
+interface IDispatchProps {
   closeChat: () => void;
-  addChatMessage: (message: ChatMessage) => void;
-  updateChatMessage: (id: string, message: ChatMessage) => void;
+  addChatMessage: (chatMessage: ChatMessage) => void;
+  updateChatMessage: (id: string, chatMessage: ChatMessage) => void;
 }
 
 interface IState {
   message: string;
 }
 
-class Chatbox extends React.Component<IProperties, IState> {
+class Chatbox extends React.Component<IStateProps & IDispatchProps, IState> {
 
   private inputElement: HTMLInputElement;
 
-  constructor(props: IProperties) {
+  constructor(props: IStateProps & IDispatchProps) {
     super(props);
     this.state = {message: ''};
     this.setInputElement = this.setInputElement.bind(this);
@@ -118,7 +121,7 @@ class Chatbox extends React.Component<IProperties, IState> {
   }
 }
 
-function mapStateToProps(state: IStoreState): any {
+function mapStateToProps(state: IStoreState): IStateProps {
   return {
     settings: state.settings,
     integration: state.integration,
@@ -127,7 +130,7 @@ function mapStateToProps(state: IStoreState): any {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<IAction>): any {
+function mapDispatchToProps(dispatch: Dispatch<IAction>): IDispatchProps {
   return {
     closeChat: () => {
       dispatch(Actions.closeChat());
@@ -141,4 +144,4 @@ function mapDispatchToProps(dispatch: Dispatch<IAction>): any {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Chatbox);
+export default connect<IStateProps, IDispatchProps, any>(mapStateToProps, mapDispatchToProps)(Chatbox);

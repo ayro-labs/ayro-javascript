@@ -9,13 +9,16 @@ import {Actions, IAction} from 'stores/Actions';
 import {IStoreState} from 'stores/Store';
 import {Classes} from 'utils/Classes';
 
-interface IProperties {
+interface IStateProps {
   integration: Integration;
   chatOpened: boolean;
+}
+
+interface IDispatchProps {
   openChat: () => void;
 }
 
-class Container extends React.Component<IProperties, {}> {
+class Container extends React.Component<IStateProps & IDispatchProps, any> {
 
   public render() {
     return (
@@ -43,14 +46,14 @@ class Container extends React.Component<IProperties, {}> {
   }
 }
 
-function mapStateToProps(state: IStoreState): any {
+function mapStateToProps(state: IStoreState): IStateProps {
   return {
     integration: state.integration,
     chatOpened: state.chatOpened,
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<IAction>): any {
+function mapDispatchToProps(dispatch: Dispatch<IAction>): IDispatchProps {
   return {
     openChat: () => {
       dispatch(Actions.openChat());
@@ -58,4 +61,4 @@ function mapDispatchToProps(dispatch: Dispatch<IAction>): any {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Container);
+export default connect<IStateProps, IDispatchProps, any>(mapStateToProps, mapDispatchToProps)(Container);

@@ -27,6 +27,7 @@ export class Actions {
   public static readonly SET_CHAT_MESSAGES: string = 'SET_CHAT_MESSAGES';
   public static readonly ADD_CHAT_MESSAGE: string = 'ADD_CHAT_MESSAGE';
   public static readonly UPDATE_CHAT_MESSAGE: string = 'UPDATE_CHAT_MESSAGE';
+  public static readonly REMOVE_CHAT_MESSAGE: string = 'REMOVE_CHAT_MESSAGE';
 
   public static openChat(): IAction {
     return {
@@ -126,6 +127,13 @@ export class Actions {
         id,
         chatMessage,
       },
+    };
+  }
+
+  public static removeChatMessage(chatMessage: ChatMessage): IAction {
+    return {
+      type: Actions.REMOVE_CHAT_MESSAGE,
+      value: chatMessage,
     };
   }
 

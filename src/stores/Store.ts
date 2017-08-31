@@ -99,9 +99,20 @@ export class Store {
           const newChatMessages: ChatMessage[] = [];
           chatMessages.forEach((chatMessage) => {
             if (chatMessage.id === action.value.id) {
-              newChatMessages.push(action.value.chatMessage);
+              newChatMessages.push(new ChatMessage(action.value.chatMessage));
             } else {
-              newChatMessages.push(chatMessage);
+              newChatMessages.push(new ChatMessage(chatMessage));
+            }
+          });
+          return newChatMessages;
+        });
+        break;
+      case Actions.REMOVE_CHAT_MESSAGE:
+        newState = DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => {
+          const newChatMessages: ChatMessage[] = [];
+          chatMessages.forEach((chatMessage) => {
+            if (chatMessage.id !== action.value.id) {
+              newChatMessages.push(new ChatMessage(chatMessage));
             }
           });
           return newChatMessages;

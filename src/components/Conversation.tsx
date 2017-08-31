@@ -3,31 +3,34 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 import * as PubSub from 'pubsub-js';
 
+import IncomingMessage from 'components/IncomingMessage';
+import OutgoingMessage from 'components/OutgoingMessage';
+
 import {ChatzApp} from 'core/ChatzApp';
 import {ChatzService} from 'services/ChatzService';
 import {UserStatus} from 'enums/UserStatus';
-import {Integration} from 'models/Integration';
 import {User} from 'models/User';
 import {ChatMessage} from 'models/ChatMessage';
 import {Actions, IAction} from 'stores/Actions';
 import {IStoreState} from 'stores/Store';
-import {Classes} from 'utils/Classes';
 
-interface IProperties {
+interface IStateProps {
   userStatus: UserStatus;
-  integration: Integration;
   user: User;
   apiToken: string;
   chatMessages: ChatMessage[];
+}
+
+interface IDispatchProps {
   setChatMessages: (chatMessages: ChatMessage[]) => void;
 }
 
-class Conversation extends React.Component<IProperties, {}> {
+class Conversation extends React.Component<IStateProps & IDispatchProps, any> {
 
   private subscriptions: any[] = [];
   private conversationElement: HTMLDivElement;
 
-  constructor(props: IProperties) {
+  constructor(props: IStateProps & IDispatchProps) {
     super(props);
     this.setConversationElement = this.setConversationElement.bind(this);
     this.onChatOpened = this.onChatOpened.bind(this);
@@ -48,37 +51,9 @@ class Conversation extends React.Component<IProperties, {}> {
       const previousChatMessage = this.props.chatMessages[index - 1];
       const continuation = previousChatMessage && previousChatMessage.author.id === chatMessage.author.id;
       if (chatMessage.direction === ChatMessage.DIRECTION_INCOMING) {
-        return (
-          <div key={chatMessage.id} className={this.incomingMessageClasses(continuation)}>
-            {this.renderAuthorPhoto(chatMessage, continuation)}
-            <div className="chatz-message">
-              {this.renderAuthorName(chatMessage, continuation)}
-              <div className="chatz-message-text">
-                <span>{chatMessage.text}</span>
-              </div>
-              <div className="chatz-message-status">
-                {this.formatMessageTime(chatMessage)}
-              </div>
-            </div>
-            <div className="chatz-clear"/>
-          </div>
-        );
+        return <IncomingMessage key={chatMessage.id} chatMessage={chatMessage} continuation={continuation}/>;
       } else {
-        return (
-          <div key={chatMessage.id} className={this.outgoingMessageClasses(continuation)}>
-            <div className="chatz-message" style={this.outgoingMessageStyles()}>
-              <div className="chatz-message-text">
-                <span>{chatMessage.text}</span>
-              </div>
-              <div className="chatz-message-status">
-                <span className="chatz-message-time">{this.formatMessageTime(chatMessage)}</span>
-                <i className={this.messageStatusClasses(chatMessage)}/>
-              </div>
-            </div>
-            {this.renderRefreshButton(chatMessage)}
-            <div className="chatz-clear"/>
-          </div>
-        );
+        return <OutgoingMessage key={chatMessage.id} chatMessage={chatMessage} continuation={continuation}/>;
       }
     });
     return (
@@ -114,88 +89,18 @@ class Conversation extends React.Component<IProperties, {}> {
       this.conversationElement.scrollTop = this.conversationElement.scrollHeight;
     });
   }
-
-  private renderAuthorPhoto(chatMessage: ChatMessage, continuation: boolean) {
-    if (!continuation) {
-      return (
-        <div className="chatz-author-photo">
-          <img src={chatMessage.author.photo_url}/>
-        </div>
-      );
-    }
-    return null;
-  }
-
-  private renderAuthorName(chatMessage: ChatMessage, continuation: boolean) {
-    if (!continuation) {
-      return (
-        <div className="chatz-message-author">
-          {chatMessage.author.name}
-        </div>
-      );
-    }
-    return null;
-  }
-
-  private renderRefreshButton(chatMessage: ChatMessage) {
-    if (chatMessage.status === ChatMessage.STATUS_ERROR) {
-      return (
-        <div className="chatz-message-refresh">
-          <i className="fa fa-refresh"/>
-        </div>
-      );
-    }
-    return null;
-  }
-
-  private formatMessageTime(chatMessage: ChatMessage): string {
-    const date = chatMessage.date;
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    return [hours > 9 ? hours : '0' + hours, minutes > 9 ? minutes : '0' + minutes].join(':');
-  }
-
-  private incomingMessageClasses(continuation: boolean): string {
-    return Classes.get({
-      'chatz-message-incoming': true,
-      'chatz-message-discontinuation': !continuation,
-    });
-  }
-
-  private outgoingMessageClasses(continuation: boolean): string {
-    return Classes.get({
-      'chatz-message-outgoing': true,
-      'chatz-message-discontinuation': !continuation,
-    });
-  }
-
-  private outgoingMessageStyles(): any {
-    return {
-      backgroundColor: this.props.integration.configuration.conversation_color,
-    };
-  }
-
-  private messageStatusClasses(chatMessage: ChatMessage) {
-    return Classes.get({
-      fa: true,
-      'fa-check': chatMessage.status === ChatMessage.STATUS_SENT,
-      'fa-clock-o': chatMessage.status === ChatMessage.STATUS_SENDING,
-      'fa-times': chatMessage.status === ChatMessage.STATUS_ERROR,
-    });
-  }
 }
 
-function mapStateToProps(state: IStoreState): any {
+function mapStateToProps(state: IStoreState): IStateProps {
   return {
     userStatus: state.userStatus,
-    integration: state.integration,
     user: state.user,
     apiToken: state.apiToken,
     chatMessages: state.chatMessages,
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<IAction>): any {
+function mapDispatchToProps(dispatch: Dispatch<IAction>): IDispatchProps {
   return {
     setChatMessages: (chatMessages: ChatMessage[]) => {
       dispatch(Actions.setChatMessages(chatMessages));
@@ -203,4 +108,4 @@ function mapDispatchToProps(dispatch: Dispatch<IAction>): any {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Conversation);
+export default connect<IStateProps, IDispatchProps, any>(mapStateToProps, mapDispatchToProps)(Conversation);
