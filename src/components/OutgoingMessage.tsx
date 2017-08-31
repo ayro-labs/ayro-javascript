@@ -80,7 +80,7 @@ class OutgoingMessage extends React.Component<IStateProps & IDispatchProps & IPa
   private renderRefreshButton() {
     if (this.props.chatMessage.status === ChatMessage.STATUS_ERROR) {
       return (
-        <div className="chatz-message-refresh" onClick={this.retryMessage}>
+        <div className="chatz-message-retry" onClick={this.retryMessage}>
           <i className="fa fa-refresh"/>
         </div>
       );
