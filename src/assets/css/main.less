@@ -1,3 +1,7 @@
+@white: #ffffff;
+@gray: #989898;
+@primary: #007bff;
+
 .chatz-hide {
   display: none !important;
 }
@@ -12,8 +16,8 @@
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   .chatz-button {
     position: fixed;
-    background-color: #00c7a0;
-    box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.2);
+    background-color: @primary;
+    box-shadow: 1px 4px 10px rgba(0,0,0,.2);
     border: none;
     border-radius: 50%;
     outline: none;
@@ -21,16 +25,16 @@
     bottom: 30px;
     width: 65px;
     height: 65px;
-    color: #ffffff;
+    color: @white;
     font-size: 42px;
     cursor: pointer;
   }
   .chatz-chatbox {
     position: fixed;
     overflow: hidden;
-    background-color: #ffffff;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    background-color: @white;
+    box-shadow: 0 0 25px rgba(0,0,0,.15);
+    border: 1px solid rgba(0,0,0,.15);
     border-radius: 8px;
     right: 30px;
     bottom: 30px;
@@ -42,11 +46,11 @@
   .chatz-header {
     display: flex;
     align-items: center;
-    background-color: #00c7a0;
+    background-color: @primary;
     box-shadow: 0 -1px 3px rgba(0,0,0,.1);
     height: 45px;
     padding: 0px 15px;
-    color: #ffffff;
+    color: @white;
     font-size: 17px;
     text-align: center;
     cursor: pointer;
@@ -69,17 +73,17 @@
       background-color: #efefef;
     }
     &::-webkit-scrollbar-thumb {
-      background-color: #989898;
+      background-color: @gray;
     }
   }
   .chatz-footer {
     display: flex;
     align-items: center;
-    background-color: #ffffff;
+    background-color: @white;
     box-shadow: 0 -1px 3px rgba(0,0,0,.1);
     height: 45px;
     padding: 0px 15px;
-    color: #989898;
+    color: @gray;
     .chatz-input {
       flex: 1 1 auto;
       margin-right: 15px;
@@ -133,7 +137,7 @@
     margin-top: 12px;
   }
   .chatz-message {
-    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 6px rgba(0,0,0,.2);
   }
 }
 .chatz-message-incoming {
@@ -147,16 +151,19 @@
     }
   }
   .chatz-message {
-    background-color: #ffffff;
+    background-color: @white;
     margin-left: 44px;
     .chatz-message-author {
       margin-bottom: 5px;
       font-size: 13px;
       font-weight: bold;
-      color: #a0a0a0
+      color: @gray;
     }
     .chatz-message-text {
       color: #525252;
+    }
+    .chatz-message-time {
+      color: @gray;
     }
   }
 }
@@ -165,13 +172,13 @@
   align-items: center;
   justify-content: flex-end;
   .chatz-message {
-    background-color: #00c7a0;
-    color: #ffffff;
+    background-color: @primary;
+    color: @white;
   }
   .chatz-message-retry {
     margin-left: 8px;
     height: 100%;
-    color: #989898;
+    color: @gray;
     font-size: 22px;
     cursor: pointer;
   }

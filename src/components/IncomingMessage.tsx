@@ -21,7 +21,7 @@ class IncomingMessage extends React.Component<IParamProps, any> {
             <span>{this.props.chatMessage.text}</span>
           </div>
           <div className="chatz-message-status">
-            {this.formatMessageTime()}
+            <span className="chatz-message-time">{this.formatMessageTime()}</span>
           </div>
         </div>
         <div className="chatz-clear"/>
