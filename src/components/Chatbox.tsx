@@ -55,7 +55,7 @@ class Chatbox extends React.Component<IStateProps & IDispatchProps, IState> {
         <Conversation/>
         <div className="chatz-footer">
           <div className="chatz-input">
-            <input type="text" name="message" ref={this.setInputElement} placeholder={this.props.settings.chatbox.message_placeholder} value={this.state.message} onChange={this.onMessageChanged} onKeyPress={this.onKeyPress}/>
+            <input type="text" name="message" ref={this.setInputElement} placeholder={this.props.settings.chatbox.input_placeholder} value={this.state.message} onChange={this.onMessageChanged} onKeyPress={this.onKeyPress}/>
           </div>
           <div className="chatz-send" onClick={this.postMessage}>
             <i className="fa fa-paper-plane"/>
