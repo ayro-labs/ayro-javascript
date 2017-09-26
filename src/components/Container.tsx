@@ -25,7 +25,7 @@ class Container extends React.Component<IStateProps & IDispatchProps, any> {
       <div id="chatz-container">
         <Chatbox/>
         <button className={this.buttonClasses()} style={this.buttonStyles()} onClick={this.props.openChat}>
-          <i className="fa fa-comments"/>
+          <i className="fa fa-commenting"/>
         </button>
       </div>
     );
