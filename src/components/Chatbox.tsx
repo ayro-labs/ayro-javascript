@@ -57,7 +57,7 @@ class Chatbox extends React.Component<IStateProps & IDispatchProps, IState> {
           <div className="chatz-input">
             <input type="text" name="message" ref={this.setInputElement} placeholder={this.props.settings.chatbox.input_placeholder} value={this.state.message} onChange={this.onMessageChanged} onKeyPress={this.onKeyPress}/>
           </div>
-          <div className="chatz-send" onClick={this.postMessage}>
+          <div className={this.postMessageClasses()} onClick={this.postMessage}>
             <i className="fa fa-paper-plane"/>
           </div>
         </div>
@@ -111,6 +111,13 @@ class Chatbox extends React.Component<IStateProps & IDispatchProps, IState> {
       'chatz-chatbox': true,
       'chatz-show': this.props.chatOpened,
       'chatz-hide': !this.props.chatOpened,
+    });
+  }
+  private postMessageClasses(): string {
+    return Classes.get({
+      'chatz-post': true,
+      'chatz-disabled': this.state.message.length === 0,
+      'chatz-enabled': this.state.message.length > 0,
     });
   }
 

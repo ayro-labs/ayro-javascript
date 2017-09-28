@@ -1,5 +1,6 @@
 @white: #ffffff;
 @gray: #989898;
+@gray-light: #d8d8d8;
 @primary: #007bff;
 
 .chatz-hide {
@@ -79,6 +80,7 @@
     }
   }
   .chatz-footer {
+    position: relative;
     display: flex;
     align-items: center;
     background-color: @white;
@@ -98,12 +100,20 @@
         color: #4e4e4e;
       }
     }
-    .chatz-send {
+    .chatz-post {
       cursor: pointer;
     }
     .fa {
       font-size: 20px !important;
     }
+  }
+}
+.chatz-post {
+  &.chatz-enabled {
+    color: @gray;
+  }
+  &.chatz-disabled {
+    color: @gray-light;
   }
 }
 .chatz-messages {
