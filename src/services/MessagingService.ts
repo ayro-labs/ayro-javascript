@@ -8,7 +8,7 @@ export class MessagingService {
 
   public static start() {
     if (!MessagingService.socket) {
-      MessagingService.socket = new Faye.Client(MessagingService.URL);
+      MessagingService.socket = new Faye.Client(process.env.WCM_URL);
       MessagingService.socket.addExtension(MessagingService.authenticationExtension());
     }
     const user = Store.getState().user;
@@ -24,7 +24,6 @@ export class MessagingService {
   }
 
   private static readonly EVENT_CHAT_MESSAGE: string = 'chat_message';
-  private static readonly URL: string = 'http://api.chatz.io:3102';
 
   private static socket: any;
   private static subscription: any;

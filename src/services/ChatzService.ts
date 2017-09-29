@@ -93,11 +93,10 @@ export class ChatzService {
     });
   }
 
-  private static readonly API_URL: string = 'http://api.chatz.io';
   private static readonly API_HEADERS: any = {'Content-Type': 'application/json'};
 
   private static getUrl(url: string): string {
-    return ChatzService.API_URL + url;
+    return process.env.API_URL + url;
   }
 
   private static getHeaders(apiToken: string) {
