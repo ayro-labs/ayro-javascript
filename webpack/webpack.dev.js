@@ -10,8 +10,8 @@ module.exports = webpackMerge(webpackCommon, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        API_URL: JSON.stringify('http://api.chatz.io:3000'),
-        WCM_URL: JSON.stringify('http://api.chatz.io:3102'),
+        API_URL: JSON.stringify('http://localhost:3000'),
+        WCM_URL: JSON.stringify('http://localhost:3102'),
         PRODUCTION: false,
       },
     }),
