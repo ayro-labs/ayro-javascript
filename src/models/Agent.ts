@@ -1,4 +1,4 @@
-export class Author {
+export class Agent {
 
   public id: string;
   public name: string;
