@@ -1,4 +1,4 @@
-import {Author} from 'models/Author';
+import {Agent} from 'models/Agent';
 
 export class ChatMessage {
 
@@ -11,7 +11,7 @@ export class ChatMessage {
 
   public id: string;
   public device: string;
-  public author: Author;
+  public agent: Agent;
   public text: string;
   public status: string;
   public direction: string;
@@ -21,7 +21,7 @@ export class ChatMessage {
     if (data) {
       this.id = data.id;
       this.device = data.device;
-      this.author = new Author(data.author);
+      this.agent = new Agent(data.agent);
       this.text = data.text;
       this.status = data.status;
       this.direction = data.direction;

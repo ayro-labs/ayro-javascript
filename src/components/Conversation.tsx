@@ -49,7 +49,7 @@ class Conversation extends React.Component<IStateProps & IDispatchProps, any> {
   public render() {
     const messages = this.props.chatMessages.map((chatMessage, index) => {
       const previousChatMessage = this.props.chatMessages[index - 1];
-      const continuation = previousChatMessage && previousChatMessage.author.id === chatMessage.author.id;
+      const continuation = previousChatMessage && previousChatMessage.agent.id === chatMessage.agent.id;
       if (chatMessage.direction === ChatMessage.DIRECTION_INCOMING) {
         return <IncomingMessage key={chatMessage.id} chatMessage={chatMessage} continuation={continuation}/>;
       } else {

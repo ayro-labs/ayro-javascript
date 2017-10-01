@@ -32,8 +32,8 @@ class IncomingMessage extends React.Component<IParamProps, any> {
   private renderAuthorPhoto() {
     if (!this.props.continuation) {
       return (
-        <div className="chatz-author-photo">
-          <img src={this.props.chatMessage.author.photo_url}/>
+        <div className="chatz-agent-photo">
+          <img src={this.props.chatMessage.agent.photo_url}/>
         </div>
       );
     }
@@ -43,8 +43,8 @@ class IncomingMessage extends React.Component<IParamProps, any> {
   private renderAuthorName() {
     if (!this.props.continuation) {
       return (
-        <div className="chatz-message-author">
-          {this.props.chatMessage.author.name}
+        <div className="chatz-message-agent">
+          {this.props.chatMessage.agent.name}
         </div>
       );
     }
