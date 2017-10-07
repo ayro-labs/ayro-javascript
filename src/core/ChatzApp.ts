@@ -42,7 +42,8 @@ export class ChatzApp {
   }
 
   public login(data: any): Promise<User> {
-    const user = new User(data);
+    this.fixUserAttributes(data);
+    const user = App.getUser(data);
     const appToken = Store.getState().settings.app_token;
     Store.dispatch(Actions.setUser(user));
     return ChatzService.login(appToken, user, App.getDevice()).then((result) => {
@@ -70,7 +71,8 @@ export class ChatzApp {
   }
 
   public updateUser(data: any): Promise<User> {
-    const user = new User(data);
+    this.fixUserAttributes(data);
+    const user = App.getUser(data);
     Store.dispatch(Actions.setUser(user));
     return ChatzService.updateUser(Store.getState().apiToken, user).then((updatedUser) => {
       Store.dispatch(Actions.setUser(updatedUser));
@@ -79,5 +81,12 @@ export class ChatzApp {
       Messages.improve(err);
       throw err;
     });
+  }
+
+  private fixUserAttributes(data: any) {
+    if (data) {
+      delete data.id;
+      delete data.identified;
+    }
   }
 }

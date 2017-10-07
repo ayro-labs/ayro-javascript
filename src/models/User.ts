@@ -2,6 +2,7 @@ export class User {
 
   public id: string;
   public uid: string;
+  public identified: boolean;
   public first_name: string;
   public last_name: string;
   public photo_url: string;
@@ -13,6 +14,7 @@ export class User {
     if (data) {
       this.id = data.id;
       this.uid = data.uid;
+      this.identified = data.identified;
       this.first_name = data.first_name;
       this.last_name = data.last_name;
       this.photo_url = data.photo_url;
