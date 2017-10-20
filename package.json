@@ -14,13 +14,15 @@
     "web messaging"
   ],
   "files": [
-    "dist"
+    "dist",
+    "lib"
   ],
   "main": "dist/chatz.js",
   "scripts": {
     "lint": "tslint 'src/**/*.ts?(x)'",
     "build": "webpack --config 'webpack.config.js' --env.development",
     "build-prod": "webpack --config 'webpack.config.js' --env.production",
+    "build-browser": "webpack --config 'webpack.config.js' --env.browser --env.development",
     "build-browser-prod": "webpack --config 'webpack.config.js' --env.browser --env.production",
     "test-server": "node tests/server.js"
   },

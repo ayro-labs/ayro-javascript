@@ -8,7 +8,7 @@ module.exports = {
   entry: helpers.root('src/entry.ts'),
   devtool: 'source-map',
   output: {
-    path: helpers.root('dist'),
+    path: helpers.root('lib'),
     filename: 'chatz.js',
     library: 'Chatz',
     libraryTarget: 'umd',
@@ -41,7 +41,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new CleanPlugin(['dist'], {root: helpers.root('')}),
+    new CleanPlugin(['dist', 'lib'], {root: helpers.root('')}),
     new webpack.optimize.ModuleConcatenationPlugin(),
   ],
 };

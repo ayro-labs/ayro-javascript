@@ -8,6 +8,7 @@ const webpackMerge = require('webpack-merge');
 
 module.exports = webpackMerge(webpackProd, {
   output: {
+    path: helpers.root('dist'),
     filename: 'chatz.min.js',
   },
 });

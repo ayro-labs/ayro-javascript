@@ -9,6 +9,10 @@ module.exports = (env) => {
     }
   }
   if (env && env.development) {
-    return require('./webpack/webpack.dev.js');
+    if (env.browser) {
+      return require('./webpack/webpack.browser.dev.js');
+    } else {
+      return require('./webpack/webpack.dev.js');
+    }
   }
 };
