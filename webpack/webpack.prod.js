@@ -12,8 +12,11 @@ module.exports = webpackMerge(webpackCommon, {
       'process.env': {
         API_URL: JSON.stringify('https://api.chatz.io'),
         WCM_URL: JSON.stringify('https://api.chatz.io:3102'),
-        PRODUCTION: true,
+        NODE_ENV: JSON.stringify('production'),
       },
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
     }),
   ],
 });

@@ -6,31 +6,35 @@ import {User} from 'models/User';
 
 export class Chatz {
 
-  private chatzApp: ChatzApp;
-
-  public init(data: any): Promise<void> {
+  public static init(data: any): Promise<void> {
     this.chatzApp = ChatzApp.getInstance();
     return this.chatzApp.init(data);
   }
 
-  public login(data: any): Promise<User> {
-    this.assertInitCalledFirst();
+  public static login(data: any): Promise<User> {
+    this.assertInitCalled();
     return this.chatzApp.login(data);
   }
 
-  public logout(): Promise<void> {
-    this.assertInitCalledFirst();
+  public static logout(): Promise<void> {
+    this.assertInitCalled();
     return this.chatzApp.logout();
   }
 
-  public updateUser(data: any): Promise<User> {
-    this.assertInitCalledFirst();
+  public static updateUser(data: any): Promise<User> {
+    this.assertInitCalled();
     return this.chatzApp.updateUser(data);
   }
 
-  private assertInitCalledFirst() {
+  private static chatzApp: ChatzApp;
+
+  private static assertInitCalled() {
     if (this.chatzApp == null) {
       throw new Error('Init function should be called first!');
     }
+  }
+
+  private constructor() {
+
   }
 }

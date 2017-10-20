@@ -1,10 +1,28 @@
 {
-  "name": "chatz-web",
-  "version": "1.0.0",
+  "name": "chatz",
+  "description": "Web messaging",
+  "version": "0.0.2",
+  "author": {
+    "name": "Chatz team",
+    "email": "team@chatz.io",
+    "url": "https://chatz.io"
+  },
+  "homepage": "https://chatz.io",
+  "keywords": [
+    "chat",
+    "chatz",
+    "web messaging"
+  ],
+  "files": [
+    "dist"
+  ],
+  "main": "dist/chatz.js",
   "scripts": {
     "lint": "tslint 'src/**/*.ts?(x)'",
     "build": "webpack --config 'webpack.config.js'",
     "build-prod": "webpack --config 'webpack.config.js' --env.production",
+    "build-browser": "webpack --config 'webpack.config.js' --env.browser",
+    "build-browser-prod": "webpack --config 'webpack.config.js' --env.browser --env.production",
     "test-server": "node tests/server.js"
   },
   "devDependencies": {

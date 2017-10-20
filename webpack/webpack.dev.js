@@ -12,7 +12,7 @@ module.exports = webpackMerge(webpackCommon, {
       'process.env': {
         API_URL: JSON.stringify('http://localhost:3000'),
         WCM_URL: JSON.stringify('http://localhost:3102'),
-        PRODUCTION: false,
+        NODE_ENV: JSON.stringify('development'),
       },
     }),
   ],

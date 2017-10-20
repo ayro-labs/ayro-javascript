@@ -3,6 +3,8 @@
     "baseUrl": "./src",
     "target": "es5",
     "module": "commonjs",
+    "sourceMap": true,
+    "declaration": false,
     "strict": true,
     "strictNullChecks": false,
     "noImplicitAny": true,
@@ -15,11 +17,8 @@
     "skipLibCheck": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "jsx": "react",
     "lib": ["es6", "dom"],
-    "jsx": "react"
-  },
-  "typeRoots": [
-    "./node_modules/@types",
-    "./types"
-  ]
+    "typeRoots": ["./node_modules/@types", "./types"]
+  }
 }

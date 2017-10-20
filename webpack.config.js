@@ -2,8 +2,16 @@
 
 module.exports = (env) => {
   if (env && env.production) {
-    return require('./webpack/webpack.prod.js');
+    if (env.browser) {
+      return require('./webpack/webpack.browser.prod.js');
+    } else {
+      return require('./webpack/webpack.prod.js');
+    }
   } else {
-    return require('./webpack/webpack.dev.js');
+    if (env.browser) {
+      return require('./webpack/webpack.browser.dev.js');
+    } else {
+      return require('./webpack/webpack.dev.js');
+    }
   }
 };
