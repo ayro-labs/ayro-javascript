@@ -5,7 +5,7 @@ const webpack = require('webpack');
 const CleanPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: helpers.root('src/Chatz.ts'),
+  entry: helpers.root('src/entry.ts'),
   devtool: 'source-map',
   output: {
     path: helpers.root('dist'),

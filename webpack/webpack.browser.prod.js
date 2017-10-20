@@ -9,7 +9,5 @@ const webpackMerge = require('webpack-merge');
 module.exports = webpackMerge(webpackProd, {
   output: {
     filename: 'chatz.min.js',
-    library: 'Chatz',
-    libraryTarget: 'var',
   },
 });

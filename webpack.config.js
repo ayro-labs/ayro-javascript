@@ -7,11 +7,8 @@ module.exports = (env) => {
     } else {
       return require('./webpack/webpack.prod.js');
     }
-  } else {
-    if (env.browser) {
-      return require('./webpack/webpack.browser.dev.js');
-    } else {
-      return require('./webpack/webpack.dev.js');
-    }
+  }
+  if (env && env.development) {
+    return require('./webpack/webpack.dev.js');
   }
 };

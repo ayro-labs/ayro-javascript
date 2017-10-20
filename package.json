@@ -19,9 +19,8 @@
   "main": "dist/chatz.js",
   "scripts": {
     "lint": "tslint 'src/**/*.ts?(x)'",
-    "build": "webpack --config 'webpack.config.js'",
+    "build": "webpack --config 'webpack.config.js' --env.development",
     "build-prod": "webpack --config 'webpack.config.js' --env.production",
-    "build-browser": "webpack --config 'webpack.config.js' --env.browser",
     "build-browser-prod": "webpack --config 'webpack.config.js' --env.browser --env.production",
     "test-server": "node tests/server.js"
   },
