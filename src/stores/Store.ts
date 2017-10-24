@@ -12,8 +12,6 @@ import {ChatMessage} from 'models/ChatMessage';
 import {Actions, IAction} from 'stores/Actions';
 
 export interface IStoreState {
-  userUid: string;
-  deviceUid: string;
   appStatus: AppStatus;
   userStatus: UserStatus;
   settings: Settings;
@@ -40,8 +38,6 @@ export class Store {
   }
 
   private static readonly INITIAL_STATE: IStoreState = {
-    userUid: null,
-    deviceUid: null,
     appStatus: null,
     userStatus: null,
     settings: null,
