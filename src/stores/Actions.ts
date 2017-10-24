@@ -13,8 +13,10 @@ export interface IAction extends Action {
 
 export class Actions {
 
-  public static readonly OPEN_CHAT: string = 'OPEN_CHAT';
-  public static readonly CLOSE_CHAT: string = 'CLOSE_CHAT';
+  public static readonly GET_USER_UID: string = 'GET_USER_UID';
+  public static readonly SET_USER_UID: string = 'SET_USER_UID';
+  public static readonly GET_DEVICE_UID: string = 'GET_DEVICE_UID';
+  public static readonly SET_DEVICE_UID: string = 'SET_DEVICE_UID';
   public static readonly SET_APP_STATUS: string = 'SET_APP_STATUS';
   public static readonly SET_USER_STATUS: string = 'SET_USER_STATUS';
   public static readonly SET_SETTINGS: string = 'SET_SETTINGS';
@@ -24,6 +26,8 @@ export class Actions {
   public static readonly UNSET_USER: string = 'UNSET_USER';
   public static readonly SET_API_TOKEN: string = 'SET_API_TOKEN';
   public static readonly UNSET_API_TOKEN: string = 'UNSET_API_TOKEN';
+  public static readonly OPEN_CHAT: string = 'OPEN_CHAT';
+  public static readonly CLOSE_CHAT: string = 'CLOSE_CHAT';
   public static readonly SET_CHAT_MESSAGES: string = 'SET_CHAT_MESSAGES';
   public static readonly ADD_CHAT_MESSAGE: string = 'ADD_CHAT_MESSAGE';
   public static readonly UPDATE_CHAT_MESSAGE: string = 'UPDATE_CHAT_MESSAGE';

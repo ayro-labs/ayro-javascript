@@ -22,21 +22,21 @@ module.exports = {
     ],
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
+        use: 'ts-loader',
         include: helpers.root('src'),
       },
       {
         test: /\.css$/,
-        loaders: ['style-loader', 'css-loader'],
-        include: helpers.root('src/assets/css'),
+        use: ['style-loader', 'css-loader'],
+        include: helpers.root('src/assets/styles'),
       },
       {
         test: /\.less$/,
-        loaders: ['style-loader', 'css-loader', 'less-loader'],
-        include: helpers.root('src/assets/css'),
+        use: ['style-loader', 'css-loader', 'less-loader'],
+        include: helpers.root('src/assets/styles'),
       },
     ],
   },

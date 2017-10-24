@@ -1,5 +1,5 @@
 import 'whatwg-fetch';
-import 'assets/css/main.less';
+import 'assets/styles/main.less';
 
 import {ChatzApp} from 'core/ChatzApp';
 import {User} from 'models/User';

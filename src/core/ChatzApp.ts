@@ -44,8 +44,8 @@ export class ChatzApp {
   public login(data: any): Promise<User> {
     this.fixUserAttributes(data);
     const user = App.getUser(data);
-    const appToken = Store.getState().settings.app_token;
     Store.dispatch(Actions.setUser(user));
+    const appToken = Store.getState().settings.app_token;
     return ChatzService.login(appToken, user, App.getDevice()).then((result) => {
       Store.dispatch(Actions.setUserStatus(UserStatus.LOGGED_IN));
       Store.dispatch(Actions.setUser(result.user));

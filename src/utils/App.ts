@@ -9,12 +9,7 @@ export class App {
   public static getUser(data: any): User {
     const user = new User(data);
     if (!user.uid) {
-      let uid = Storage.get(App.USER_UID);
-      if (!uid) {
-        uid = uuid().replace(/-/g, '');
-        Storage.set(App.USER_UID, uid);
-      }
-      user.uid = uid;
+      user.uid = App.getUserUid();
       user.identified = false;
     } else {
       user.identified = true;
@@ -23,19 +18,36 @@ export class App {
   }
 
   public static getDevice(): Device {
-    let uid = Storage.get(App.DEVICE_UID);
-    if (!uid) {
-      uid = uuid().replace(/-/g, '');
-      Storage.set(App.DEVICE_UID, uid);
-    }
     return new Device({
-      uid,
+      uid: App.getDeviceUid(),
       platform: 'web',
     });
   }
 
   private static readonly USER_UID: string = 'user_uid';
   private static readonly DEVICE_UID: string = 'device_uid';
+
+  private static getUserUid() {
+    let uid = Storage.get(App.USER_UID);
+    if (!uid) {
+      uid = App.generateUid();
+      Storage.set(App.USER_UID, uid);
+    }
+    return uid;
+  }
+
+  private static getDeviceUid() {
+    let uid = Storage.get(App.DEVICE_UID);
+    if (!uid) {
+      uid = App.generateUid();
+      Storage.set(App.DEVICE_UID, uid);
+    }
+    return uid;
+  }
+
+  private static generateUid() {
+    return uuid().replace(/-/g, '');
+  }
 
   private constructor() {
 
