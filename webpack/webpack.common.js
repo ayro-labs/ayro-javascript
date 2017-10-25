@@ -1,6 +1,7 @@
 'use strict';
 
 const helpers = require('./helpers');
+
 const webpack = require('webpack');
 const CleanPlugin = require('clean-webpack-plugin');
 
@@ -31,11 +32,6 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
-        include: helpers.root('src/assets/styles'),
-      },
-      {
-        test: /\.less$/,
-        use: ['style-loader', 'css-loader', 'less-loader'],
         include: helpers.root('src/assets/styles'),
       },
     ],
