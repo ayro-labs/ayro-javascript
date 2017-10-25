@@ -20,9 +20,9 @@ module.exports = webpackMerge(webpackCommon, {
       sourceMap: true,
     }),
     new ReplacePlugin([{
-      partten: /url\('\/assets/g,
+      partten: /url\(\\'\/assets/g,
       replacement: function () {
-        return 'url(\'https://www.chatz.io/assets';
+        return 'url(\\\'https://www.chatz.io/assets';
       },
     }]),
   ],
