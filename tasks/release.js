@@ -29,11 +29,11 @@ function updateVersion(versionType) {
   return Promise.coroutine(function*() {
     console.log('Updating version...');
     const projectPackage = JSON.parse(yield readFileAsync(path.join(WORKING_DIR, PACKAGE_JSON), 'utf8'));
-    console.log(`Current version is ${projectPackage.version}`);
+    console.log(`    Current version is ${projectPackage.version}`);
     const nextVersion = semver.inc(projectPackage.version, versionType);
-    console.log(`Next version is ${nextVersion}`);
+    console.log(`    Next version is ${nextVersion}`);
     projectPackage.version = nextVersion;
-    yield writeFileAsync(PACKAGE_JSON, projectPackage);
+    yield writeFileAsync(PACKAGE_JSON, JSON.stringify(projectPackage, null, 2));
     return nextVersion;
   })();
 }
@@ -41,14 +41,14 @@ function updateVersion(versionType) {
 function commitFiles(version) {
   return Promise.coroutine(function*() {
     console.log('Committing files...');
-    yield exec(`git commit -am "Release v${version}"`);
+    yield exec(`git commit -am "Release ${version}"`);
   })();
 }
 
 function createRelease(version) {
   return Promise.coroutine(function*() {
     console.log(`Creating release ${version}...`);
-    yield exec(`git checkout -b r/${version}`);
+    yield exec(`git checkout -b ${version}`);
   })();
 }
 
@@ -76,16 +76,16 @@ function pushFiles() {
 
 // Run this if call directly from command line
 if (require.main === module) {
-  let versionType = process.argv[2];
-  if (!versionType || ['patch', 'major', 'minor'].indexOf(versionType) === -1) {
+  const versionType = process.argv[2];
+  if (!versionType || ['major', 'minor', 'patch'].indexOf(versionType) === -1) {
     console.log('Usage:');
-    console.log('npm run release patch|major|minor');
+    console.log('npm run release major|minor|patch');
     process.exit(1);
   }
   Promise.coroutine(function*() {
     try {
       yield buildDevelopment();
-      const version = yield updateVersion();
+      const version = yield updateVersion(versionType);
       yield commitFiles(version);
       yield createRelease(version);
       yield finalizeRelease(version);
