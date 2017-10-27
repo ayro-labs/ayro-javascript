@@ -84,6 +84,7 @@ if (require.main === module) {
   }
   Promise.coroutine(function*() {
     try {
+      console.log(`Releasing version ${version} to remote...`);
       yield buildDevelopment();
       const version = yield updateVersion(versionType);
       yield commitFiles(version);
@@ -91,6 +92,7 @@ if (require.main === module) {
       yield finalizeRelease(version);
       yield pushTag();
       yield pushFiles();
+      console.log(`Version ${version} released with success!`);
     } catch (err) {
       console.error(err);
       process.exit(1);

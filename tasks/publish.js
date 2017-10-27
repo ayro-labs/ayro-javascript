@@ -45,7 +45,7 @@ function prepareRepository() {
   return Promise.coroutine(function*() {
     console.log('Preparing Github repository...');
     yield exec(`rm -rf ${TEMP_REPOSITORY_DIR}`);
-    yield exec(`git clone https://github.com/chatz-io/${REPOSITORY_OWNER}/${REPOSITORY_NAME}.git ${REPOSITORY_NAME}`, {cwd: TEMP_DIR});
+    yield exec(`git clone https://github.com/${REPOSITORY_OWNER}/${REPOSITORY_NAME}.git ${REPOSITORY_NAME}`, {cwd: TEMP_DIR});
     yield exec('rm -rf *', {cwd: TEMP_REPOSITORY_DIR});
   })();
 }
@@ -53,8 +53,6 @@ function prepareRepository() {
 function copyFiles(version) {
   return Promise.coroutine(function*() {
     console.log('Copying files...');
-    // yield exec(`cp readme.md ${TEMP_REPOSITORY_DIR}`),
-    // yield exec(`cp license ${TEMP_REPOSITORY_DIR}`),
     yield exec(`cp dist/${projectPackage.name}.min.js ${TEMP_REPOSITORY_DIR}/${projectPackage.name}-${projectPackage.version}.min.js`)
   })();
 }
@@ -73,20 +71,19 @@ function pushFiles(version) {
 function createRelease(version) {
   return Promise.coroutine(function*() {
     console.log('Creating Github release...');
-    // const releaseNotesContent = yield readFileAsync(path.join(WORKING_DIR, 'release_notes', `v${version}.md`), 'utf8');
-    const createRelease = Bluebird.promisify(gitHubApi.repos.createRelease);
+    const createRelease = Promise.promisify(gitHubApi.repos.createRelease);
     yield createRelease({
-      REPOSITORY_OWNER,
-      REPOSITORY_NAME,
+      owner: REPOSITORY_OWNER,
+      repo: REPOSITORY_NAME,
       tag_name: version,
       name: `Release ${version}`,
-      // body: releaseNotesContent.toString()
     });
   })();
 }
 
-function publishOnNpm() {
+function publishToNpm() {
   return Promise.coroutine(function*() {
+    console.log('Publishing to npm...');
     yield exec('npm publish');
   })();
 }
@@ -96,14 +93,15 @@ if (require.main === module) {
   Promise.coroutine(function*() {
     try {
       const version = projectPackage.version;
-      console.log(`Publishing version ${version} of ${projectPackage.name} to Github repository`);
+      console.log(`Publishing version ${version} to Github and Npm...`);
       yield checkoutTag(version);
       yield buildProduction();
       yield prepareRepository();
       yield copyFiles(version);
       yield pushFiles(version);
       yield createRelease(version);
-      yield publishOnNpm(version);
+      yield publishToNpm(version);
+      console.log(`Version ${version} published with success!`);
     } catch (err) {
       console.error(err);
       process.exit(1);
