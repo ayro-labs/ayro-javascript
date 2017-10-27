@@ -9,10 +9,10 @@ const CleanPlugin = require('clean-webpack-plugin');
 
 module.exports = webpackMerge(webpackProd, {
   output: {
-    path: helpers.root('dist'),
-    filename: 'chatz.min.js',
+    path: helpers.root('lib'),
+    filename: 'chatz.js',
   },
   plugins: [
-    new CleanPlugin(['dist'], {root: helpers.root('')}),
+    new CleanPlugin(['lib'], {root: helpers.root('')}),
   ],
 });

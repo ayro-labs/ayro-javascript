@@ -2,7 +2,7 @@
 
 let path = require('path');
 
-let rootPath = path.resolve(__dirname, '../');
+let rootPath = path.resolve(__dirname, '../../');
 
 function root(args) {
   args = Array.prototype.slice.call(arguments, 0);

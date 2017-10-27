@@ -14,4 +14,8 @@ app.get('/', (req, res) => {
   res.render('index.html');
 });
 
+app.get('/prod', (req, res) => {
+  res.render('index-prod.html');
+});
+
 app.listen(app.get('port'));

@@ -1,18 +1,18 @@
 'use strict'
 
 const helpers = require('./commons/helpers');
-const webpackProd = require('./commons/webpack.common.prod.js');
+const webpackDev = require('./commons/webpack.common.dev.js');
 
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const CleanPlugin = require('clean-webpack-plugin');
 
-module.exports = webpackMerge(webpackProd, {
+module.exports = webpackMerge(webpackDev, {
   output: {
-    path: helpers.root('dist'),
-    filename: 'chatz.min.js',
+    path: helpers.root('lib'),
+    filename: 'chatz.js',
   },
   plugins: [
-    new CleanPlugin(['dist'], {root: helpers.root('')}),
+    new CleanPlugin(['lib'], {root: helpers.root('')}),
   ],
 });
