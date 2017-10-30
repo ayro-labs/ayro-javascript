@@ -34,9 +34,9 @@ function checkoutTag(version) {
 
 function buildProduction() {
   return Promise.coroutine(function*() {
-    console.log('Building lib...');
+    console.log('Building library...');
     yield exec('npm run build-prod');
-    console.log('Building browser lib...');
+    console.log('Building browser library...');
     yield exec('npm run build-browser-prod');
   })();
 }
@@ -63,8 +63,8 @@ function pushFiles(version) {
     yield exec('git add .', {cwd: TEMP_REPOSITORY_DIR});
     yield exec(`git commit -am 'Release ${version}'`, {cwd: TEMP_REPOSITORY_DIR});
     yield exec(`git tag ${version}`, {cwd: TEMP_REPOSITORY_DIR});
-    yield exec('git push origin master', {cwd: TEMP_REPOSITORY_DIR});
     yield exec('git push --tags', {cwd: TEMP_REPOSITORY_DIR});
+    yield exec('git push origin master', {cwd: TEMP_REPOSITORY_DIR});
   })();
 }
 
@@ -100,6 +100,7 @@ if (require.main === module) {
       yield copyFiles(version);
       yield pushFiles(version);
       yield createRelease(version);
+      yield checkoutTag('master');
       yield publishToNpm();
       console.log(`Version ${version} published with success!`);
     } catch (err) {
