@@ -10,8 +10,8 @@ const readFileAsync = Promise.promisify(fs.readFile);
 const writeFileAsync = Promise.promisify(fs.writeFile);
 const execAsync = Promise.promisify(childProcess.exec);
 
-const PACKAGE_JSON = 'package.json';
 const WORKING_DIR = path.resolve(__dirname, '../');
+const PACKAGE_FILE = path.join(WORKING_DIR, 'package.json');
 
 function exec(command, options) {
   return execAsync(command, options || {cwd: WORKING_DIR});
@@ -27,12 +27,12 @@ function buildDevelopment() {
 function updateVersion(versionType) {
   return Promise.coroutine(function*() {
     console.log('Updating version...');
-    const projectPackage = JSON.parse(yield readFileAsync(path.join(WORKING_DIR, PACKAGE_JSON), 'utf8'));
-    console.log(`    Current version is ${projectPackage.version}`);
+    const projectPackage = JSON.parse(yield readFileAsync(PACKAGE_FILE, 'utf8'));
+    console.log(`  Current version is ${projectPackage.version}`);
     const nextVersion = semver.inc(projectPackage.version, versionType);
-    console.log(`    Next version is ${nextVersion}`);
+    console.log(`  Next version is ${nextVersion}`);
     projectPackage.version = nextVersion;
-    yield writeFileAsync(PACKAGE_JSON, JSON.stringify(projectPackage, null, 2));
+    yield writeFileAsync(PACKAGE_FILE, JSON.stringify(projectPackage, null, 2));
     return nextVersion;
   })();
 }
@@ -58,14 +58,6 @@ function pushTag() {
   })();
 }
 
-function pushFiles() {
-  return Promise.coroutine(function*() {
-    console.log('Pushing commits to remote...');
-    yield exec('git checkout master && git pull origin master');
-    yield exec('git push origin master');
-  })();
-}
-
 // Run this if call directly from command line
 if (require.main === module) {
   const versionType = process.argv[2];
@@ -82,7 +74,6 @@ if (require.main === module) {
       yield commitFiles(version);
       yield createTag(version);
       yield pushTag();
-      yield pushFiles();
       console.log(`Version ${version} released with success!`);
     } catch (err) {
       console.error(err);
