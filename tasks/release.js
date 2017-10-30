@@ -17,13 +17,14 @@ function exec(command, options) {
   return execAsync(command, options || {cwd: WORKING_DIR});
 }
 
-function buildDevelopment() {
+function buildLibrary() {
   return Promise.coroutine(function*() {
-    console.log('Building project...');
-    yield exec('npm run build');
+    console.log('Building library...');
+    yield exec('npm run build-prod');
+    console.log('Building browser library...');
+    yield exec('npm run build-browser-prod');
   })();
 }
-
 function updateVersion(versionType) {
   return Promise.coroutine(function*() {
     console.log('Updating version...');
@@ -79,7 +80,7 @@ if (require.main === module) {
     try {
       const version = yield updateVersion(versionType);
       console.log(`Releasing version ${version} to remote...`);
-      yield buildDevelopment();
+      yield buildLibrary();
       yield commitFiles(version);
       yield pushFiles();
       yield createTag(version);
