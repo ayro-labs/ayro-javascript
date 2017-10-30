@@ -40,8 +40,8 @@ function updateVersion(versionType) {
 function commitFiles(version) {
   return Promise.coroutine(function*() {
     console.log('Committing files...');
-    yield exec(`git checkout master`);
-    yield exec(`git add --all`);
+    yield exec('git checkout master');
+    yield exec('git add --all');
     yield exec(`git commit -am "Release ${version}"`);
   })();
 }
@@ -72,7 +72,7 @@ if (require.main === module) {
   const versionType = process.argv[2];
   if (!versionType || ['major', 'minor', 'patch'].indexOf(versionType) === -1) {
     console.log('Usage:');
-    console.log('npm run release major|minor|patch');
+    console.log('npm run release -- major|minor|patch');
     process.exit(1);
   }
   Promise.coroutine(function*() {
