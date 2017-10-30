@@ -45,16 +45,9 @@ function commitFiles(version) {
   })();
 }
 
-function createRelease(version) {
+function createTag(version) {
   return Promise.coroutine(function*() {
-    console.log(`Creating release ${version}...`);
-    yield exec(`git checkout -b ${version}`);
-  })();
-}
-
-function finalizeRelease(version) {
-  return Promise.coroutine(function*() {
-    console.log(`Finalizing release ${version}...`);
+    console.log(`Creating tag ${version}...`);
     yield exec(`git tag ${version}`);
   })();
 }
@@ -63,14 +56,6 @@ function pushTag() {
   return Promise.coroutine(function*() {
     console.log('Pushing tag to remote...');
     yield exec('git push --tags');
-  })();
-}
-
-function pushFiles() {
-  return Promise.coroutine(function*() {
-    console.log('Pushing commits to remote...');
-    yield exec('git checkout master && git pull origin master');
-    yield exec('git push origin master');
   })();
 }
 
@@ -88,10 +73,8 @@ if (require.main === module) {
       console.log(`Releasing version ${version} to remote...`);
       yield buildDevelopment();
       yield commitFiles(version);
-      yield createRelease(version);
-      yield finalizeRelease(version);
+      yield createTag(version);
       yield pushTag();
-      yield pushFiles();
       console.log(`Version ${version} released with success!`);
     } catch (err) {
       console.error(err);
