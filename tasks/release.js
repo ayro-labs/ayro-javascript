@@ -40,8 +40,16 @@ function updateVersion(versionType) {
 function commitFiles(version) {
   return Promise.coroutine(function*() {
     console.log('Committing files...');
+    yield exec(`git checkout master`);
     yield exec(`git add --all`);
     yield exec(`git commit -am "Release ${version}"`);
+  })();
+}
+
+function pushFiles() {
+  return Promise.coroutine(function*() {
+    console.log('Pushing files to remote...');
+    yield exec('git push origin master');
   })();
 }
 
@@ -52,10 +60,10 @@ function createTag(version) {
   })();
 }
 
-function pushTag() {
+function pushTag(version) {
   return Promise.coroutine(function*() {
     console.log('Pushing tag to remote...');
-    yield exec('git push --tags');
+    yield exec(`git push origin ${version}`);
   })();
 }
 
@@ -73,8 +81,9 @@ if (require.main === module) {
       console.log(`Releasing version ${version} to remote...`);
       yield buildDevelopment();
       yield commitFiles(version);
+      yield pushFiles();
       yield createTag(version);
-      yield pushTag();
+      yield pushTag(version);
       console.log(`Version ${version} released with success!`);
     } catch (err) {
       console.error(err);
