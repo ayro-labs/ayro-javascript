@@ -40,6 +40,7 @@ function updateVersion(versionType) {
 function commitFiles(version) {
   return Promise.coroutine(function*() {
     console.log('Committing files...');
+    yield exec(`git add --all`);
     yield exec(`git commit -am "Release ${version}"`);
   })();
 }
