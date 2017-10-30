@@ -59,6 +59,14 @@ function pushTag() {
   })();
 }
 
+function pushFiles() {
+  return Promise.coroutine(function*() {
+    console.log('Pushing commits to remote...');
+    yield exec('git checkout master && git pull origin master');
+    yield exec('git push origin master');
+  })();
+}
+
 // Run this if call directly from command line
 if (require.main === module) {
   const versionType = process.argv[2];
@@ -75,6 +83,7 @@ if (require.main === module) {
       yield commitFiles(version);
       yield createTag(version);
       yield pushTag();
+      yield pushFiles();
       console.log(`Version ${version} released with success!`);
     } catch (err) {
       console.error(err);
