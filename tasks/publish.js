@@ -93,14 +93,14 @@ if (require.main === module) {
   Promise.coroutine(function*() {
     try {
       const version = projectPackage.version;
-      console.log(`Publishing version ${version} to Github and Npm...`);
+      console.log(`Publishing version ${version} to Github and npm...`);
       yield checkoutTag(version);
       yield buildProduction();
       yield prepareRepository();
       yield copyFiles(version);
       yield pushFiles(version);
       yield createRelease(version);
-      yield publishToNpm(version);
+      yield publishToNpm();
       console.log(`Version ${version} published with success!`);
     } catch (err) {
       console.error(err);
