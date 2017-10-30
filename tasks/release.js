@@ -5,7 +5,6 @@ const path = require('path');
 const childProcess = require('child_process');
 const semver = require('semver');
 const Promise = require('bluebird');
-const _ = require('lodash');
 
 const readFileAsync = Promise.promisify(fs.readFile);
 const writeFileAsync = Promise.promisify(fs.writeFile);
