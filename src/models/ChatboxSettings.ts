@@ -1,12 +1,16 @@
 export class ChatboxSettings {
 
-  public title: string;
-  public input_placeholder: string;
+  public title: string = 'How can we help?';
+  public input_placeholder: string = 'Type a message...';
 
   constructor(data?: any) {
     if (data) {
-      this.title = data.title || 'How can we help?';
-      this.input_placeholder = data.input_placeholder || 'Type a message...';
+      if (data.title) {
+        this.title = data.title;
+      }
+      if (data.input_placeholder) {
+        this.input_placeholder = data.input_placeholder;
+      }
     }
   }
 }
