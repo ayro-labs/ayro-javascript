@@ -62,9 +62,9 @@ function pushFiles(version) {
     console.log('Committing, tagging and pushing files to Github repository...');
     yield exec('git add .', {cwd: TEMP_REPOSITORY_DIR});
     yield exec(`git commit -am 'Release ${version}'`, {cwd: TEMP_REPOSITORY_DIR});
+    yield exec('git push origin master', {cwd: TEMP_REPOSITORY_DIR});
     yield exec(`git tag ${version}`, {cwd: TEMP_REPOSITORY_DIR});
     yield exec('git push --tags', {cwd: TEMP_REPOSITORY_DIR});
-    yield exec('git push origin master', {cwd: TEMP_REPOSITORY_DIR});
   })();
 }
 
