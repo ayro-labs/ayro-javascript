@@ -31,7 +31,7 @@ module.exports = webpackMerge(webpackCommon, {
     new webpack.DefinePlugin({
       'process.env': {
         API_URL: JSON.stringify('https://api.chatz.io'),
-        WCM_URL: JSON.stringify('https://api.chatz.io:3102'),
+        WCM_URL: JSON.stringify('https://api.chatz.io:3101'),
         NODE_ENV: JSON.stringify('production'),
       },
     }),
