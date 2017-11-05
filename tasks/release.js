@@ -17,16 +17,9 @@ function exec(command, options) {
   return execAsync(command, options || {cwd: WORKING_DIR});
 }
 
-function buildLibrary() {
-  return Promise.coroutine(function*() {
-    console.log('Building library...');
-    yield exec('npm run build-prod');
-    console.log('Building browser library...');
-    yield exec('npm run build-browser-prod');
-  })();
-}
 function updateVersion(versionType) {
   return Promise.coroutine(function*() {
+    yield exec('git checkout master');
     console.log('Updating version...');
     const projectPackage = JSON.parse(yield readFileAsync(PACKAGE_FILE, 'utf8'));
     console.log(`  Current version is ${projectPackage.version}`);
@@ -38,10 +31,18 @@ function updateVersion(versionType) {
   })();
 }
 
+function buildLibrary() {
+  return Promise.coroutine(function*() {
+    console.log('Building library...');
+    yield exec('npm run build-prod');
+    console.log('Building browser library...');
+    yield exec('npm run build-browser-prod');
+  })();
+}
+
 function commitFiles(version) {
   return Promise.coroutine(function*() {
     console.log('Committing files...');
-    yield exec('git checkout master');
     yield exec('git add --all');
     yield exec(`git commit -am "Release ${version}"`);
   })();
@@ -54,6 +55,13 @@ function pushFiles() {
   })();
 }
 
+function createBranch(version) {
+  return Promise.coroutine(function*() {
+    console.log(`Creating branch ${version}...`);
+    yield exec(`git checkout -b r/${version}`);
+  })();
+}
+
 function createTag(version) {
   return Promise.coroutine(function*() {
     console.log(`Creating tag ${version}...`);
@@ -61,10 +69,10 @@ function createTag(version) {
   })();
 }
 
-function pushTag(version) {
+function pushTag() {
   return Promise.coroutine(function*() {
     console.log('Pushing tag to remote...');
-    yield exec(`git push origin ${version}`);
+    yield exec('git push --tags');
   })();
 }
 
@@ -83,8 +91,9 @@ if (require.main === module) {
       yield buildLibrary();
       yield commitFiles(version);
       yield pushFiles();
+      yield createBranch(version);
       yield createTag(version);
-      yield pushTag(version);
+      yield pushTag();
       console.log(`Version ${version} released with success!`);
     } catch (err) {
       console.error(err);
