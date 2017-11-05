@@ -100,8 +100,8 @@ if (require.main === module) {
       yield copyFiles(version);
       yield pushFiles(version);
       yield createRelease(version);
-      yield checkoutTag('master');
       yield publishToNpm();
+      yield checkoutTag('master');
       console.log(`Version ${version} published with success!`);
     } catch (err) {
       console.error(err);
