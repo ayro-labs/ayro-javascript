@@ -55,13 +55,6 @@ function pushFiles() {
   })();
 }
 
-function createBranch(version) {
-  return Promise.coroutine(function*() {
-    console.log(`Creating branch ${version}...`);
-    yield exec(`git checkout -b r/${version}`);
-  })();
-}
-
 function createTag(version) {
   return Promise.coroutine(function*() {
     console.log(`Creating tag ${version}...`);
@@ -91,7 +84,6 @@ if (require.main === module) {
       yield buildLibrary();
       yield commitFiles(version);
       yield pushFiles();
-      yield createBranch(version);
       yield createTag(version);
       yield pushTag();
       console.log(`Version ${version} released with success!`);

@@ -1,7 +1,7 @@
 {
   "name": "chatz",
   "description": "Chatz Javascript SDK",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "author": {
     "name": "Chatz team",
     "email": "team@chatz.io",
