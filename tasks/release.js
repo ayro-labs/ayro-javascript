@@ -17,9 +17,16 @@ function exec(command, options) {
   return execAsync(command, options || {cwd: WORKING_DIR});
 }
 
+function updateMaster() {
+  return Promise.coroutine(function*() {
+    console.log('Updating master branch...');
+    yield exec('git checkout master');
+    yield exec('git pull origin master');
+  })();
+}
+
 function updateVersion(versionType) {
   return Promise.coroutine(function*() {
-    yield exec('git checkout master');
     console.log('Updating version...');
     const projectPackage = JSON.parse(yield readFileAsync(PACKAGE_FILE, 'utf8'));
     console.log(`  Current version is ${projectPackage.version}`);
@@ -79,6 +86,7 @@ if (require.main === module) {
   }
   Promise.coroutine(function*() {
     try {
+      yield updateMaster();
       const version = yield updateVersion(versionType);
       console.log(`Releasing version ${version} to remote...`);
       yield buildLibrary();
