@@ -18,7 +18,7 @@ function exec(command, options) {
 }
 
 function updateMaster() {
-  return Promise.coroutine(function*() {
+  return Promise.coroutine(function* () {
     console.log('Updating master branch...');
     yield exec('git checkout master');
     yield exec('git pull origin master');
@@ -26,7 +26,7 @@ function updateMaster() {
 }
 
 function updateVersion(versionType) {
-  return Promise.coroutine(function*() {
+  return Promise.coroutine(function* () {
     console.log('Updating version...');
     const projectPackage = JSON.parse(yield readFileAsync(PACKAGE_FILE, 'utf8'));
     console.log(`  Current version is ${projectPackage.version}`);
@@ -39,7 +39,7 @@ function updateVersion(versionType) {
 }
 
 function buildLibrary() {
-  return Promise.coroutine(function*() {
+  return Promise.coroutine(function* () {
     console.log('Building library...');
     yield exec('npm run build-prod');
     console.log('Building browser library...');
@@ -48,7 +48,7 @@ function buildLibrary() {
 }
 
 function commitFiles(version) {
-  return Promise.coroutine(function*() {
+  return Promise.coroutine(function* () {
     console.log('Committing files...');
     yield exec('git add --all');
     yield exec(`git commit -am "Release ${version}"`);
@@ -56,21 +56,21 @@ function commitFiles(version) {
 }
 
 function pushFiles() {
-  return Promise.coroutine(function*() {
+  return Promise.coroutine(function* () {
     console.log('Pushing files to remote...');
     yield exec('git push origin master');
   })();
 }
 
 function createTag(version) {
-  return Promise.coroutine(function*() {
+  return Promise.coroutine(function* () {
     console.log(`Creating tag ${version}...`);
     yield exec(`git tag ${version}`);
   })();
 }
 
 function pushTag() {
-  return Promise.coroutine(function*() {
+  return Promise.coroutine(function* () {
     console.log('Pushing tag to remote...');
     yield exec('git push --tags');
   })();
@@ -84,7 +84,7 @@ if (require.main === module) {
     console.log('npm run release -- major|minor|patch');
     process.exit(1);
   }
-  Promise.coroutine(function*() {
+  Promise.coroutine(function* () {
     try {
       yield updateMaster();
       const version = yield updateVersion(versionType);

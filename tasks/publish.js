@@ -26,14 +26,14 @@ function exec(command, options) {
 }
 
 function checkoutTag(version) {
-  return Promise.coroutine(function*() {
+  return Promise.coroutine(function* () {
     console.log(`Checking out the tag ${version}...`);
     yield exec(`git checkout ${version}`);
   })();
 }
 
 function buildLibrary() {
-  return Promise.coroutine(function*() {
+  return Promise.coroutine(function* () {
     console.log('Building library...');
     yield exec('npm run build-prod');
     console.log('Building browser library...');
@@ -42,7 +42,7 @@ function buildLibrary() {
 }
 
 function prepareRepository() {
-  return Promise.coroutine(function*() {
+  return Promise.coroutine(function* () {
     console.log('Preparing Github repository...');
     yield exec(`rm -rf ${TEMP_REPOSITORY_DIR}`);
     yield exec(`git clone https://github.com/${REPOSITORY_OWNER}/${REPOSITORY_NAME}.git ${REPOSITORY_NAME}`, {cwd: TEMP_DIR});
@@ -51,14 +51,14 @@ function prepareRepository() {
 }
 
 function copyFiles(version) {
-  return Promise.coroutine(function*() {
+  return Promise.coroutine(function* () {
     console.log('Copying files...');
     yield exec(`cp dist/${projectPackage.name}.min.js ${TEMP_REPOSITORY_DIR}/${projectPackage.name}-${projectPackage.version}.min.js`)
   })();
 }
 
 function pushFiles(version) {
-  return Promise.coroutine(function*() {
+  return Promise.coroutine(function* () {
     console.log('Committing, tagging and pushing files to Github repository...');
     yield exec('git add .', {cwd: TEMP_REPOSITORY_DIR});
     yield exec(`git commit -am 'Release ${version}'`, {cwd: TEMP_REPOSITORY_DIR});
@@ -69,7 +69,7 @@ function pushFiles(version) {
 }
 
 function createRelease(version) {
-  return Promise.coroutine(function*() {
+  return Promise.coroutine(function* () {
     console.log('Creating Github release...');
     const createRelease = Promise.promisify(gitHubApi.repos.createRelease);
     yield createRelease({
@@ -82,7 +82,7 @@ function createRelease(version) {
 }
 
 function publishToNpm() {
-  return Promise.coroutine(function*() {
+  return Promise.coroutine(function* () {
     console.log('Publishing to npm...');
     yield exec('npm publish');
   })();
@@ -90,7 +90,7 @@ function publishToNpm() {
 
 // Run this if call directly from command line
 if (require.main === module) {
-  Promise.coroutine(function*() {
+  Promise.coroutine(function* () {
     try {
       const version = projectPackage.version;
       console.log(`Publishing version ${version} to Github and npm...`);
