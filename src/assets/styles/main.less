@@ -1,7 +1,6 @@
 @white: #ffffff;
 @gray: #989898;
 @gray-light: #d8d8d8;
-@primary: #007bff;
 
 .chatz-hide {
   display: none !important;
@@ -16,8 +15,8 @@
   @import "./font-awesome/font-awesome.less";
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   .chatz-button {
+    z-index: 9999;
     position: fixed;
-    background-color: @primary;
     box-shadow: 1px 4px 10px rgba(0,0,0,.2);
     border: none;
     border-radius: 50%;
@@ -31,6 +30,7 @@
     cursor: pointer;
   }
   .chatz-chatbox {
+    z-index: 9999;
     position: fixed;
     overflow: hidden;
     box-shadow: 0 0 25px rgba(0,0,0,.15);
@@ -46,7 +46,6 @@
   .chatz-header {
     display: flex;
     align-items: center;
-    background-color: @primary;
     box-shadow: 0 -1px 3px rgba(0,0,0,.1);
     height: 45px;
     padding: 0px 15px;
@@ -182,7 +181,6 @@
   align-items: center;
   justify-content: flex-end;
   .chatz-message {
-    background-color: @primary;
     color: @white;
   }
   .chatz-message-retry {
