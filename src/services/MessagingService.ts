@@ -8,7 +8,10 @@ export class MessagingService {
 
   public static start() {
     if (!MessagingService.socket) {
-      MessagingService.socket = new Faye.Client(process.env.WCM_URL);
+      MessagingService.socket = new Faye.Client(process.env.WCM_URL, {
+        timeout: MessagingService.FAYE_TIMEOUT_SECONDS,
+        retry: MessagingService.FAYE_RETRY_SECONDS,
+      });
       MessagingService.socket.addExtension(MessagingService.authenticationExtension());
     }
     const user = Store.getState().user;
@@ -24,6 +27,8 @@ export class MessagingService {
   }
 
   private static readonly EVENT_CHAT_MESSAGE: string = 'chat_message';
+  private static readonly FAYE_RETRY_SECONDS: number = 5;
+  private static readonly FAYE_TIMEOUT_SECONDS: number = 60;
 
   private static socket: any;
   private static subscription: any;
