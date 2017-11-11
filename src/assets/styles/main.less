@@ -2,18 +2,18 @@
 @gray: #989898;
 @gray-light: #d8d8d8;
 
-.chatz-hide {
-  display: none !important;
-}
-.chatz-show {
-  display: block !important;
-}
-.chatz-clear {
-  clear: both;
-}
 #chatz-container {
   @import "./font-awesome/font-awesome.less";
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  .chatz-hide {
+    display: none !important;
+  }
+  .chatz-show {
+    display: block !important;
+  }
+  .chatz-clear {
+    clear: both;
+  }
   .chatz-button {
     z-index: 9999;
     position: fixed;
@@ -121,14 +121,10 @@
   position: relative;
   display: inline-block;
   border-radius: 8px;
-  max-width: 180px;
+  max-width: 200px;
   padding: 5px 8px;
   .chatz-message-text {
     font-size: 15px;
-    &::after {
-      content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
-      display: inline;
-    }
   }
   .chatz-message-status {
     position: absolute;
@@ -164,12 +160,17 @@
     background-color: @white;
     margin-left: 44px;
     .chatz-message-agent {
+      margin-bottom: 3px;
       font-size: 13px;
       font-weight: bold;
       color: @gray;
     }
     .chatz-message-text {
       color: #525252;
+      &::after {
+        content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
+        display: inline;
+      }
     }
     .chatz-message-time {
       color: @gray;
@@ -182,6 +183,12 @@
   justify-content: flex-end;
   .chatz-message {
     color: @white;
+    .chatz-message-text {
+      &::after {
+        content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
+        display: inline;
+      }
+    }
   }
   .chatz-message-retry {
     margin-left: 8px;
@@ -200,9 +207,10 @@
       bottom: 15px;
     }
     .chatz-chatbox {
-      position: unset;
+      right: 0px;
+      bottom: 0px;
       width: 100%;
-      height: 100vh;
+      height: 100%;
     }
   }
 }
