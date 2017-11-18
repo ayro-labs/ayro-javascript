@@ -27,6 +27,14 @@ export class ChatzApp {
     Store.dispatch(Actions.setUserStatus(UserStatus.LOGGED_OUT));
   }
 
+  public getAppStatus(): AppStatus {
+    return Store.getState().appStatus;
+  }
+
+  public getUserStatus(): UserStatus {
+    return Store.getState().userStatus;
+  }
+
   public init(data: any): Promise<void> {
     const settings = new Settings(data);
     Store.dispatch(Actions.setSettings(settings));

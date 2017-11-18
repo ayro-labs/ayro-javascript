@@ -15,6 +15,16 @@
           title: 'Como podemos ajudá-lo?',
           input_placeholder: 'Digite uma mensagem...',
         },
+      }).then(function() {
+        return Chatz.login({
+          uid: '1',
+          first_name: 'Sandro',
+          last_name: 'Simas',
+          email: 'sandro@chatz.io',
+        });
+      }).then(function(user) {
+        console.log('Authenticated user:');
+        console.log(user);
       });
     </script>
   </body>
