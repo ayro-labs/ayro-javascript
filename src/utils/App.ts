@@ -21,6 +21,10 @@ export class App {
     return new Device({
       uid: App.getDeviceUid(),
       platform: 'web',
+      info: {
+        user_agent: navigator.userAgent,
+        location: window.location.href,
+      },
     });
   }
 
