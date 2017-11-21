@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = (env) => {
   if (env && env.production) {
     if (env.browser) {

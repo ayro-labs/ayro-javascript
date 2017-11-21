@@ -1,5 +1,3 @@
-'use strict';
-
 let path = require('path');
 
 let rootPath = path.resolve(__dirname, '../../');

@@ -1,17 +1,15 @@
-'use strict';
-
 const fs = require('fs');
 const path = require('path');
 const childProcess = require('child_process');
 const semver = require('semver');
 const Promise = require('bluebird');
 
+const WORKING_DIR = path.resolve(__dirname, '../');
+const PACKAGE_FILE = path.join(WORKING_DIR, 'package.json');
+
 const readFileAsync = Promise.promisify(fs.readFile);
 const writeFileAsync = Promise.promisify(fs.writeFile);
 const execAsync = Promise.promisify(childProcess.exec);
-
-const WORKING_DIR = path.resolve(__dirname, '../');
-const PACKAGE_FILE = path.join(WORKING_DIR, 'package.json');
 
 function exec(command, options) {
   return execAsync(command, options || {cwd: WORKING_DIR});

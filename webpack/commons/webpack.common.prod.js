@@ -1,5 +1,3 @@
-'use strict'
-
 const helpers = require('./helpers');
 const webpackCommon = require('./webpack.common.js');
 

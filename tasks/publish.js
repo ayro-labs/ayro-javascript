@@ -1,5 +1,3 @@
-'use strict';
-
 const projectPackage = require('../package');
 const fs = require('fs');
 const path = require('path');

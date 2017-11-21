@@ -1,5 +1,3 @@
-'use strict';
-
 const helpers = require('./helpers');
 
 const webpack = require('webpack');
