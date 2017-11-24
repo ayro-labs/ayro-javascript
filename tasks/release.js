@@ -3,6 +3,7 @@ const path = require('path');
 const childProcess = require('child_process');
 const semver = require('semver');
 const Promise = require('bluebird');
+const _ = require('lodash');
 
 const WORKING_DIR = path.resolve(__dirname, '../');
 const PACKAGE_FILE = path.join(WORKING_DIR, 'package.json');
@@ -74,18 +75,25 @@ function pushTag() {
   })();
 }
 
-// Run this if call directly from command line
-if (require.main === module) {
+function validateArgs() {
   const versionType = process.argv[2];
-  if (!versionType || ['major', 'minor', 'patch'].indexOf(versionType) === -1) {
+  const versionNumber = process.argv[3];
+  const versionTypes = ['major', 'minor', 'patch', 'version'];
+  if (!_.includes(versionTypes, versionType) || (versionType === 'version' && !versionNumber)) {
     console.log('Usage:');
-    console.log('npm run release -- major|minor|patch');
+    console.log('npm run release -- major|minor|patch|version <version>');
     process.exit(1);
   }
+  return {versionType, versionNumber};
+}
+
+// Run this if call directly from command line
+if (require.main === module) {
+  const {versionType, versionNumber} = validateArgs();
   Promise.coroutine(function* () {
     try {
       yield updateMaster();
-      const version = yield updateVersion(versionType);
+      const version = versionNumber || (yield updateVersion(versionType));
       console.log(`Releasing version ${version} to remote...`);
       yield buildLibrary();
       yield commitFiles(version);

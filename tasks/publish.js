@@ -81,7 +81,7 @@ function createRelease(version) {
 
 function publishToNpm() {
   return Promise.coroutine(function* () {
-    console.log('Publishing to npm...');
+    console.log('Publishing to Npm...');
     yield exec('npm publish');
   })();
 }
@@ -91,7 +91,7 @@ if (require.main === module) {
   Promise.coroutine(function* () {
     try {
       const version = projectPackage.version;
-      console.log(`Publishing version ${version} to Github and npm...`);
+      console.log(`Publishing version ${version} to Github and Npm...`);
       yield checkoutTag(version);
       yield buildLibrary();
       yield prepareRepository();
