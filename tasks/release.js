@@ -24,12 +24,12 @@ function updateMaster() {
   })();
 }
 
-function updateVersion(versionType) {
+function updateVersion(versionType, versionNumber) {
   return Promise.coroutine(function* () {
     console.log('Updating version...');
     const projectPackage = JSON.parse(yield readFileAsync(PACKAGE_FILE, 'utf8'));
     console.log(`  Current version is ${projectPackage.version}`);
-    const nextVersion = semver.inc(projectPackage.version, versionType);
+    const nextVersion = versionNumber || semver.inc(projectPackage.version, versionType);
     console.log(`  Next version is ${nextVersion}`);
     projectPackage.version = nextVersion;
     yield writeFileAsync(PACKAGE_FILE, JSON.stringify(projectPackage, null, 2));
@@ -93,7 +93,7 @@ if (require.main === module) {
   Promise.coroutine(function* () {
     try {
       yield updateMaster();
-      const version = versionNumber || (yield updateVersion(versionType));
+      const version = yield updateVersion(versionType, versionNumber);
       console.log(`Releasing version ${version} to remote...`);
       yield buildLibrary();
       yield commitFiles(version);
