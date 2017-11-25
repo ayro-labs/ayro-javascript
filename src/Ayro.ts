@@ -1,40 +1,40 @@
 import 'whatwg-fetch';
 import 'assets/styles/main.less';
 
-import {ChatzApp} from 'core/ChatzApp';
+import {AyroApp} from 'core/AyroApp';
 import {AppStatus} from 'enums/AppStatus';
 import {User} from 'models/User';
 
-export class Chatz {
+export class Ayro {
 
   public static init(data: any): Promise<void> {
-    this.chatzApp = ChatzApp.getInstance();
-    return this.chatzApp.init(data);
+    this.ayroApp = AyroApp.getInstance();
+    return this.ayroApp.init(data);
   }
 
   public static login(data: any): Promise<User> {
-    this.assertInitialized(Chatz.FUNC_LOGIN);
-    return this.chatzApp.login(data);
+    this.assertInitialized(Ayro.FUNC_LOGIN);
+    return this.ayroApp.login(data);
   }
 
   public static logout(): Promise<void> {
-    this.assertInitialized(Chatz.FUNC_LOGOUT);
-    return this.chatzApp.logout();
+    this.assertInitialized(Ayro.FUNC_LOGOUT);
+    return this.ayroApp.logout();
   }
 
   public static updateUser(data: any): Promise<User> {
-    this.assertInitialized(Chatz.FUNC_UPDATE_USER);
-    return this.chatzApp.updateUser(data);
+    this.assertInitialized(Ayro.FUNC_UPDATE_USER);
+    return this.ayroApp.updateUser(data);
   }
 
-  private static chatzApp: ChatzApp;
+  private static ayroApp: AyroApp;
 
   private static readonly FUNC_LOGIN: string = 'login';
   private static readonly FUNC_LOGOUT: string = 'logout';
   private static readonly FUNC_UPDATE_USER: string = 'updateUser';
 
   private static assertInitialized(funcName: string) {
-    if (this.chatzApp == null || this.chatzApp.getAppStatus() !== AppStatus.INITIALIZED) {
+    if (this.ayroApp == null || this.ayroApp.getAppStatus() !== AppStatus.INITIALIZED) {
       throw new Error(`App not initialized, please make sure you call ${funcName} after init function completion.`);
     }
   }

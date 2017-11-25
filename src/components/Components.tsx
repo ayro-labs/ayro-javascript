@@ -11,15 +11,15 @@ export class Components {
 
   public static init() {
     Html.whenReady().then(() => {
-      const chatzDiv = document.createElement('div');
-      chatzDiv.setAttribute('id', 'chatz');
+      const ayroDiv = document.createElement('div');
+      ayroDiv.setAttribute('id', 'ayro');
       ReactDOM.render(
         <Provider store={Store.get()}>
           <Container/>
         </Provider>,
-        chatzDiv
+        ayroDiv
       );
-      document.body.appendChild(chatzDiv);
+      document.body.appendChild(ayroDiv);
     });
   }
 }

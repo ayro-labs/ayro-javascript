@@ -22,7 +22,7 @@ class Container extends React.Component<IStateProps & IDispatchProps, any> {
 
   public render() {
     return (
-      <div id="chatz-container">
+      <div id="ayro-container">
         <Chatbox/>
         <button className={this.buttonClasses()} style={this.buttonStyles()} onClick={this.props.openChat}>
           <i className="fa fa-commenting"/>
@@ -33,9 +33,9 @@ class Container extends React.Component<IStateProps & IDispatchProps, any> {
 
   private buttonClasses(): string {
     return Classes.get({
-      'chatz-button': true,
-      'chatz-show': !this.props.chatOpened,
-      'chatz-hide': this.props.chatOpened,
+      'ayro-button': true,
+      'ayro-show': !this.props.chatOpened,
+      'ayro-hide': this.props.chatOpened,
     });
   }
 

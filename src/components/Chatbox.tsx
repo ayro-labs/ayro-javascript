@@ -4,7 +4,7 @@ import {Dispatch} from 'redux';
 
 import Conversation from 'components/Conversation';
 
-import {ChatzService} from 'services/ChatzService';
+import {AyroService} from 'services/AyroService';
 import {Settings} from 'models/Settings';
 import {Integration} from 'models/Integration';
 import {ChatMessage} from 'models/ChatMessage';
@@ -46,15 +46,15 @@ class Chatbox extends React.Component<IStateProps & IDispatchProps, IState> {
   public render() {
     return (
       <div className={this.chatboxClasses()}>
-        <div className="chatz-header" style={this.headerStyles()} onClick={this.closeChat}>
+        <div className="ayro-header" style={this.headerStyles()} onClick={this.closeChat}>
           {this.props.settings.chatbox.title}
-          <div className="chatz-close">
+          <div className="ayro-close">
             <i className="fa fa-times"/>
           </div>
         </div>
         <Conversation/>
-        <div className="chatz-footer">
-          <div className="chatz-input">
+        <div className="ayro-footer">
+          <div className="ayro-input">
             <input type="text" name="message" ref={this.setInputElement} placeholder={this.props.settings.chatbox.input_placeholder} value={this.state.message} onChange={this.onMessageChanged} onKeyPress={this.onKeyPress}/>
           </div>
           <div className={this.postMessageClasses()} onClick={this.postMessage}>
@@ -96,7 +96,7 @@ class Chatbox extends React.Component<IStateProps & IDispatchProps, IState> {
       });
       this.props.addChatMessage(chatMessage);
       this.setState({message: ''});
-      ChatzService.postMessage(this.props.apiToken, chatMessage.text).then((postedMessage) => {
+      AyroService.postMessage(this.props.apiToken, chatMessage.text).then((postedMessage) => {
         postedMessage.status = ChatMessage.STATUS_SENT;
         this.props.updateChatMessage(chatMessage.id, postedMessage);
       }).catch(() => {
@@ -108,16 +108,16 @@ class Chatbox extends React.Component<IStateProps & IDispatchProps, IState> {
 
   private chatboxClasses(): string {
     return Classes.get({
-      'chatz-chatbox': true,
-      'chatz-show': this.props.chatOpened,
-      'chatz-hide': !this.props.chatOpened,
+      'ayro-chatbox': true,
+      'ayro-show': this.props.chatOpened,
+      'ayro-hide': !this.props.chatOpened,
     });
   }
   private postMessageClasses(): string {
     return Classes.get({
-      'chatz-post': true,
-      'chatz-disabled': this.state.message.length === 0,
-      'chatz-enabled': this.state.message.length > 0,
+      'ayro-post': true,
+      'ayro-disabled': this.state.message.length === 0,
+      'ayro-enabled': this.state.message.length > 0,
     });
   }
 

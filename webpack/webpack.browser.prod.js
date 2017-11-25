@@ -8,7 +8,7 @@ const CleanPlugin = require('clean-webpack-plugin');
 module.exports = webpackMerge(webpackProd, {
   output: {
     path: helpers.root('dist'),
-    filename: 'chatz.min.js',
+    filename: 'ayro.min.js',
   },
   plugins: [
     new CleanPlugin(['dist'], {root: helpers.root('')}),

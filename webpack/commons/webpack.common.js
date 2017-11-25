@@ -7,8 +7,8 @@ module.exports = {
   devtool: 'source-map',
   output: {
     path: helpers.root('dist/lib'),
-    filename: 'chatz.js',
-    library: 'Chatz',
+    filename: 'ayro.js',
+    library: 'Ayro',
     libraryTarget: 'umd',
     umdNamedDefine: true,
   },

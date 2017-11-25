@@ -6,8 +6,8 @@ import * as PubSub from 'pubsub-js';
 import IncomingMessage from 'components/IncomingMessage';
 import OutgoingMessage from 'components/OutgoingMessage';
 
-import {ChatzApp} from 'core/ChatzApp';
-import {ChatzService} from 'services/ChatzService';
+import {AyroApp} from 'core/AyroApp';
+import {AyroService} from 'services/AyroService';
 import {UserStatus} from 'enums/UserStatus';
 import {User} from 'models/User';
 import {ChatMessage} from 'models/ChatMessage';
@@ -57,8 +57,8 @@ class Conversation extends React.Component<IStateProps & IDispatchProps, any> {
       }
     });
     return (
-      <div className="chatz-conversation" ref={this.setConversationElement}>
-        <div className="chatz-messages">
+      <div className="ayro-conversation" ref={this.setConversationElement}>
+        <div className="ayro-messages">
           {messages}
         </div>
       </div>
@@ -71,7 +71,7 @@ class Conversation extends React.Component<IStateProps & IDispatchProps, any> {
 
   private onChatOpened() {
     if (UserStatus.LOGGED_IN !== this.props.userStatus) {
-      ChatzApp.getInstance().login(this.props.user).then(() => {
+      AyroApp.getInstance().login(this.props.user).then(() => {
         this.loadMessages();
       });
     } else {
@@ -84,7 +84,7 @@ class Conversation extends React.Component<IStateProps & IDispatchProps, any> {
   }
 
   private loadMessages() {
-    ChatzService.listMessages(this.props.apiToken).then((chatMessages) => {
+    AyroService.listMessages(this.props.apiToken).then((chatMessages) => {
       this.props.setChatMessages(chatMessages);
       this.conversationElement.scrollTop = this.conversationElement.scrollHeight;
     });

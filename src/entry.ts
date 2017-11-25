@@ -1,18 +1,18 @@
-import {Chatz} from 'Chatz';
+import {Ayro} from 'Ayro';
 import {User} from 'models/User';
 
 export function init(data: any): Promise<void> {
-  return Chatz.init(data);
+  return Ayro.init(data);
 }
 
 export function login(data: any): Promise<User> {
-  return Chatz.login(data);
+  return Ayro.login(data);
 }
 
 export function logout(): Promise<void> {
-  return Chatz.logout();
+  return Ayro.logout();
 }
 
 export function updateUser(data: any): Promise<User> {
-  return Chatz.updateUser(data);
+  return Ayro.updateUser(data);
 }

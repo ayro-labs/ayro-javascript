@@ -15,16 +15,16 @@ class IncomingMessage extends React.Component<IParamProps, any> {
     return (
       <div key={this.props.chatMessage.id} className={this.messageClasses()}>
         {this.renderAuthorPhoto()}
-        <div className="chatz-message">
+        <div className="ayro-message">
           {this.renderAuthorName()}
-          <div className="chatz-message-text">
+          <div className="ayro-message-text">
             <span>{this.props.chatMessage.text}</span>
           </div>
-          <div className="chatz-message-status">
-            <span className="chatz-message-time">{this.formatMessageTime()}</span>
+          <div className="ayro-message-status">
+            <span className="ayro-message-time">{this.formatMessageTime()}</span>
           </div>
         </div>
-        <div className="chatz-clear"/>
+        <div className="ayro-clear"/>
       </div>
     );
   }
@@ -32,7 +32,7 @@ class IncomingMessage extends React.Component<IParamProps, any> {
   private renderAuthorPhoto() {
     if (!this.props.continuation) {
       return (
-        <div className="chatz-agent-photo">
+        <div className="ayro-agent-photo">
           <img src={this.props.chatMessage.agent.photo_url}/>
         </div>
       );
@@ -43,7 +43,7 @@ class IncomingMessage extends React.Component<IParamProps, any> {
   private renderAuthorName() {
     if (!this.props.continuation) {
       return (
-        <div className="chatz-message-agent">
+        <div className="ayro-message-agent">
           {this.props.chatMessage.agent.name}
         </div>
       );
@@ -60,8 +60,8 @@ class IncomingMessage extends React.Component<IParamProps, any> {
 
   private messageClasses(): string {
     return Classes.get({
-      'chatz-message-incoming': true,
-      'chatz-message-discontinuation': !this.props.continuation,
+      'ayro-message-incoming': true,
+      'ayro-message-discontinuation': !this.props.continuation,
     });
   }
 }

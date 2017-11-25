@@ -5,8 +5,8 @@ const childProcess = require('child_process');
 const GitHubApi = require('github');
 const Promise = require('bluebird');
 
-const REPOSITORY_NAME = 'chatz-javascript';
-const REPOSITORY_OWNER = 'chatz-io';
+const REPOSITORY_NAME = 'ayro-javascript';
+const REPOSITORY_OWNER = 'ayro-io';
 const WORKING_DIR = path.resolve(__dirname, '../');
 const TEMP_DIR = '/tmp';
 const TEMP_REPOSITORY_DIR = `${TEMP_DIR}/${REPOSITORY_NAME}`;

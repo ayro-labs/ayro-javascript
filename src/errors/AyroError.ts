@@ -4,7 +4,7 @@ export interface IError {
   message: string;
 }
 
-export class ChatzError extends Error {
+export class AyroError extends Error {
 
   public status: string;
   public code: string;

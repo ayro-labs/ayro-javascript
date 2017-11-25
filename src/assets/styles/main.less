@@ -2,19 +2,19 @@
 @gray: #989898;
 @gray-light: #d8d8d8;
 
-#chatz-container {
+#ayro-container {
   @import "./font-awesome/font-awesome.less";
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  .chatz-hide {
+  .ayro-hide {
     display: none !important;
   }
-  .chatz-show {
+  .ayro-show {
     display: block !important;
   }
-  .chatz-clear {
+  .ayro-clear {
     clear: both;
   }
-  .chatz-button {
+  .ayro-button {
     z-index: 9999;
     position: fixed;
     box-shadow: 1px 4px 10px rgba(0,0,0,.2);
@@ -29,7 +29,7 @@
     font-size: 42px;
     cursor: pointer;
   }
-  .chatz-chatbox {
+  .ayro-chatbox {
     z-index: 9999;
     position: fixed;
     overflow: hidden;
@@ -42,8 +42,8 @@
     height: 75%;
   }
 }
-.chatz-chatbox {
-  .chatz-header {
+.ayro-chatbox {
+  .ayro-header {
     display: flex;
     align-items: center;
     box-shadow: 0 -1px 3px rgba(0,0,0,.1);
@@ -53,14 +53,14 @@
     font-size: 17px;
     text-align: center;
     cursor: pointer;
-    .chatz-close {
+    .ayro-close {
       margin-left: auto;
     }
     .fa {
       font-size: 20px !important;
     }
   }
-  .chatz-conversation {
+  .ayro-conversation {
     display: flex;
     flex-direction: column-reverse;
     background-color: #f9f9f9;
@@ -77,7 +77,7 @@
       background-color: @gray;
     }
   }
-  .chatz-footer {
+  .ayro-footer {
     position: relative;
     display: flex;
     align-items: center;
@@ -86,7 +86,7 @@
     height: 45px;
     padding: 0px 15px;
     color: @gray;
-    .chatz-input {
+    .ayro-input {
       flex: 1 1 auto;
       margin-right: 15px;
       input {
@@ -98,7 +98,7 @@
         color: #4e4e4e;
       }
     }
-    .chatz-post {
+    .ayro-post {
       cursor: pointer;
     }
     .fa {
@@ -106,49 +106,49 @@
     }
   }
 }
-.chatz-post {
-  &.chatz-enabled {
+.ayro-post {
+  &.ayro-enabled {
     color: @gray;
   }
-  &.chatz-disabled {
+  &.ayro-disabled {
     color: @gray-light;
   }
 }
-.chatz-messages {
+.ayro-messages {
   padding: 15px;
 }
-.chatz-message {
+.ayro-message {
   position: relative;
   display: inline-block;
   border-radius: 8px;
   max-width: 200px;
   padding: 5px 8px;
-  .chatz-message-text {
+  .ayro-message-text {
     font-size: 15px;
   }
-  .chatz-message-status {
+  .ayro-message-status {
     position: absolute;
     bottom: 6px;
     right: 10px;
     font-size: 11px;
-    .chatz-message-time {
+    .ayro-message-time {
       margin-right: 4px;
     }
   }
 }
-.chatz-message-incoming, .chatz-message-outgoing {
+.ayro-message-incoming, .ayro-message-outgoing {
   margin-top: 4px;
   margin-bottom: 4px;
-  &.chatz-message-discontinuation {
+  &.ayro-message-discontinuation {
     margin-top: 12px;
   }
-  .chatz-message {
+  .ayro-message {
     box-shadow: 0px 1px 4px rgba(0,0,0,.2);
   }
 }
-.chatz-message-incoming {
+.ayro-message-incoming {
   position: relative;
-  .chatz-agent-photo {
+  .ayro-agent-photo {
     position: absolute;
     img {
       border-radius: 50%;
@@ -156,41 +156,41 @@
       height: auto;
     }
   }
-  .chatz-message {
+  .ayro-message {
     background-color: @white;
     margin-left: 44px;
-    .chatz-message-agent {
+    .ayro-message-agent {
       margin-bottom: 3px;
       font-size: 13px;
       font-weight: bold;
       color: @gray;
     }
-    .chatz-message-text {
+    .ayro-message-text {
       color: #525252;
       &::after {
         content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
         display: inline;
       }
     }
-    .chatz-message-time {
+    .ayro-message-time {
       color: @gray;
     }
   }
 }
-.chatz-message-outgoing {
+.ayro-message-outgoing {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  .chatz-message {
+  .ayro-message {
     color: @white;
-    .chatz-message-text {
+    .ayro-message-text {
       &::after {
         content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
         display: inline;
       }
     }
   }
-  .chatz-message-retry {
+  .ayro-message-retry {
     margin-left: 8px;
     height: 100%;
     color: @gray;
@@ -201,12 +201,12 @@
 
 // Small devices (landscape phones, less than 768px)
 @media (max-width: 767px) {
-  #chatz-container {
-    .chatz-button {
+  #ayro-container {
+    .ayro-button {
       right: 15px;
       bottom: 15px;
     }
-    .chatz-chatbox {
+    .ayro-chatbox {
       right: 0px;
       bottom: 0px;
       width: 100%;

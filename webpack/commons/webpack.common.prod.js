@@ -15,7 +15,7 @@ module.exports = webpackMerge(webpackCommon, {
             loader: 'string-replace-loader',
             query: {
               search: /url\('\/assets/g,
-              replace: 'url(\'https://www.chatz.io/assets',
+              replace: 'url(\'https://www.ayro.io/assets',
             },
           },
           'css-loader',
@@ -28,8 +28,8 @@ module.exports = webpackMerge(webpackCommon, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        API_URL: JSON.stringify('https://api.chatz.io'),
-        WCM_URL: JSON.stringify('https://api.chatz.io:3101'),
+        API_URL: JSON.stringify('https://api.ayro.io'),
+        WCM_URL: JSON.stringify('https://api.ayro.io:3101'),
         NODE_ENV: JSON.stringify('production'),
       },
     }),

@@ -1,23 +1,23 @@
 {
-  "name": "chatz",
-  "description": "Chatz Javascript SDK",
+  "name": "ayro",
+  "description": "Ayro Javascript SDK",
   "version": "0.0.24",
   "author": {
-    "name": "Chatz team",
-    "email": "team@chatz.io",
-    "url": "https://chatz.io"
+    "name": "Ayro team",
+    "email": "team@ayro.io",
+    "url": "https://ayro.io"
   },
-  "homepage": "https://chatz.io",
+  "homepage": "https://ayro.io",
   "keywords": [
     "chat",
-    "chatz",
+    "ayro",
     "web messaging",
     "web messenger"
   ],
   "files": [
     "lib"
   ],
-  "main": "lib/chatz.js",
+  "main": "lib/ayro.js",
   "scripts": {
     "lint": "tslint 'src/**/*.ts?(x)'",
     "build": "webpack --config 'webpack.config.js' --env.development",

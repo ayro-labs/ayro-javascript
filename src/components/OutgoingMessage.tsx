@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
-import {ChatzService} from 'services/ChatzService';
+import {AyroService} from 'services/AyroService';
 import {Integration} from 'models/Integration';
 import {ChatMessage} from 'models/ChatMessage';
 import {Actions, IAction} from 'stores/Actions';
@@ -35,17 +35,17 @@ class OutgoingMessage extends React.Component<IStateProps & IDispatchProps & IPa
   public render() {
     return (
       <div key={this.props.chatMessage.id} className={this.messageClasses()}>
-        <div className="chatz-message" style={this.messageStyles()}>
-          <div className="chatz-message-text">
+        <div className="ayro-message" style={this.messageStyles()}>
+          <div className="ayro-message-text">
             <span>{this.props.chatMessage.text}</span>
           </div>
-          <div className="chatz-message-status">
-            <span className="chatz-message-time">{this.formatMessageTime()}</span>
+          <div className="ayro-message-status">
+            <span className="ayro-message-time">{this.formatMessageTime()}</span>
             <i className={this.messageStatusClasses()}/>
           </div>
         </div>
         {this.renderRefreshButton()}
-        <div className="chatz-clear"/>
+        <div className="ayro-clear"/>
       </div>
     );
   }
@@ -61,7 +61,7 @@ class OutgoingMessage extends React.Component<IStateProps & IDispatchProps & IPa
       date: now,
     });
     this.props.addChatMessage(chatMessage);
-    ChatzService.postMessage(this.props.apiToken, chatMessage.text).then((postedMessage) => {
+    AyroService.postMessage(this.props.apiToken, chatMessage.text).then((postedMessage) => {
       postedMessage.status = ChatMessage.STATUS_SENT;
       this.props.updateChatMessage(chatMessage.id, postedMessage);
     }).catch(() => {
@@ -80,7 +80,7 @@ class OutgoingMessage extends React.Component<IStateProps & IDispatchProps & IPa
   private renderRefreshButton() {
     if (this.props.chatMessage.status === ChatMessage.STATUS_ERROR) {
       return (
-        <div className="chatz-message-retry" onClick={this.retryMessage}>
+        <div className="ayro-message-retry" onClick={this.retryMessage}>
           <i className="fa fa-refresh"/>
         </div>
       );
@@ -90,8 +90,8 @@ class OutgoingMessage extends React.Component<IStateProps & IDispatchProps & IPa
 
   private messageClasses(): string {
     return Classes.get({
-      'chatz-message-outgoing': true,
-      'chatz-message-discontinuation': !this.props.continuation,
+      'ayro-message-outgoing': true,
+      'ayro-message-discontinuation': !this.props.continuation,
     });
   }
 
