@@ -16,7 +16,7 @@ const execAsync = Promise.promisify(childProcess.exec);
 const gitHubApi = new GitHubApi();
 gitHubApi.authenticate({
   type: 'token',
-  token: '49aa7a1e572c681a5f7773983359a57e71a15b30',
+  token: process.env.GITHUB_ACCESS_TOKEN,
 });
 
 function exec(command, options) {
