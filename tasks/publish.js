@@ -6,7 +6,7 @@ const GitHubApi = require('github');
 const Promise = require('bluebird');
 
 const REPOSITORY_NAME = 'ayro-javascript';
-const REPOSITORY_OWNER = 'ayro-io';
+const REPOSITORY_OWNER = 'ayrolabs';
 const WORKING_DIR = path.resolve(__dirname, '../');
 const TEMP_DIR = '/tmp';
 const TEMP_REPOSITORY_DIR = `${TEMP_DIR}/${REPOSITORY_NAME}`;
