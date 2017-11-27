@@ -1,10 +1,8 @@
-const settings = require('../../configs/settings');
+const settings = require('../../configs/settings')('development');
 const helpers = require('./helpers');
 const webpackCommon = require('./webpack.common.js');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
-
-const devSettings = settings.get('development');
 
 module.exports = webpackMerge(webpackCommon, {
   module: {
@@ -30,9 +28,9 @@ module.exports = webpackMerge(webpackCommon, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(devSettings.env),
-        API_URL: JSON.stringify(devSettings.apiUrl),
-        WCM_URL: JSON.stringify(devSettings.webcmUrl),
+        NODE_ENV: JSON.stringify(settings.env),
+        API_URL: JSON.stringify(settings.apiUrl),
+        WCM_URL: JSON.stringify(settings.webcmUrl),
       },
     }),
   ],
