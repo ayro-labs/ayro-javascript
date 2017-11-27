@@ -1,5 +1,4 @@
 const helpers = require('./helpers');
-
 const webpack = require('webpack');
 
 module.exports = {

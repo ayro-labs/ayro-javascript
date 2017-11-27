@@ -1,8 +1,10 @@
+const settings = require('../../configs/settings');
 const helpers = require('./helpers');
 const webpackCommon = require('./webpack.common.js');
-
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
+
+const prodSettings = settings.get('production');
 
 module.exports = webpackMerge(webpackCommon, {
   module: {
@@ -28,9 +30,9 @@ module.exports = webpackMerge(webpackCommon, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        API_URL: JSON.stringify('https://api.ayro.io'),
-        WCM_URL: JSON.stringify('https://api.ayro.io:3101'),
-        NODE_ENV: JSON.stringify('production'),
+        NODE_ENV: JSON.stringify(prodSettings.env),
+        API_URL: JSON.stringify(prodSettings.apiUrl),
+        WCM_URL: JSON.stringify(prodSettings.webcmUrl),
       },
     }),
     new webpack.optimize.UglifyJsPlugin({
