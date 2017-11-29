@@ -30,7 +30,7 @@ module.exports = webpackMerge(webpackCommon, {
       'process.env': {
         NODE_ENV: JSON.stringify(settings.env),
         API_URL: JSON.stringify(settings.apiUrl),
-        WCM_URL: JSON.stringify(settings.webcmUrl),
+        WEBCM_URL: JSON.stringify(settings.webcmUrl),
       },
     }),
     new webpack.optimize.UglifyJsPlugin({

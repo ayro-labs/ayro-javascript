@@ -8,7 +8,7 @@ export class MessagingService {
 
   public static start() {
     if (!MessagingService.socket) {
-      MessagingService.socket = new Faye.Client(process.env.WCM_URL, {
+      MessagingService.socket = new Faye.Client(process.env.WEBCM_URL, {
         timeout: MessagingService.FAYE_TIMEOUT_SECONDS,
         retry: MessagingService.FAYE_RETRY_SECONDS,
       });
