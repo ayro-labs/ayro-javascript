@@ -1,5 +1,4 @@
 const projectPackage = require('../package');
-const fs = require('fs');
 const path = require('path');
 const childProcess = require('child_process');
 const GitHubApi = require('github');
@@ -50,10 +49,10 @@ function prepareRepository() {
   })();
 }
 
-function copyFiles(version) {
+function copyFiles() {
   return Promise.coroutine(function* () {
     console.log('Copying files...');
-    yield exec(`cp dist/${projectPackage.name}.min.js ${TEMP_REPOSITORY_DIR}/${projectPackage.name}-${projectPackage.version}.min.js`)
+    yield exec(`cp dist/${projectPackage.name}.min.js ${TEMP_REPOSITORY_DIR}/${projectPackage.name}-${projectPackage.version}.min.js`);
   })();
 }
 
@@ -92,12 +91,12 @@ function publishToNpm() {
 if (require.main === module) {
   Promise.coroutine(function* () {
     try {
-      const version = projectPackage.version;
+      const {version} = projectPackage;
       console.log(`Publishing version ${version} to Github and Npm...`);
       yield checkoutTag(version);
       yield buildLibrary();
       yield prepareRepository();
-      yield copyFiles(version);
+      yield copyFiles();
       yield pushFiles(version);
       yield createRelease(version);
       yield publishToNpm();
