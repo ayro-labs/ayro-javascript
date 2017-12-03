@@ -39,7 +39,7 @@ Just run the following command:
 npm run release-lib -- <major|minor|patch>
 ````
 
-## Publishing the new version ##
+## Publishing the new version to Github and Npm ##
 ````
 npm run publish-lib
 ````

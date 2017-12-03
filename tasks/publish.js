@@ -1,6 +1,6 @@
 const projectPackage = require('../package');
+const utils = require('./utils');
 const path = require('path');
-const childProcess = require('child_process');
 const GitHubApi = require('github');
 const Promise = require('bluebird');
 
@@ -10,66 +10,64 @@ const WORKING_DIR = path.resolve(__dirname, '../');
 const TEMP_DIR = '/tmp';
 const TEMP_REPOSITORY_DIR = `${TEMP_DIR}/${REPOSITORY_NAME}`;
 
-const execAsync = Promise.promisify(childProcess.exec);
-
 const gitHubApi = new GitHubApi();
 gitHubApi.authenticate({
   type: 'token',
   token: process.env.GITHUB_ACCESS_TOKEN,
 });
 
-function exec(command, options) {
-  return execAsync(command, options || {cwd: WORKING_DIR});
+function exec(command, dir) {
+  return utils.exec(command, dir || WORKING_DIR);
 }
 
 function checkoutTag(version) {
   return Promise.coroutine(function* () {
-    console.log(`Checking out the tag ${version}...`);
+    utils.log(`Checking out the tag ${version}...`);
     yield exec(`git checkout ${version}`);
   })();
 }
 
 function buildLibrary() {
   return Promise.coroutine(function* () {
-    console.log('Linting library...');
+    utils.log('Linting library...');
     yield exec('npm run lint');
-    console.log('Building library...');
+    utils.log('Building library...');
     yield exec('npm run build-prod');
-    console.log('Building browser library...');
+    utils.log('Building browser library...');
     yield exec('npm run build-browser-prod');
   })();
 }
 
 function prepareRepository() {
   return Promise.coroutine(function* () {
-    console.log('Preparing Github repository...');
+    utils.log('Preparing Github repository...');
     yield exec(`rm -rf ${TEMP_REPOSITORY_DIR}`);
     yield exec(`git clone https://github.com/${REPOSITORY_OWNER}/${REPOSITORY_NAME}.git ${REPOSITORY_NAME}`, {cwd: TEMP_DIR});
-    yield exec('rm -rf *', {cwd: TEMP_REPOSITORY_DIR});
+    yield exec('rm -rf *', TEMP_REPOSITORY_DIR);
   })();
 }
 
 function copyFiles() {
   return Promise.coroutine(function* () {
-    console.log('Copying files...');
+    utils.log('Copying files...');
     yield exec(`cp dist/${projectPackage.name}.min.js ${TEMP_REPOSITORY_DIR}/${projectPackage.name}-${projectPackage.version}.min.js`);
   })();
 }
 
 function pushFiles(version) {
   return Promise.coroutine(function* () {
-    console.log('Committing, tagging and pushing files to Github repository...');
-    yield exec('git add .', {cwd: TEMP_REPOSITORY_DIR});
-    yield exec(`git commit -am 'Release ${version}'`, {cwd: TEMP_REPOSITORY_DIR});
-    yield exec('git push origin master', {cwd: TEMP_REPOSITORY_DIR});
-    yield exec(`git tag ${version}`, {cwd: TEMP_REPOSITORY_DIR});
-    yield exec('git push --tags', {cwd: TEMP_REPOSITORY_DIR});
+    utils.log('Committing, tagging and pushing files to Github repository...');
+    yield exec('git add .', TEMP_REPOSITORY_DIR);
+    yield exec(`git commit -am 'Release ${version}'`, TEMP_REPOSITORY_DIR);
+    yield exec('git push origin master', TEMP_REPOSITORY_DIR);
+    yield exec(`git tag ${version}`, TEMP_REPOSITORY_DIR);
+    yield exec('git push --tags', TEMP_REPOSITORY_DIR);
   })();
 }
 
 function createRelease(version) {
   return Promise.coroutine(function* () {
-    console.log('Creating Github release...');
+    utils.log('Creating Github release...');
     const createRelease = Promise.promisify(gitHubApi.repos.createRelease);
     yield createRelease({
       owner: REPOSITORY_OWNER,
@@ -82,7 +80,7 @@ function createRelease(version) {
 
 function publishToNpm() {
   return Promise.coroutine(function* () {
-    console.log('Publishing to Npm...');
+    utils.log('Publishing to Npm...');
     yield exec('npm publish');
   })();
 }
@@ -92,7 +90,7 @@ if (require.main === module) {
   Promise.coroutine(function* () {
     try {
       const {version} = projectPackage;
-      console.log(`Publishing version ${version} to Github and Npm...`);
+      utils.log(`Publishing version ${version} to Github and Npm...`);
       yield checkoutTag(version);
       yield buildLibrary();
       yield prepareRepository();
@@ -101,9 +99,9 @@ if (require.main === module) {
       yield createRelease(version);
       yield publishToNpm();
       yield checkoutTag('master');
-      console.log(`Version ${version} published with success!`);
+      utils.log(`Version ${version} published with success!`);
     } catch (err) {
-      console.error(err);
+      utils.logError(err);
       process.exit(1);
     }
   })();
