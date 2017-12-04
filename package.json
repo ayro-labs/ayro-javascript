@@ -1,7 +1,7 @@
 {
   "name": "ayro",
   "description": "Ayro Javascript SDK",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "author": {
     "name": "Ayro team",
     "email": "team@ayro.io",
@@ -19,7 +19,7 @@
   ],
   "main": "lib/ayro.js",
   "scripts": {
-    "lint": "eslint '**/*.js' && tslint '**/*.ts?(x)'",
+    "lint": "eslint '**/*.js' && tslint 'src/**/*.ts?(x)'",
     "build": "webpack --config 'webpack.config.js' --env.development",
     "build-prod": "webpack --config 'webpack.config.js' --env.production",
     "build-browser": "webpack --config 'webpack.config.js' --env.browser --env.development",
