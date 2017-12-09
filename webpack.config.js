@@ -1,3 +1,8 @@
+const {properties} = require('@ayro/commons');
+const path = require('path');
+
+properties.setup(path.join(__dirname, 'config.properties'));
+
 const webpackBrowserProd = require('./webpack/webpack.browser.prod.js');
 const webpackBrowserDev = require('./webpack/webpack.browser.dev.js');
 const webpackLibProd = require('./webpack/webpack.lib.prod.js');

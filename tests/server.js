@@ -4,7 +4,7 @@ const path = require('path');
 const app = express();
 
 app.set('env', 'development');
-app.set('port', 5000);
+app.set('port', 9000);
 app.set('view options', {layout: false});
 app.use('/', express.static(__dirname));
 app.use('/dist', express.static(path.join(__dirname, '../dist')));

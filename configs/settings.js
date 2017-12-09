@@ -1,4 +1,4 @@
-const properties = require('./properties');
+const {properties} = require('@ayro/commons');
 
 module.exports = (env) => {
   const settings = {env};
@@ -6,8 +6,8 @@ module.exports = (env) => {
     settings.apiUrl = 'https://api.ayro.io';
     settings.webcmUrl = 'https://webcm.ayro.io';
   } else {
-    settings.apiUrl = properties.getValue('api.url', 'http://localhost:3000');
-    settings.webcmUrl = properties.getValue('webcm.url', 'http://localhost:3102');
+    settings.apiUrl = properties.get('api.url', 'http://localhost:3000');
+    settings.webcmUrl = properties.get('webcm.url', 'http://localhost:3102');
   }
   return settings;
 };
