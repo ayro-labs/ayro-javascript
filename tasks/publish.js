@@ -1,5 +1,4 @@
-const projectPackage = require('../package');
-const utils = require('./utils');
+const {publishTask, commands} = require('@ayro/commons');
 const path = require('path');
 const GitHubApi = require('github');
 const Promise = require('bluebird');
@@ -16,25 +15,16 @@ gitHubApi.authenticate({
   token: process.env.GITHUB_ACCESS_TOKEN,
 });
 
-function exec(command, dir) {
-  return utils.exec(command, dir || WORKING_DIR);
-}
-
-function checkoutTag(version) {
-  return Promise.coroutine(function* () {
-    utils.log(`Checking out the tag ${version}...`);
-    yield exec(`git checkout ${version}`);
-  })();
-}
+const WORKING_DIR = path.resolve(__dirname, '../');
 
 function buildLibrary() {
   return Promise.coroutine(function* () {
-    utils.log('Linting library...');
-    yield exec('npm run lint');
-    utils.log('Building library...');
-    yield exec('npm run build-prod');
-    utils.log('Building browser library...');
-    yield exec('npm run build-browser-prod');
+    commands.log('Linting library...');
+    yield commands.exec('npm run lint', WORKING_DIR);
+    commands.log('Building library...');
+    yield commands.exec('npm run build-prod', WORKING_DIR);
+    commands.log('Building browser library...');
+    yield commands.exec('npm run build-browser-prod', WORKING_DIR);
   })();
 }
 
@@ -78,31 +68,20 @@ function createRelease(version) {
   })();
 }
 
-function publishToNpm() {
+function beforePublishTask() {
   return Promise.coroutine(function* () {
-    utils.log('Publishing to Npm...');
-    yield exec('npm publish');
+    yield prepareRepository();
+    yield copyFiles();
+    yield pushFiles(version);
+    yield createRelease(version);
   })();
 }
 
 // Run this if call directly from command line
 if (require.main === module) {
-  Promise.coroutine(function* () {
-    try {
-      const {version} = projectPackage;
-      utils.log(`Publishing version ${version} to Github and Npm...`);
-      yield checkoutTag(version);
-      yield buildLibrary();
-      yield prepareRepository();
-      yield copyFiles();
-      yield pushFiles(version);
-      yield createRelease(version);
-      yield publishToNpm();
-      yield checkoutTag('master');
-      utils.log(`Version ${version} published with success!`);
-    } catch (err) {
-      utils.logError(err);
-      process.exit(1);
-    }
-  })();
+  publishTask.withWorkingDir(WORKING_DIR);
+  publishTask.withBuildTask(buildLibrary);
+  publishTask.withBeforePublishTask(beforePublishTask);
+  publishTask.isNpmProject(true);
+  publishTask.run();
 }
