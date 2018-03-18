@@ -10,16 +10,16 @@ module.exports = webpackMerge(webpackCommon, {
       {
         test: /\.less$/,
         use: [
-          'style-loader',
+          {loader: 'style-loader'},
+          {loader: 'css-loader'},
           {
-            loader: 'string-replace-loader',
-            query: {
-              search: /url\('\/assets/g,
-              replace: 'url(\'http://localhost:4000/assets',
+            loader: 'less-loader',
+            options: {
+              modifyVars: {
+                'website': '"http://localhost:4000"'
+              }
             },
           },
-          'css-loader',
-          'less-loader',
         ],
         include: helpers.root('src/assets/styles'),
       },

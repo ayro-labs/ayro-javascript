@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {AyroService} from 'services/AyroService';
 import {Integration} from 'models/Integration';
@@ -81,7 +81,7 @@ class OutgoingMessage extends React.Component<IStateProps & IDispatchProps & IPa
     if (this.props.chatMessage.status === ChatMessage.STATUS_ERROR) {
       return (
         <div className="ayro-message-retry" onClick={this.retryMessage}>
-          <i className="fa fa-refresh"/>
+          <i className="ayro-fas ayro-fa-sync"/>
         </div>
       );
     }
@@ -102,11 +102,13 @@ class OutgoingMessage extends React.Component<IStateProps & IDispatchProps & IPa
   }
 
   private messageStatusClasses() {
+    const status = this.props.chatMessage.status;
     return Classes.get({
-      fa: true,
-      'fa-check': this.props.chatMessage.status === ChatMessage.STATUS_SENT,
-      'fa-clock-o': this.props.chatMessage.status === ChatMessage.STATUS_SENDING,
-      'fa-times': this.props.chatMessage.status === ChatMessage.STATUS_ERROR,
+      'ayro-fas': [ChatMessage.STATUS_SENT, ChatMessage.STATUS_ERROR].includes(status),
+      'ayro-far': status === ChatMessage.STATUS_SENDING,
+      'ayro-fa-check': status === ChatMessage.STATUS_SENT,
+      'ayro-fa-clock': status === ChatMessage.STATUS_SENDING,
+      'ayro-fa-times': status === ChatMessage.STATUS_ERROR,
     });
   }
 }
@@ -119,17 +121,11 @@ function mapStateToProps(state: IStoreState): IStateProps {
 }
 
 function mapDispatchToProps(dispatch: Dispatch<IAction>): IDispatchProps {
-  return {
-    addChatMessage: (chatMessage: ChatMessage) => {
-      dispatch(Actions.addChatMessage(chatMessage));
-    },
-    updateChatMessage: (id: string, chatMessage: ChatMessage) => {
-      dispatch(Actions.updateChatMessage(id, chatMessage));
-    },
-    removeChatMessage: (chatMessage: ChatMessage) => {
-      dispatch(Actions.removeChatMessage(chatMessage));
-    },
-  };
+  return bindActionCreators({
+    addChatMessage: Actions.addChatMessage,
+    updateChatMessage: Actions.updateChatMessage,
+    removeChatMessage: Actions.removeChatMessage,
+  }, dispatch);
 }
 
 export default connect<IStateProps, IDispatchProps, IParamProps>(mapStateToProps, mapDispatchToProps)(OutgoingMessage);

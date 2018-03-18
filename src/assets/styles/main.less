@@ -3,7 +3,12 @@
 @gray-light: #d8d8d8;
 
 #ayro-container {
-  @import "./font-awesome/font-awesome.less";
+  @import "./fontawesome/fontawesome.less";
+  @import "./fontawesome/fa-solid.less";
+  @import "./fontawesome/fa-regular.less";
+  i {
+    font-style: normal;
+  }
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   .ayro-hide {
     display: none !important;
@@ -40,6 +45,11 @@
     bottom: 30px;
     width: 340px;
     height: 75%;
+  }
+}
+.ayro-button {
+  .ayro-fa-comment-alt {
+    font-size: 36px;
   }
 }
 .ayro-chatbox {
@@ -112,6 +122,9 @@
   }
   &.ayro-disabled {
     color: @gray-light;
+  }
+  .ayro-fa-paper-plane {
+    font-size: 20px;
   }
 }
 .ayro-messages {

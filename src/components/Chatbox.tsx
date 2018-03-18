@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import Conversation from 'components/Conversation';
 
@@ -49,7 +49,7 @@ class Chatbox extends React.Component<IStateProps & IDispatchProps, IState> {
         <div className="ayro-header" style={this.headerStyles()} onClick={this.closeChat}>
           {this.props.settings.chatbox.title}
           <div className="ayro-close">
-            <i className="fa fa-times"/>
+            <i className="ayro-fas ayro-fa-times"/>
           </div>
         </div>
         <Conversation/>
@@ -58,7 +58,7 @@ class Chatbox extends React.Component<IStateProps & IDispatchProps, IState> {
             <input type="text" name="message" ref={this.setInputElement} placeholder={this.props.settings.chatbox.input_placeholder} value={this.state.message} onChange={this.onMessageChanged} onKeyPress={this.onKeyPress}/>
           </div>
           <div className={this.postMessageClasses()} onClick={this.postMessage}>
-            <i className="fa fa-paper-plane"/>
+            <i className="ayro-fas ayro-fa-paper-plane"/>
           </div>
         </div>
       </div>
@@ -113,6 +113,7 @@ class Chatbox extends React.Component<IStateProps & IDispatchProps, IState> {
       'ayro-hide': !this.props.chatOpened,
     });
   }
+
   private postMessageClasses(): string {
     return Classes.get({
       'ayro-post': true,
@@ -138,17 +139,11 @@ function mapStateToProps(state: IStoreState): IStateProps {
 }
 
 function mapDispatchToProps(dispatch: Dispatch<IAction>): IDispatchProps {
-  return {
-    closeChat: () => {
-      dispatch(Actions.closeChat());
-    },
-    addChatMessage: (chatMessage: ChatMessage) => {
-      dispatch(Actions.addChatMessage(chatMessage));
-    },
-    updateChatMessage: (id: string, chatMessage: ChatMessage) => {
-      dispatch(Actions.updateChatMessage(id, chatMessage));
-    },
-  };
+  return bindActionCreators({
+    closeChat: Actions.closeChat,
+    addChatMessage: Actions.addChatMessage,
+    updateChatMessage: Actions.updateChatMessage,
+  }, dispatch);
 }
 
 export default connect<IStateProps, IDispatchProps, any>(mapStateToProps, mapDispatchToProps)(Chatbox);

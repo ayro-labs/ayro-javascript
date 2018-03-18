@@ -1,6 +1,5 @@
 import 'whatwg-fetch';
 import 'assets/styles/main.less';
-import 'assets/img/btn-icon.less';
 
 import {AyroApp} from 'core/AyroApp';
 import {AppStatus} from 'enums/AppStatus';

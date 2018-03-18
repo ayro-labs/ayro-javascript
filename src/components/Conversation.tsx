@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 import * as PubSub from 'pubsub-js';
 
 import IncomingMessage from 'components/IncomingMessage';
@@ -101,11 +101,9 @@ function mapStateToProps(state: IStoreState): IStateProps {
 }
 
 function mapDispatchToProps(dispatch: Dispatch<IAction>): IDispatchProps {
-  return {
-    setChatMessages: (chatMessages: ChatMessage[]) => {
-      dispatch(Actions.setChatMessages(chatMessages));
-    },
-  };
+  return bindActionCreators({
+    setChatMessages: Actions.setChatMessages,
+  }, dispatch);
 }
 
 export default connect<IStateProps, IDispatchProps, any>(mapStateToProps, mapDispatchToProps)(Conversation);
