@@ -10,11 +10,22 @@
     <script src="dist/ayro.min.js"></script>
     <script>
       Ayro.init({
-        app_token: '9fc3d6012e0fbe3bb0599ee3c03537a22d6ca2d2',
+        app_token: '244f07e0ddfe58a14d0c8cae796877eb2bf8dd06',
         chatbox: {
           title: 'Como podemos ajudá-lo?',
           input_placeholder: 'Digite uma mensagem...',
         },
+      }).then(function() {
+        return Ayro.login({
+          uid: '1',
+          first_name: 'Sandro',
+          last_name: 'Simas',
+          email: 'sandro@ayro.io',
+          photo_url: 'https://scontent.xx.fbcdn.net/v/t1.0-1/11709651_882143908522388_6031653989057086887_n.jpg?oh=42e99275199e478ebdc1b019445dbd41&oe=5A6A7A5D',
+        });
+      }).then(function(user) {
+        console.log('Authenticated user:');
+        console.log(user);
       });
     </script>
   </body>

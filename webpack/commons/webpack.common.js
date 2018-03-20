@@ -30,6 +30,11 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
         include: helpers.root('/src/assets/styles'),
       },
+      {
+        test: /\.less$/,
+        use: ['style-loader', 'css-loader', 'less-loader'],
+        include: helpers.root('src/assets/styles'),
+      },
     ],
   },
   plugins: [

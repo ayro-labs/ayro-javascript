@@ -5,26 +5,6 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 
 module.exports = webpackMerge(webpackCommon, {
-  module: {
-    rules: [
-      {
-        test: /\.less$/,
-        use: [
-          {loader: 'style-loader'},
-          {loader: 'css-loader'},
-          {
-            loader: 'less-loader',
-            options: {
-              modifyVars: {
-                'website': '"https://www.ayro.io"'
-              }
-            },
-          },
-        ],
-        include: helpers.root('src/assets/styles'),
-      },
-    ],
-  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {

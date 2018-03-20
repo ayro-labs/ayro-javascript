@@ -15,8 +15,6 @@ gitHubApi.authenticate({
   token: process.env.GITHUB_ACCESS_TOKEN,
 });
 
-const WORKING_DIR = path.resolve(__dirname, '../');
-
 function buildLibrary() {
   return Promise.coroutine(function* () {
     commands.log('Linting library...');
