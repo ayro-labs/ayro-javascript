@@ -12,6 +12,8 @@ function buildLibrary() {
     yield commands.exec('npm run build-prod', WORKING_DIR);
     commands.log('Building browser library...');
     yield commands.exec('npm run build-browser-prod', WORKING_DIR);
+    commands.log('Building WordPress browser library...');
+    yield commands.exec('npm run build-browser-wordpress-prod', WORKING_DIR);
   })();
 }
 
