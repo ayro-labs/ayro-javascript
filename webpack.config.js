@@ -17,9 +17,8 @@ module.exports = (env) => {
     }
     if (env.wordpress) {
       return webpackBrowserWordPressProd;
-    } else {
-      return webpackBrowserProd;
     }
+    return webpackBrowserProd;
   }
   if (env && env.development) {
     if (!env.browser) {
@@ -27,9 +26,8 @@ module.exports = (env) => {
     }
     if (env.wordpress) {
       return webpackBrowserWordPressDev;
-    } else {
-      return webpackBrowserDev;
     }
+    return webpackBrowserDev;
   }
   throw new Error('Invalid webpack build option');
 };

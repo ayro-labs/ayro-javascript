@@ -30,35 +30,35 @@ function buildLibrary() {
 
 function prepareRepository() {
   return Promise.coroutine(function* () {
-    utils.log('Preparing Github repository...');
-    yield exec(`rm -rf ${TEMP_REPOSITORY_DIR}`);
-    yield exec(`git clone https://github.com/${REPOSITORY_OWNER}/${REPOSITORY_NAME}.git ${REPOSITORY_NAME}`, TEMP_DIR);
-    yield exec('rm -rf *', TEMP_REPOSITORY_DIR);
+    commands.log('Preparing Github repository...');
+    yield commands.exec(`rm -rf ${TEMP_REPOSITORY_DIR}`);
+    yield commands.exec(`git clone https://github.com/${REPOSITORY_OWNER}/${REPOSITORY_NAME}.git ${REPOSITORY_NAME}`, TEMP_DIR);
+    yield commands.exec('rm -rf *', TEMP_REPOSITORY_DIR);
   })();
 }
 
 function copyFiles() {
   return Promise.coroutine(function* () {
-    utils.log('Copying files...');
-    yield exec(`cp dist/${projectPackage.name}.min.js ${TEMP_REPOSITORY_DIR}/${projectPackage.name}-${projectPackage.version}.min.js`);
-    yield exec(`cp dist/${projectPackage.name}-wordpress.min.js ${TEMP_REPOSITORY_DIR}/${projectPackage.name}-wordpress-${projectPackage.version}.min.js`);
+    commands.log('Copying files...');
+    yield commands.exec(`cp dist/${projectPackage.name}.min.js ${TEMP_REPOSITORY_DIR}/${projectPackage.name}-${projectPackage.version}.min.js`);
+    yield commands.exec(`cp dist/${projectPackage.name}-wordpress.min.js ${TEMP_REPOSITORY_DIR}/${projectPackage.name}-wordpress-${projectPackage.version}.min.js`);
   })();
 }
 
 function pushFiles(version) {
   return Promise.coroutine(function* () {
-    utils.log('Committing, tagging and pushing files to Github repository...');
-    yield exec('git add .', TEMP_REPOSITORY_DIR);
-    yield exec(`git commit -am 'Release ${version}'`, TEMP_REPOSITORY_DIR);
-    yield exec('git push origin master', TEMP_REPOSITORY_DIR);
-    yield exec(`git tag ${version}`, TEMP_REPOSITORY_DIR);
-    yield exec('git push --tags', TEMP_REPOSITORY_DIR);
+    commands.log('Committing, tagging and pushing files to Github repository...');
+    yield commands.exec('git add .', TEMP_REPOSITORY_DIR);
+    yield commands.exec(`git commit -am 'Release ${version}'`, TEMP_REPOSITORY_DIR);
+    yield commands.exec('git push origin master', TEMP_REPOSITORY_DIR);
+    yield commands.exec(`git tag ${version}`, TEMP_REPOSITORY_DIR);
+    yield commands.exec('git push --tags', TEMP_REPOSITORY_DIR);
   })();
 }
 
 function createRelease(version) {
   return Promise.coroutine(function* () {
-    utils.log('Creating Github release...');
+    commands.log('Creating Github release...');
     const createRelease = Promise.promisify(gitHubApi.repos.createRelease);
     yield createRelease({
       owner: REPOSITORY_OWNER,
