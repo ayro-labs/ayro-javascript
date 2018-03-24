@@ -37,11 +37,11 @@ function prepareRepository() {
   })();
 }
 
-function copyFiles(packageJson, version) {
+function copyFiles(packageJson) {
   return Promise.coroutine(function* () {
     commands.log('Copying files...');
-    yield commands.exec(`cp dist/browser/${packageJson.name}.min.js ${TEMP_REPOSITORY_DIR}/${packageJson.name}-${version}.min.js`);
-    yield commands.exec(`cp dist/wordpress/${packageJson.name}-wordpress.min.js ${TEMP_REPOSITORY_DIR}/${packageJson.name}-wordpress-${version}.min.js`);
+    yield commands.exec(`cp dist/browser/${packageJson.name}.min.js ${TEMP_REPOSITORY_DIR}/${packageJson.name}-${packageJson.version}.min.js`);
+    yield commands.exec(`cp dist/wordpress/${packageJson.name}-wordpress.min.js ${TEMP_REPOSITORY_DIR}/${packageJson.name}-wordpress-${packageJson.version}.min.js`);
   })();
 }
 
@@ -69,12 +69,12 @@ function createRelease(version) {
   })();
 }
 
-function beforePublish(packageJson, version) {
+function beforePublish(packageJson) {
   return Promise.coroutine(function* () {
     yield prepareRepository();
-    yield copyFiles(packageJson, version);
-    yield pushFiles(version);
-    yield createRelease(version);
+    yield copyFiles(packageJson);
+    yield pushFiles(packageJson.version);
+    yield createRelease(packageJson.version);
   })();
 }
 
