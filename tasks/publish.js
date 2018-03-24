@@ -37,11 +37,11 @@ function prepareRepository() {
   })();
 }
 
-function copyFiles() {
+function copyFiles(packageJson, version) {
   return Promise.coroutine(function* () {
     commands.log('Copying files...');
-    yield commands.exec(`cp dist/${projectPackage.name}.min.js ${TEMP_REPOSITORY_DIR}/${projectPackage.name}-${projectPackage.version}.min.js`);
-    yield commands.exec(`cp dist/${projectPackage.name}-wordpress.min.js ${TEMP_REPOSITORY_DIR}/${projectPackage.name}-wordpress-${projectPackage.version}.min.js`);
+    yield commands.exec(`cp dist/${packageJson.name}.min.js ${TEMP_REPOSITORY_DIR}/${packageJson.name}-${version}.min.js`);
+    yield commands.exec(`cp dist/${packageJson.name}-wordpress.min.js ${TEMP_REPOSITORY_DIR}/${packageJson.name}-wordpress-${version}.min.js`);
   })();
 }
 
@@ -69,10 +69,10 @@ function createRelease(version) {
   })();
 }
 
-function beforePublishTask() {
+function beforePublish(packageJson, version) {
   return Promise.coroutine(function* () {
     yield prepareRepository();
-    yield copyFiles();
+    yield copyFiles(packageJson, version);
     yield pushFiles(version);
     yield createRelease(version);
   })();
@@ -82,7 +82,7 @@ function beforePublishTask() {
 if (require.main === module) {
   publishTask.withWorkingDir(WORKING_DIR);
   publishTask.withBuildTask(buildLibrary);
-  publishTask.withBeforePublishTask(beforePublishTask);
+  publishTask.withBeforePublishTask(beforePublish);
   publishTask.isNpmProject(true);
   publishTask.run();
 }
