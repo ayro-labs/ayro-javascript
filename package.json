@@ -24,6 +24,8 @@
     "build-prod": "webpack --config 'webpack.config.js' --env.production",
     "build-browser": "webpack --config 'webpack.config.js' --env.browser --env.development",
     "build-browser-prod": "webpack --config 'webpack.config.js' --env.browser --env.production",
+    "build-browser-wordpress": "webpack --config 'webpack.config.js' --env.browser --env.development --env.wordpress",
+    "build-browser-wordpress-prod": "webpack --config 'webpack.config.js' --env.browser --env.production --env.wordpress",
     "test-server": "node tests/server.js",
     "release-lib": "node tasks/release.js",
     "publish-lib": "node tasks/publish.js"

@@ -18,7 +18,7 @@ export interface ILoginResult {
 export class AyroService {
 
   public static init(appToken: string): Promise<IInitResult> {
-    return fetch(AyroService.getUrl('/apps/integrations/website/init'), {
+    return fetch(AyroService.getUrl('/apps/integrations/' + process.env.CHANNEL + '/init'), {
       method: 'POST',
       headers: AyroService.API_HEADERS,
       body: JSON.stringify({app_token: appToken}),
@@ -80,7 +80,7 @@ export class AyroService {
   }
 
   public static postMessage(apiToken: string, message: string): Promise<ChatMessage> {
-    return fetch(AyroService.getUrl('/chat/web'), {
+    return fetch(AyroService.getUrl('/chat/' + process.env.CHANNEL), {
       method: 'POST',
       headers: AyroService.getHeaders(apiToken),
       body: JSON.stringify({

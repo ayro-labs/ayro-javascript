@@ -1,9 +1,9 @@
 const helpers = require('./commons/helpers');
-const webpackProd = require('./commons/webpack.common.prod.js');
+const webpackDev = require('./commons/webpack-common-dev.js');
 const webpackMerge = require('webpack-merge');
 const CleanPlugin = require('clean-webpack-plugin');
 
-module.exports = webpackMerge(webpackProd, {
+module.exports = webpackMerge(webpackDev, {
   output: {
     path: helpers.root('lib'),
     filename: 'ayro.js',

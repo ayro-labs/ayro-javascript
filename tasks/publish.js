@@ -23,6 +23,8 @@ function buildLibrary() {
     yield commands.exec('npm run build-prod', WORKING_DIR);
     commands.log('Building browser library...');
     yield commands.exec('npm run build-browser-prod', WORKING_DIR);
+    commands.log('Building WordPress browser library...');
+    yield commands.exec('npm run build-browser-wordpress-prod', WORKING_DIR);
   })();
 }
 
@@ -39,6 +41,7 @@ function copyFiles() {
   return Promise.coroutine(function* () {
     utils.log('Copying files...');
     yield exec(`cp dist/${projectPackage.name}.min.js ${TEMP_REPOSITORY_DIR}/${projectPackage.name}-${projectPackage.version}.min.js`);
+    yield exec(`cp dist/${projectPackage.name}-wordpress.min.js ${TEMP_REPOSITORY_DIR}/${projectPackage.name}-wordpress-${projectPackage.version}.min.js`);
   })();
 }
 
