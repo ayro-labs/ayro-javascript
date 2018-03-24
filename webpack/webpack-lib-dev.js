@@ -5,7 +5,7 @@ const CleanPlugin = require('clean-webpack-plugin');
 
 module.exports = webpackMerge(webpackDev, {
   output: {
-    path: helpers.root('lib'),
+    path: helpers.root('/lib'),
     filename: 'ayro.js',
   },
   plugins: [

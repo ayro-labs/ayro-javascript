@@ -5,7 +5,7 @@ module.exports = {
   entry: helpers.root('/src/entry.ts'),
   devtool: 'source-map',
   output: {
-    path: helpers.root('/dist/lib'),
+    path: helpers.root('/lib'),
     filename: 'ayro.js',
     library: 'Ayro',
     libraryTarget: 'umd',

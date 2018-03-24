@@ -40,8 +40,8 @@ function prepareRepository() {
 function copyFiles(packageJson, version) {
   return Promise.coroutine(function* () {
     commands.log('Copying files...');
-    yield commands.exec(`cp dist/${packageJson.name}.min.js ${TEMP_REPOSITORY_DIR}/${packageJson.name}-${version}.min.js`);
-    yield commands.exec(`cp dist/${packageJson.name}-wordpress.min.js ${TEMP_REPOSITORY_DIR}/${packageJson.name}-wordpress-${version}.min.js`);
+    yield commands.exec(`cp dist/browser/${packageJson.name}.min.js ${TEMP_REPOSITORY_DIR}/${packageJson.name}-${version}.min.js`);
+    yield commands.exec(`cp dist/wordpress/${packageJson.name}-wordpress.min.js ${TEMP_REPOSITORY_DIR}/${packageJson.name}-wordpress-${version}.min.js`);
   })();
 }
 

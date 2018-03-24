@@ -6,7 +6,7 @@ const CleanPlugin = require('clean-webpack-plugin');
 
 module.exports = webpackMerge(webpackProd, {
   output: {
-    path: helpers.root('dist'),
+    path: helpers.root('/dist/browser'),
     filename: 'ayro.min.js',
   },
   plugins: [
@@ -15,6 +15,6 @@ module.exports = webpackMerge(webpackProd, {
         CHANNEL: '"website"',
       },
     }),
-    new CleanPlugin(['dist'], {root: helpers.root('')}),
+    new CleanPlugin(['dist/browser'], {root: helpers.root('')}),
   ],
 });
