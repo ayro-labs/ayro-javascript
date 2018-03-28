@@ -9,6 +9,11 @@ module.exports = webpackMerge(webpackProd, {
     filename: 'ayro.js',
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        CHANNEL: '"website"',
+      },
+    }),
     new CleanPlugin(['lib'], {root: helpers.root('')}),
   ],
 });

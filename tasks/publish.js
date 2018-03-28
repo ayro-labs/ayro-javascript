@@ -32,7 +32,7 @@ function prepareRepository() {
   return Promise.coroutine(function* () {
     commands.log('Preparing Github repository...');
     yield commands.exec(`rm -rf ${TEMP_REPOSITORY_DIR}`);
-    yield commands.exec(`git clone https://github.com/${REPOSITORY_OWNER}/${REPOSITORY_NAME}.git ${REPOSITORY_NAME}`, TEMP_DIR);
+    yield commands.exec(`git clone git@github.com:${REPOSITORY_OWNER}/${REPOSITORY_NAME}.git ${REPOSITORY_NAME}`, TEMP_DIR);
     yield commands.exec('rm -rf *', TEMP_REPOSITORY_DIR);
   })();
 }
