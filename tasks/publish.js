@@ -4,11 +4,11 @@ const path = require('path');
 const GitHubApi = require('@octokit/rest');
 const Promise = require('bluebird');
 
-const REPOSITORY_NAME = 'ayro-javascript';
-const REPOSITORY_OWNER = 'ayrolabs';
 const WORKING_DIR = path.resolve(__dirname, '../');
+const GITHUB_REPOSITORY_NAME = 'ayro-javascript';
+const GITHUB_REPOSITORY_OWNER = 'ayrolabs';
 const TEMP_DIR = '/tmp';
-const TEMP_REPOSITORY_DIR = `${TEMP_DIR}/${REPOSITORY_NAME}`;
+const TEMP_GITHUB_REPOSITORY_DIR = `${TEMP_DIR}/${GITHUB_REPOSITORY_NAME}`;
 
 const gitHubApi = new GitHubApi();
 gitHubApi.authenticate({
@@ -34,42 +34,42 @@ function buildLibrary() {
   })();
 }
 
-function prepareRepository() {
+function prepareGithubRepository() {
   return Promise.coroutine(function* () {
     commands.log('Preparing Github repository...');
-    yield commands.exec(`rm -rf ${TEMP_REPOSITORY_DIR}`);
-    yield commands.exec(`git clone git@github.com:${REPOSITORY_OWNER}/${REPOSITORY_NAME}.git ${REPOSITORY_NAME}`, TEMP_DIR);
-    yield commands.exec('rm -rf *', TEMP_REPOSITORY_DIR);
+    yield commands.exec(`rm -rf ${GITHUB_REPOSITORY_DIR}`, TEMP_DIR);
+    yield commands.exec(`git clone git@github.com:${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME}.git ${GITHUB_REPOSITORY_NAME}`, TEMP_DIR);
+    yield commands.exec(`rm -rf ${GITHUB_REPOSITORY_DIR}/*`, TEMP_DIR);
   })();
 }
 
-function copyFiles() {
+function copyGithubFiles() {
   return Promise.coroutine(function* () {
-    commands.log('Copying files...');
-    yield commands.exec(`cp dist/browser/${packageJson.name}.min.js ${TEMP_REPOSITORY_DIR}/${packageJson.name}-${packageJson.version}.min.js`);
-    yield commands.exec(`cp dist/wordpress/${packageJson.name}-wordpress.min.js ${TEMP_REPOSITORY_DIR}/${packageJson.name}-wordpress-${packageJson.version}.min.js`);
+    commands.log('Copying files to Github repository...');
+    yield commands.exec(`cp dist/browser/ayro.min.js ${TEMP_GITHUB_REPOSITORY_DIR}`);
+    yield commands.exec(`cp dist/wordpress/ayro-wordpress.min.js ${TEMP_GITHUB_REPOSITORY_DIR}`);
   })();
 }
 
-function pushFiles() {
+function pushGithubFiles() {
   return Promise.coroutine(function* () {
     commands.log('Committing, tagging and pushing files to Github repository...');
-    yield commands.exec('git add .', TEMP_REPOSITORY_DIR);
-    yield commands.exec(`git commit -am 'Release ${packageJson.version}'`, TEMP_REPOSITORY_DIR);
-    yield commands.exec('git push origin master', TEMP_REPOSITORY_DIR);
-    yield commands.exec(`git tag ${packageJson.version}`, TEMP_REPOSITORY_DIR);
-    yield commands.exec('git push --tags', TEMP_REPOSITORY_DIR);
+    yield commands.exec('git add .', TEMP_GITHUB_REPOSITORY_DIR);
+    yield commands.exec(`git commit -am 'Release ${packageJson.version}'`, TEMP_GITHUB_REPOSITORY_DIR);
+    yield commands.exec('git push origin master', TEMP_GITHUB_REPOSITORY_DIR);
+    yield commands.exec(`git tag ${packageJson.version}`, TEMP_GITHUB_REPOSITORY_DIR);
+    yield commands.exec('git push --tags', TEMP_GITHUB_REPOSITORY_DIR);
   })();
 }
 
-function createRelease() {
+function createGithubRelease() {
   return Promise.coroutine(function* () {
     commands.log('Creating Github release...');
     const createRelease = Promise.promisify(gitHubApi.repos.createRelease);
     yield createRelease({
-      owner: REPOSITORY_OWNER,
-      repo: REPOSITORY_NAME,
-      tag_name: version,
+      owner: GITHUB_REPOSITORY_OWNER,
+      repo: GITHUB_REPOSITORY_NAME,
+      tag_name: packageJson.version,
       name: `Release ${packageJson.version}`,
     });
   })();
@@ -77,10 +77,10 @@ function createRelease() {
 
 function beforePublish() {
   return Promise.coroutine(function* () {
-    yield prepareRepository();
-    yield copyFiles();
-    yield pushFiles();
-    yield createRelease();
+    yield prepareGithubRepository();
+    yield copyGithubFiles();
+    yield pushGithubFiles();
+    yield createGithubRelease();
   })();
 }
 
