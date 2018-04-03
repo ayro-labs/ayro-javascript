@@ -1,6 +1,7 @@
+const packageJson = require('../package');
 const {publishTask, commands} = require('@ayro/commons');
 const path = require('path');
-const GitHubApi = require('github');
+const GitHubApi = require('@octokit/rest');
 const Promise = require('bluebird');
 
 const REPOSITORY_NAME = 'ayro-javascript';
@@ -15,10 +16,15 @@ gitHubApi.authenticate({
   token: process.env.GITHUB_ACCESS_TOKEN,
 });
 
-function buildLibrary() {
+function lintLibrary() {
   return Promise.coroutine(function* () {
     commands.log('Linting library...');
     yield commands.exec('npm run lint', WORKING_DIR);
+  })();
+}
+
+function buildLibrary() {
+  return Promise.coroutine(function* () {
     commands.log('Building library...');
     yield commands.exec('npm run build-prod', WORKING_DIR);
     commands.log('Building browser library...');
@@ -37,7 +43,7 @@ function prepareRepository() {
   })();
 }
 
-function copyFiles(packageJson) {
+function copyFiles() {
   return Promise.coroutine(function* () {
     commands.log('Copying files...');
     yield commands.exec(`cp dist/browser/${packageJson.name}.min.js ${TEMP_REPOSITORY_DIR}/${packageJson.name}-${packageJson.version}.min.js`);
@@ -45,18 +51,18 @@ function copyFiles(packageJson) {
   })();
 }
 
-function pushFiles(version) {
+function pushFiles() {
   return Promise.coroutine(function* () {
     commands.log('Committing, tagging and pushing files to Github repository...');
     yield commands.exec('git add .', TEMP_REPOSITORY_DIR);
-    yield commands.exec(`git commit -am 'Release ${version}'`, TEMP_REPOSITORY_DIR);
+    yield commands.exec(`git commit -am 'Release ${packageJson.version}'`, TEMP_REPOSITORY_DIR);
     yield commands.exec('git push origin master', TEMP_REPOSITORY_DIR);
-    yield commands.exec(`git tag ${version}`, TEMP_REPOSITORY_DIR);
+    yield commands.exec(`git tag ${packageJson.version}`, TEMP_REPOSITORY_DIR);
     yield commands.exec('git push --tags', TEMP_REPOSITORY_DIR);
   })();
 }
 
-function createRelease(version) {
+function createRelease() {
   return Promise.coroutine(function* () {
     commands.log('Creating Github release...');
     const createRelease = Promise.promisify(gitHubApi.repos.createRelease);
@@ -64,23 +70,24 @@ function createRelease(version) {
       owner: REPOSITORY_OWNER,
       repo: REPOSITORY_NAME,
       tag_name: version,
-      name: `Release ${version}`,
+      name: `Release ${packageJson.version}`,
     });
   })();
 }
 
-function beforePublish(packageJson) {
+function beforePublish() {
   return Promise.coroutine(function* () {
     yield prepareRepository();
-    yield copyFiles(packageJson);
-    yield pushFiles(packageJson.version);
-    yield createRelease(packageJson.version);
+    yield copyFiles();
+    yield pushFiles();
+    yield createRelease();
   })();
 }
 
 // Run this if call directly from command line
 if (require.main === module) {
   publishTask.withWorkingDir(WORKING_DIR);
+  publishTask.withLintTask(lintLibrary);
   publishTask.withBuildTask(buildLibrary);
   publishTask.withBeforePublishTask(beforePublish);
   publishTask.isNpmProject(true);
