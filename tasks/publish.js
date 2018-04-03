@@ -8,7 +8,7 @@ const WORKING_DIR = path.resolve(__dirname, '../');
 const GITHUB_REPOSITORY_NAME = 'ayro-javascript';
 const GITHUB_REPOSITORY_OWNER = 'ayrolabs';
 const TEMP_DIR = '/tmp';
-const TEMP_GITHUB_REPOSITORY_DIR = `${TEMP_DIR}/${GITHUB_REPOSITORY_NAME}`;
+const TEMP_GITHUB_REPOSITORY_DIR = path.join(TEMP_DIR, GITHUB_REPOSITORY_NAME);
 
 const gitHubApi = new GitHubApi();
 gitHubApi.authenticate({
@@ -37,9 +37,9 @@ function buildLibrary() {
 function prepareGithubRepository() {
   return Promise.coroutine(function* () {
     commands.log('Preparing Github repository...');
-    yield commands.exec(`rm -rf ${GITHUB_REPOSITORY_DIR}`, TEMP_DIR);
+    yield commands.exec(`rm -rf ${GITHUB_REPOSITORY_NAME}`, TEMP_DIR);
     yield commands.exec(`git clone git@github.com:${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME}.git ${GITHUB_REPOSITORY_NAME}`, TEMP_DIR);
-    yield commands.exec(`rm -rf ${GITHUB_REPOSITORY_DIR}/*`, TEMP_DIR);
+    yield commands.exec(`rm -rf ${GITHUB_REPOSITORY_NAME}/*`, TEMP_DIR);
   })();
 }
 
