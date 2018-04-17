@@ -1,6 +1,3 @@
-import 'whatwg-fetch';
-import 'assets/styles/main.less';
-
 import {AyroApp} from 'core/AyroApp';
 import {AppStatus} from 'enums/AppStatus';
 import {User} from 'models/User';

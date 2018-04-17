@@ -1,4 +1,4 @@
-import {Store as ReduxStore, createStore} from 'redux';
+import {Store as ReduxStore, createStore, AnyAction} from 'redux';
 import * as PubSub from 'pubsub-js';
 import * as DotProp from 'dot-prop-immutable';
 
@@ -9,7 +9,7 @@ import {App} from 'models/App';
 import {Integration} from 'models/Integration';
 import {User} from 'models/User';
 import {ChatMessage} from 'models/ChatMessage';
-import {Actions, IAction} from 'stores/Actions';
+import {Actions} from 'stores/Actions';
 
 export interface IStoreState {
   appStatus: AppStatus;
@@ -33,7 +33,7 @@ export class Store {
     return Store.STORE.getState();
   }
 
-  public static dispatch(action: IAction) {
+  public static dispatch(action: AnyAction) {
     Store.STORE.dispatch(action);
   }
 
@@ -49,12 +49,18 @@ export class Store {
     chatMessages: [],
   };
 
-  private static STORE: ReduxStore<IStoreState> = createStore((state: IStoreState, action: IAction) => {
+  private static STORE: ReduxStore<IStoreState> = createStore((state: IStoreState, action: AnyAction) => {
     if (!state) {
       return Store.INITIAL_STATE;
     }
     let newState: IStoreState = null;
     switch (action.type) {
+      case Actions.OPEN_CHAT:
+        newState = Store.openChat(state);
+        break;
+      case Actions.CLOSE_CHAT:
+        newState = Store.closeChat(state);
+        break;
       case Actions.SET_APP_STATUS:
         newState = Store.setAppStatus(state, action);
         break;
@@ -82,12 +88,6 @@ export class Store {
       case Actions.UNSET_API_TOKEN:
         newState = Store.unsetApiToken(state);
         break;
-      case Actions.OPEN_CHAT:
-        newState = Store.openChat(state);
-        break;
-      case Actions.CLOSE_CHAT:
-        newState = Store.closeChat(state);
-        break;
       case Actions.SET_CHAT_MESSAGES:
         newState = Store.setChatMessages(state, action);
         break;
@@ -105,42 +105,6 @@ export class Store {
     return newState;
   });
 
-  private static setAppStatus(state: IStoreState, action: IAction): IStoreState {
-    return DotProp.set(state, 'appStatus', action.value);
-  }
-
-  private static setUserStatus(state: IStoreState, action: IAction): IStoreState {
-    return DotProp.set(state, 'userStatus', action.value);
-  }
-
-  private static setSettings(state: IStoreState, action: IAction): IStoreState {
-    return DotProp.set(state, 'settings', action.value);
-  }
-
-  private static setApp(state: IStoreState, action: IAction): IStoreState {
-    return DotProp.set(state, 'app', action.value);
-  }
-
-  private static setIntegration(state: IStoreState, action: IAction): IStoreState {
-    return DotProp.set(state, 'integration', action.value);
-  }
-
-  private static setUser(state: IStoreState, action: IAction): IStoreState {
-    return DotProp.set(state, 'user', action.value);
-  }
-
-  private static unsetUser(state: IStoreState): IStoreState {
-    return DotProp.set(state, 'user', null);
-  }
-
-  private static setApiToken(state: IStoreState, action: IAction): IStoreState {
-    return DotProp.set(state, 'apiToken', action.value);
-  }
-
-  private static unsetApiToken(state: IStoreState): IStoreState {
-    return DotProp.set(state, 'apiToken', null);
-  }
-
   private static openChat(state: IStoreState): IStoreState {
     return DotProp.set(state, 'chatOpened', true);
   }
@@ -149,20 +113,56 @@ export class Store {
     return DotProp.set(state, 'chatOpened', false);
   }
 
-  private static setChatMessages(state: IStoreState, action: IAction): IStoreState {
-    return DotProp.set(state, 'chatMessages', action.value);
+  private static setAppStatus(state: IStoreState, action: AnyAction): IStoreState {
+    return DotProp.set(state, 'appStatus', action.extraProps.appStatus);
   }
 
-  private static addChatMessage(state: IStoreState, action: IAction): IStoreState {
-    return DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => [...chatMessages, action.value]);
+  private static setUserStatus(state: IStoreState, action: AnyAction): IStoreState {
+    return DotProp.set(state, 'userStatus', action.extraProps.userStatus);
   }
 
-  private static updateChatMessage(state: IStoreState, action: IAction): IStoreState {
+  private static setSettings(state: IStoreState, action: AnyAction): IStoreState {
+    return DotProp.set(state, 'settings', action.extraProps.settings);
+  }
+
+  private static setApp(state: IStoreState, action: AnyAction): IStoreState {
+    return DotProp.set(state, 'app', action.extraProps.app);
+  }
+
+  private static setIntegration(state: IStoreState, action: AnyAction): IStoreState {
+    return DotProp.set(state, 'integration', action.extraProps.integration);
+  }
+
+  private static setUser(state: IStoreState, action: AnyAction): IStoreState {
+    return DotProp.set(state, 'user', action.extraProps.user);
+  }
+
+  private static unsetUser(state: IStoreState): IStoreState {
+    return DotProp.set(state, 'user', null);
+  }
+
+  private static setApiToken(state: IStoreState, action: AnyAction): IStoreState {
+    return DotProp.set(state, 'apiToken', action.extraProps.apiToken);
+  }
+
+  private static unsetApiToken(state: IStoreState): IStoreState {
+    return DotProp.set(state, 'apiToken', null);
+  }
+
+  private static setChatMessages(state: IStoreState, action: AnyAction): IStoreState {
+    return DotProp.set(state, 'chatMessages', action.extraProps.chatMessages);
+  }
+
+  private static addChatMessage(state: IStoreState, action: AnyAction): IStoreState {
+    return DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => [...chatMessages, action.extraProps.chatMessage]);
+  }
+
+  private static updateChatMessage(state: IStoreState, action: AnyAction): IStoreState {
     return DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => {
       const newChatMessages: ChatMessage[] = [];
       chatMessages.forEach((chatMessage) => {
-        if (chatMessage.id === action.value.id) {
-          newChatMessages.push(new ChatMessage(action.value.chatMessage));
+        if (chatMessage.id === action.extraProps.id) {
+          newChatMessages.push(new ChatMessage(action.extraProps.chatMessage));
         } else {
           newChatMessages.push(new ChatMessage(chatMessage));
         }
@@ -171,11 +171,11 @@ export class Store {
     });
   }
 
-  private static removeChatMessage(state: IStoreState, action: IAction): IStoreState {
+  private static removeChatMessage(state: IStoreState, action: AnyAction): IStoreState {
     return DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => {
       const newChatMessages: ChatMessage[] = [];
       chatMessages.forEach((chatMessage) => {
-        if (chatMessage.id !== action.value.id) {
+        if (chatMessage.id !== action.extraProps.chatMessage.id) {
           newChatMessages.push(new ChatMessage(chatMessage));
         }
       });

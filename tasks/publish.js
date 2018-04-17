@@ -16,72 +16,59 @@ gitHubApi.authenticate({
   token: process.env.GITHUB_ACCESS_TOKEN,
 });
 
-function lintLibrary() {
-  return Promise.coroutine(function* () {
-    commands.log('Linting library...');
-    yield commands.exec('npm run lint', WORKING_DIR);
-  })();
+const createReleaseAsync = Promise.promisify(gitHubApi.repos.createRelease);
+
+async function lintLibrary() {
+  commands.log('Linting library...');
+  await commands.exec('npm run lint', WORKING_DIR);
 }
 
-function buildLibrary() {
-  return Promise.coroutine(function* () {
-    commands.log('Building library...');
-    yield commands.exec('npm run build-prod', WORKING_DIR);
-    commands.log('Building browser library...');
-    yield commands.exec('npm run build-browser-prod', WORKING_DIR);
-    commands.log('Building WordPress browser library...');
-    yield commands.exec('npm run build-browser-wordpress-prod', WORKING_DIR);
-  })();
+async function buildLibrary() {
+  commands.log('Building library...');
+  await commands.exec('npm run build-prod', WORKING_DIR);
+  commands.log('Building browser library...');
+  await commands.exec('npm run build-browser-prod', WORKING_DIR);
+  commands.log('Building WordPress browser library...');
+  await commands.exec('npm run build-browser-wordpress-prod', WORKING_DIR);
 }
 
-function prepareGithubRepository() {
-  return Promise.coroutine(function* () {
-    commands.log('Preparing Github repository...');
-    yield commands.exec(`rm -rf ${GITHUB_REPOSITORY_NAME}`, TEMP_DIR);
-    yield commands.exec(`git clone git@github.com:${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME}.git ${GITHUB_REPOSITORY_NAME}`, TEMP_DIR);
-    yield commands.exec(`rm -rf ${GITHUB_REPOSITORY_NAME}/*`, TEMP_DIR);
-  })();
+async function prepareGithubRepository() {
+  commands.log('Preparing Github repository...');
+  await commands.exec(`rm -rf ${GITHUB_REPOSITORY_NAME}`, TEMP_DIR);
+  await commands.exec(`git clone git@github.com:${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME}.git ${GITHUB_REPOSITORY_NAME}`, TEMP_DIR);
+  await commands.exec(`rm -rf ${GITHUB_REPOSITORY_NAME}/*`, TEMP_DIR);
 }
 
-function copyGithubFiles() {
-  return Promise.coroutine(function* () {
-    commands.log('Copying files to Github repository...');
-    yield commands.exec(`cp dist/browser/ayro.min.js ${TEMP_GITHUB_REPOSITORY_DIR}`);
-    yield commands.exec(`cp dist/wordpress/ayro-wordpress.min.js ${TEMP_GITHUB_REPOSITORY_DIR}`);
-  })();
+async function copyGithubFiles() {
+  commands.log('Copying files to Github repository...');
+  await commands.exec(`cp dist/browser/ayro.min.js ${TEMP_GITHUB_REPOSITORY_DIR}`);
+  await commands.exec(`cp dist/wordpress/ayro-wordpress.min.js ${TEMP_GITHUB_REPOSITORY_DIR}`);
 }
 
-function pushGithubFiles() {
-  return Promise.coroutine(function* () {
-    commands.log('Committing, tagging and pushing files to Github repository...');
-    yield commands.exec('git add .', TEMP_GITHUB_REPOSITORY_DIR);
-    yield commands.exec(`git commit -am 'Release ${packageJson.version}'`, TEMP_GITHUB_REPOSITORY_DIR);
-    yield commands.exec('git push origin master', TEMP_GITHUB_REPOSITORY_DIR);
-    yield commands.exec(`git tag ${packageJson.version}`, TEMP_GITHUB_REPOSITORY_DIR);
-    yield commands.exec('git push --tags', TEMP_GITHUB_REPOSITORY_DIR);
-  })();
+async function pushGithubFiles() {
+  commands.log('Committing, tagging and pushing files to Github repository...');
+  await commands.exec('git add .', TEMP_GITHUB_REPOSITORY_DIR);
+  await commands.exec(`git commit -am 'Release ${packageJson.version}'`, TEMP_GITHUB_REPOSITORY_DIR);
+  await commands.exec('git push origin master', TEMP_GITHUB_REPOSITORY_DIR);
+  await commands.exec(`git tag ${packageJson.version}`, TEMP_GITHUB_REPOSITORY_DIR);
+  await commands.exec('git push --tags', TEMP_GITHUB_REPOSITORY_DIR);
 }
 
-function createGithubRelease() {
-  return Promise.coroutine(function* () {
-    commands.log('Creating Github release...');
-    const createRelease = Promise.promisify(gitHubApi.repos.createRelease);
-    yield createRelease({
-      owner: GITHUB_REPOSITORY_OWNER,
-      repo: GITHUB_REPOSITORY_NAME,
-      tag_name: packageJson.version,
-      name: `Release ${packageJson.version}`,
-    });
-  })();
+async function createGithubRelease() {
+  commands.log('Creating Github release...');
+  await createReleaseAsync({
+    owner: GITHUB_REPOSITORY_OWNER,
+    repo: GITHUB_REPOSITORY_NAME,
+    tag_name: packageJson.version,
+    name: `Release ${packageJson.version}`,
+  });
 }
 
-function beforePublish() {
-  return Promise.coroutine(function* () {
-    yield prepareGithubRepository();
-    yield copyGithubFiles();
-    yield pushGithubFiles();
-    yield createGithubRelease();
-  })();
+async function beforePublish() {
+  await prepareGithubRepository();
+  await copyGithubFiles();
+  await pushGithubFiles();
+  await createGithubRelease();
 }
 
 // Run this if call directly from command line

@@ -1,4 +1,4 @@
-import {Action} from 'redux';
+import {AnyAction} from 'redux';
 import {AppStatus} from 'enums/AppStatus';
 import {UserStatus} from 'enums/UserStatus';
 import {Settings} from 'models/Settings';
@@ -6,10 +6,6 @@ import {App} from 'models/App';
 import {Integration} from 'models/Integration';
 import {User} from 'models/User';
 import {ChatMessage} from 'models/ChatMessage';
-
-export interface IAction extends Action {
-  value: any;
-}
 
 export class Actions {
 
@@ -33,111 +29,127 @@ export class Actions {
   public static readonly UPDATE_CHAT_MESSAGE: string = 'UPDATE_CHAT_MESSAGE';
   public static readonly REMOVE_CHAT_MESSAGE: string = 'REMOVE_CHAT_MESSAGE';
 
-  public static openChat(): IAction {
+  public static openChat(): AnyAction {
     return {
       type: Actions.OPEN_CHAT,
-      value: null,
     };
   }
 
-  public static closeChat(): IAction {
+  public static closeChat(): AnyAction {
     return {
       type: Actions.CLOSE_CHAT,
-      value: null,
     };
   }
 
-  public static setAppStatus(status: AppStatus): IAction {
+  public static setAppStatus(appStatus: AppStatus): AnyAction {
     return {
       type: Actions.SET_APP_STATUS,
-      value: status,
+      extraProps: {
+        appStatus: appStatus,
+      },
     };
   }
 
-  public static setUserStatus(status: UserStatus): IAction {
+  public static setUserStatus(userStatus: UserStatus): AnyAction {
     return {
       type: Actions.SET_USER_STATUS,
-      value: status,
+      extraProps: {
+        userStatus: userStatus,
+      },
     };
   }
 
-  public static setSettings(settings: Settings): IAction {
+  public static setSettings(settings: Settings): AnyAction {
     return {
       type: Actions.SET_SETTINGS,
-      value: settings,
+      extraProps: {
+        settings: settings,
+      },
     };
   }
 
-  public static setApp(app: App): IAction {
+  public static setApp(app: App): AnyAction {
     return {
       type: Actions.SET_APP,
-      value: app,
+      extraProps: {
+        app: app,
+      },
     };
   }
 
-  public static setIntegration(integration: Integration): IAction {
+  public static setIntegration(integration: Integration): AnyAction {
     return {
       type: Actions.SET_INTEGRATION,
-      value: integration,
+      extraProps: {
+        integration: integration,
+      },
     };
   }
 
-  public static setUser(user: User): IAction {
+  public static setUser(user: User): AnyAction {
     return {
       type: Actions.SET_USER,
-      value: user,
+      extraProps: {
+        user: user,
+      },
     };
   }
 
-  public static unsetUser(): IAction {
+  public static unsetUser(): AnyAction {
     return {
       type: Actions.UNSET_USER,
-      value: null,
     };
   }
 
-  public static setApiToken(apiToken: string): IAction {
+  public static setApiToken(apiToken: string): AnyAction {
     return {
       type: Actions.SET_API_TOKEN,
-      value: apiToken,
+      extraProps: {
+        apiToken: apiToken,
+      },
     };
   }
 
-  public static unsetApiToken(): IAction {
+  public static unsetApiToken(): AnyAction {
     return {
       type: Actions.UNSET_API_TOKEN,
-      value: null,
     };
   }
 
-  public static setChatMessages(chatMessages: ChatMessage[]): IAction {
+  public static setChatMessages(chatMessages: ChatMessage[]): AnyAction {
     return {
       type: Actions.SET_CHAT_MESSAGES,
-      value: chatMessages,
+      extraProps: {
+        chatMessages: chatMessages,
+      },
     };
   }
 
-  public static addChatMessage(chatMessage: ChatMessage): IAction {
+  public static addChatMessage(chatMessage: ChatMessage): AnyAction {
     return {
       type: Actions.ADD_CHAT_MESSAGE,
-      value: chatMessage,
+      extraProps: {
+        chatMessage: chatMessage,
+      },
     };
   }
 
-  public static updateChatMessage(id: string, chatMessage: ChatMessage): IAction {
+  public static updateChatMessage(id: string, chatMessage: ChatMessage): AnyAction {
     return {
       type: Actions.UPDATE_CHAT_MESSAGE,
-      value: {
+      extraProps: {
         id,
         chatMessage,
       },
     };
   }
 
-  public static removeChatMessage(chatMessage: ChatMessage): IAction {
+  public static removeChatMessage(chatMessage: ChatMessage): AnyAction {
     return {
       type: Actions.REMOVE_CHAT_MESSAGE,
-      value: chatMessage,
+      extraProps: {
+        chatMessage: chatMessage,
+      },
     };
   }
 

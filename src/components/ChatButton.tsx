@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {bindActionCreators, Dispatch, AnyAction} from 'redux';
 
 import {Integration} from 'models/Integration';
-import {Actions, IAction} from 'stores/Actions';
+import {Actions} from 'stores/Actions';
 import {IStoreState} from 'stores/Store';
 import {Classes} from 'utils/Classes';
 
@@ -59,10 +59,10 @@ function mapStateToProps(state: IStoreState): IStateProps {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<IAction>): IDispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<AnyAction>): IDispatchProps {
   return bindActionCreators({
     openChat: Actions.openChat,
   }, dispatch);
 }
 
-export default connect<IStateProps, IDispatchProps, any>(mapStateToProps, mapDispatchToProps)(ChatButton);
+export default connect<IStateProps, IDispatchProps, any, IStoreState>(mapStateToProps, mapDispatchToProps)(ChatButton);

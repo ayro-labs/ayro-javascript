@@ -1,3 +1,6 @@
+import 'whatwg-fetch';
+import 'assets/styles/main.less';
+
 import {Ayro} from 'Ayro';
 import {User} from 'models/User';
 

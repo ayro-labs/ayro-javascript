@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {bindActionCreators, Dispatch, AnyAction} from 'redux';
 import * as PubSub from 'pubsub-js';
 
 import IncomingMessage from 'components/IncomingMessage';
@@ -11,7 +11,7 @@ import {AyroService} from 'services/AyroService';
 import {UserStatus} from 'enums/UserStatus';
 import {User} from 'models/User';
 import {ChatMessage} from 'models/ChatMessage';
-import {Actions, IAction} from 'stores/Actions';
+import {Actions} from 'stores/Actions';
 import {IStoreState} from 'stores/Store';
 
 interface IStateProps {
@@ -100,10 +100,10 @@ function mapStateToProps(state: IStoreState): IStateProps {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<IAction>): IDispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<AnyAction>): IDispatchProps {
   return bindActionCreators({
     setChatMessages: Actions.setChatMessages,
   }, dispatch);
 }
 
-export default connect<IStateProps, IDispatchProps, any>(mapStateToProps, mapDispatchToProps)(Conversation);
+export default connect<IStateProps, IDispatchProps, any, IStoreState>(mapStateToProps, mapDispatchToProps)(Conversation);

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {bindActionCreators, Dispatch, AnyAction} from 'redux';
 
 import Conversation from 'components/Conversation';
 
@@ -8,7 +8,7 @@ import {AyroService} from 'services/AyroService';
 import {Settings} from 'models/Settings';
 import {Integration} from 'models/Integration';
 import {ChatMessage} from 'models/ChatMessage';
-import {Actions, IAction} from 'stores/Actions';
+import {Actions} from 'stores/Actions';
 import {IStoreState} from 'stores/Store';
 import {Classes} from 'utils/Classes';
 
@@ -138,7 +138,7 @@ function mapStateToProps(state: IStoreState): IStateProps {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<IAction>): IDispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<AnyAction>): IDispatchProps {
   return bindActionCreators({
     closeChat: Actions.closeChat,
     addChatMessage: Actions.addChatMessage,
@@ -146,4 +146,4 @@ function mapDispatchToProps(dispatch: Dispatch<IAction>): IDispatchProps {
   }, dispatch);
 }
 
-export default connect<IStateProps, IDispatchProps, any>(mapStateToProps, mapDispatchToProps)(Chatbox);
+export default connect<IStateProps, IDispatchProps, any, IStoreState>(mapStateToProps, mapDispatchToProps)(Chatbox);
