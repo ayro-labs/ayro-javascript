@@ -1,5 +1,4 @@
 import {Components} from 'components/Components';
-import {AyroError} from 'errors/AyroError';
 import {AyroService} from 'services/AyroService';
 import {MessagingService} from 'services/MessagingService';
 import {AppStatus} from 'enums/AppStatus';
@@ -35,60 +34,83 @@ export class AyroApp {
     return Store.getState().userStatus;
   }
 
-  public init(data: any): Promise<void> {
-    const settings = new Settings(data);
-    Store.dispatch(Actions.setSettings(settings));
-    return AyroService.init(settings.app_token).then((result) => {
+  public async init(data: any): Promise<void> {
+    try {
+      const settings = new Settings(data);
+      Store.dispatch(Actions.setSettings(settings));
+      const result = await AyroService.init(settings.app_token, App.getDevice());
       Store.dispatch(Actions.setAppStatus(AppStatus.INITIALIZED));
       Store.dispatch(Actions.setApp(result.app));
       Store.dispatch(Actions.setIntegration(result.integration));
+      Store.dispatch(Actions.setUser(result.user));
+      Store.dispatch(Actions.setApiToken(result.token));
       Components.init();
-    }).catch((err: AyroError) => {
+    } catch (err) {
       Messages.improve(err);
       throw err;
-    });
+    }
   }
 
-  public login(data: any): Promise<User> {
-    this.fixUserAttributes(data);
-    const user = App.getUser(data);
-    Store.dispatch(Actions.setUser(user));
-    const appToken = Store.getState().settings.app_token;
-    return AyroService.login(appToken, user, App.getDevice()).then((result) => {
+  public async login(data: any): Promise<User> {
+    this.assertInitialized();
+    try {
+      this.fixUserAttributes(data);
+      const user = new User(data);
+      const apiToken = Store.getState().apiToken;
+      const appToken = Store.getState().settings.app_token;
+      const result = await AyroService.login(apiToken, appToken, user, App.getDevice());
       Store.dispatch(Actions.setUserStatus(UserStatus.LOGGED_IN));
       Store.dispatch(Actions.setUser(result.user));
       Store.dispatch(Actions.setApiToken(result.token));
       MessagingService.start();
       return result.user;
-    }).catch((err: AyroError) => {
+    } catch (err) {
       Messages.improve(err);
       throw err;
-    });
+    }
   }
 
-  public logout(): Promise<void> {
-    return AyroService.logout(Store.getState().apiToken).then(() => {
+  public async logout(): Promise<void> {
+    this.assertInitialized();
+    this.assertAuthenticated();
+    try {
+      await AyroService.logout(Store.getState().apiToken);
       Store.dispatch(Actions.setUserStatus(UserStatus.LOGGED_OUT));
       Store.dispatch(Actions.unsetUser());
       Store.dispatch(Actions.unsetApiToken());
       MessagingService.stop();
-    }).catch((err: AyroError) => {
+    } catch (err) {
       Messages.improve(err);
       throw err;
-    });
+    }
   }
 
-  public updateUser(data: any): Promise<User> {
-    this.fixUserAttributes(data);
-    const user = App.getUser(data);
-    Store.dispatch(Actions.setUser(user));
-    return AyroService.updateUser(Store.getState().apiToken, user).then((updatedUser) => {
+  public async updateUser(data: any): Promise<User> {
+    this.assertInitialized();
+    this.assertAuthenticated();
+    try {
+      this.fixUserAttributes(data);
+      const user = new User(data);
+      Store.dispatch(Actions.setUser(user));
+      const updatedUser = await AyroService.updateUser(Store.getState().apiToken, user);
       Store.dispatch(Actions.setUser(updatedUser));
       return updatedUser;
-    }).catch((err: AyroError) => {
+    } catch (err) {
       Messages.improve(err);
       throw err;
-    });
+    }
+  }
+
+  private assertInitialized() {
+    if (this.getAppStatus() !== AppStatus.INITIALIZED) {
+      throw new Error('App not initialized, please make sure you call init function first.');
+    }
+  }
+
+  private assertAuthenticated() {
+    if (this.getUserStatus() !== UserStatus.LOGGED_IN) {
+      throw new Error('User is not authenticated, please make sure you call login function first.');
+    }
   }
 
   private fixUserAttributes(data: any) {

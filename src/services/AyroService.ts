@@ -8,89 +8,87 @@ import {ChatMessage} from 'models/ChatMessage';
 export interface IInitResult {
   app: App;
   integration: Integration;
+  user: User;
+  token: string;
 }
 
 export interface ILoginResult {
-  token: string;
   user: User;
+  token: string;
 }
 
 export class AyroService {
 
-  public static init(appToken: string): Promise<IInitResult> {
-    return fetch(AyroService.getUrl('/apps/integrations/' + process.env.CHANNEL + '/init'), {
+  public static async init(appToken: string, device: Device): Promise<IInitResult> {
+    const response = await fetch(AyroService.getUrl(`/apps/integrations/${process.env.CHANNEL}/init`), {
       method: 'POST',
       headers: AyroService.API_HEADERS,
-      body: JSON.stringify({app_token: appToken}),
-    }).then((response: Response) => {
-      return AyroService.parseResponse(response);
-    }).then((result: IInitResult) => {
-      return {app: new App(result.app), integration: new Integration(result.integration)};
+      body: JSON.stringify({app_token: appToken, device}),
     });
+    const result = await AyroService.parseResponse(response);
+    return {
+      app: new App(result.app),
+      integration: new Integration(result.integration),
+      user: new User(result.user),
+      token: result.token,
+    };
   }
 
-  public static login(appToken: string, user: User, device: Device): Promise<ILoginResult> {
-    return fetch(AyroService.getUrl('/auth/users'), {
+  public static async login(apiToken: string, appToken: string, user: User, device: Device): Promise<ILoginResult> {
+    const response = await fetch(AyroService.getUrl('/users/login'), {
       method: 'POST',
-      headers: AyroService.API_HEADERS,
-      body: JSON.stringify({user, device, app_token: appToken}),
-    }).then((response: Response) => {
-      return AyroService.parseResponse(response);
-    }).then((result: ILoginResult) => {
-      return {token: result.token, user: new User(result.user)};
-    });
-  }
-
-  public static logout(apiToken: string): Promise<any> {
-    return fetch(AyroService.getUrl('/auth/users'), {
-      method: 'DELETE',
       headers: AyroService.getHeaders(apiToken),
-    }).then(() => {
-      return null;
+      body: JSON.stringify({user, device, app_token: appToken}),
+    });
+    const result = await AyroService.parseResponse(response);
+    return {
+      user: new User(result.user),
+      token: result.token,
+    };
+  }
+
+  public static async logout(apiToken: string): Promise<void> {
+    await fetch(AyroService.getUrl('/users/logout'), {
+      method: 'POST',
+      headers: AyroService.getHeaders(apiToken),
     });
   }
 
-  public static updateUser(apiToken: string, user: User): Promise<User> {
-    return fetch(AyroService.getUrl('/users'), {
+  public static async updateUser(apiToken: string, user: User): Promise<User> {
+    const response = await fetch(AyroService.getUrl('/users'), {
       method: 'PUT',
       headers: AyroService.getHeaders(apiToken),
       body: JSON.stringify(user),
-    }).then((response: Response) => {
-      return AyroService.parseResponse(response);
-    }).then((result: any) => {
-      return new User(result);
     });
+    const result = await AyroService.parseResponse(response);
+    return new User(result);
   }
 
-  public static listMessages(apiToken: string): Promise<ChatMessage[]> {
-    return fetch(AyroService.getUrl('/chat'), {
+  public static async listMessages(apiToken: string): Promise<ChatMessage[]> {
+    const response = await fetch(AyroService.getUrl('/chat'), {
       method: 'GET',
       headers: AyroService.getHeaders(apiToken),
-    }).then((response: Response) => {
-      return AyroService.parseResponse(response);
-    }).then((response: any[]) => {
-      const chatMessages: ChatMessage[] = [];
-      response.forEach((message) => {
-        const chatMessage = new ChatMessage(message);
-        chatMessage.status = ChatMessage.STATUS_SENT;
-        chatMessages.push(chatMessage);
-      });
-      return chatMessages;
     });
+    const result = await AyroService.parseResponse(response);
+    const chatMessages: ChatMessage[] = [];
+    result.forEach((message: any) => {
+      const chatMessage = new ChatMessage(message);
+      chatMessage.status = ChatMessage.STATUS_SENT;
+      chatMessages.push(chatMessage);
+    });
+    return chatMessages;
   }
 
-  public static postMessage(apiToken: string, message: string): Promise<ChatMessage> {
-    return fetch(AyroService.getUrl('/chat/' + process.env.CHANNEL), {
+  public static async postMessage(apiToken: string, message: string): Promise<ChatMessage> {
+    const response = await fetch(AyroService.getUrl(`/chat/${process.env.CHANNEL}`), {
       method: 'POST',
       headers: AyroService.getHeaders(apiToken),
       body: JSON.stringify({
         text: message,
       }),
-    }).then((response: Response) => {
-      return AyroService.parseResponse(response);
-    }).then((response: any) => {
-      return new ChatMessage(response);
     });
+    const result = await AyroService.parseResponse(response);
+    return new ChatMessage(result);
   }
 
   private static readonly API_HEADERS: any = {'Content-Type': 'application/json'};
@@ -100,21 +98,19 @@ export class AyroService {
   }
 
   private static getHeaders(apiToken: string) {
-    return Object.assign({'X-Token': apiToken}, AyroService.API_HEADERS);
-  }
-
-  private static parseResponse(response: Response): any {
-    if (response.status >= 200 && response.status < 300) {
-      return response.json();
-    } else {
-      return AyroService.parseError(response);
+    const headers = Object.assign({}, AyroService.API_HEADERS);
+    if (apiToken) {
+      headers.authorization = `Bearer ${apiToken}`;
     }
+    return headers;
   }
 
-  private static parseError(response: Response): any {
-    return response.json().then((value) => {
-      throw new AyroError(value);
-    });
+  private static async parseResponse(response: Response): Promise<any> {
+    const result = await response.json();
+    if (response.status >= 200 && response.status < 300) {
+      return result;
+    }
+    throw new AyroError(result);
   }
 
   private constructor() {

@@ -52,9 +52,8 @@ class Conversation extends React.Component<IStateProps & IDispatchProps, any> {
       const continuation = previousChatMessage && previousChatMessage.agent.id === chatMessage.agent.id;
       if (chatMessage.direction === ChatMessage.DIRECTION_INCOMING) {
         return <IncomingMessage key={chatMessage.id} chatMessage={chatMessage} continuation={continuation}/>;
-      } else {
-        return <OutgoingMessage key={chatMessage.id} chatMessage={chatMessage} continuation={continuation}/>;
       }
+      return <OutgoingMessage key={chatMessage.id} chatMessage={chatMessage} continuation={continuation}/>;
     });
     return (
       <div className="ayro-conversation" ref={this.setConversationElement}>
@@ -71,9 +70,10 @@ class Conversation extends React.Component<IStateProps & IDispatchProps, any> {
 
   private onChatOpened() {
     if (UserStatus.LOGGED_IN !== this.props.userStatus) {
-      AyroApp.getInstance().login(this.props.user).then(() => {
+      (async () => {
+        await AyroApp.getInstance().login(this.props.user);
         this.loadMessages();
-      });
+      })();
     } else {
       this.loadMessages();
     }
@@ -83,11 +83,10 @@ class Conversation extends React.Component<IStateProps & IDispatchProps, any> {
     this.conversationElement.scrollTop = this.conversationElement.scrollHeight;
   }
 
-  private loadMessages() {
-    AyroService.listMessages(this.props.apiToken).then((chatMessages) => {
-      this.props.setChatMessages(chatMessages);
-      this.conversationElement.scrollTop = this.conversationElement.scrollHeight;
-    });
+  private async loadMessages(): Promise<void> {
+    const chatMessages = await AyroService.listMessages(this.props.apiToken);
+    this.props.setChatMessages(chatMessages);
+    this.conversationElement.scrollTop = this.conversationElement.scrollHeight;
   }
 }
 

@@ -1,21 +1,25 @@
 import 'whatwg-fetch';
 import 'assets/styles/main.less';
 
-import {Ayro} from 'Ayro';
+import {AyroApp} from 'core/AyroApp';
 import {User} from 'models/User';
 
 export function init(data: any): Promise<void> {
-  return Ayro.init(data);
+  const ayroApp = AyroApp.getInstance();
+  return ayroApp.init(data);
 }
 
 export function login(data: any): Promise<User> {
-  return Ayro.login(data);
+  const ayroApp = AyroApp.getInstance();
+  return ayroApp.login(data);
 }
 
 export function logout(): Promise<void> {
-  return Ayro.logout();
+  const ayroApp = AyroApp.getInstance();
+  return ayroApp.logout();
 }
 
 export function updateUser(data: any): Promise<User> {
-  return Ayro.updateUser(data);
+  const ayroApp = AyroApp.getInstance();
+  return ayroApp.updateUser(data);
 }

@@ -50,7 +50,7 @@ class OutgoingMessage extends React.Component<IStateProps & IDispatchProps & IPa
     );
   }
 
-  private retryMessage() {
+  private async retryMessage(): Promise<void> {
     this.props.removeChatMessage(this.props.chatMessage);
     const now = new Date();
     const chatMessage = new ChatMessage({
@@ -61,13 +61,14 @@ class OutgoingMessage extends React.Component<IStateProps & IDispatchProps & IPa
       date: now,
     });
     this.props.addChatMessage(chatMessage);
-    AyroService.postMessage(this.props.apiToken, chatMessage.text).then((postedMessage) => {
+    try {
+      const postedMessage = await AyroService.postMessage(this.props.apiToken, chatMessage.text);
       postedMessage.status = ChatMessage.STATUS_SENT;
       this.props.updateChatMessage(chatMessage.id, postedMessage);
-    }).catch(() => {
+    } catch (err) {
       chatMessage.status = ChatMessage.STATUS_ERROR;
       this.props.updateChatMessage(chatMessage.id, chatMessage);
-    });
+    }
   }
 
   private formatMessageTime(): string {

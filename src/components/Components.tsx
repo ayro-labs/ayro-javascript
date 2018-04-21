@@ -9,17 +9,16 @@ import {Html} from 'utils/Html';
 
 export class Components {
 
-  public static init() {
-    Html.whenReady().then(() => {
-      const ayroDiv = document.createElement('div');
-      ayroDiv.setAttribute('id', 'ayro');
-      ReactDOM.render(
-        <Provider store={Store.get()}>
-          <Container/>
-        </Provider>,
-        ayroDiv
-      );
-      document.body.appendChild(ayroDiv);
-    });
+  public static async init(): Promise<void> {
+    await Html.whenReady();
+    const div = document.createElement('div');
+    div.setAttribute('id', 'ayro');
+    ReactDOM.render(
+      <Provider store={Store.get()}>
+        <Container/>
+      </Provider>,
+      div
+    );
+    document.body.appendChild(div);
   }
 }

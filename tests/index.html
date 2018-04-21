@@ -5,12 +5,23 @@
     <title>Ayro</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script>
+      !function(e,n,t,r){
+        function o(){try{var e;if((e="string"==typeof this.response?JSON.parse(this.response):this.response).url){
+        var t=n.getElementsByTagName("script")[0],r=n.createElement("script");r.async=!0,r.src=e.url,t.parentNode.insertBefore(r,t)}}catch(e){}}
+        var s,p,a,i=[],c=[];e[t]={init:function(){s=arguments;var e={then:function(n){return c.push({type:"t",next:n}),e},catch:function(n){
+        return c.push({type:"c",next:n}),e}};return e},on:function(){i.push(arguments)},render:function(){p=arguments},destroy:function(){a=arguments}},
+        e.__onWebMessengerHostReady__=function(n){if(delete e.__onWebMessengerHostReady__,e[t]=n,s)for(var r=n.init.apply(n,s),o=0;o<c.length;o++){
+        var u=c[o];r="t"===u.type?r.then(u.next):r.catch(u.next)}p&&n.render.apply(n,p),a&&n.destroy.apply(n,a);for(o=0;o<i.length;o++)n.on.apply(n,i[o])};
+        var u=new XMLHttpRequest;u.addEventListener("load",o),u.open("GET","https://"+r+".webloader.smooch.io/",!0),u.responseType="json",u.send()
+      }(window,document,"Smooch","5985c40908d768ef00cbb4f1")
+    </script>
   </head>
   <body>
     <script src="/dist/browser/ayro.js"></script>
     <script>
       Ayro.init({
-        app_token: '244f07e0ddfe58a14d0c8cae796877eb2bf8dd06',
+        app_token: '3e603b11c1e8ace6bfc47a127ec5df85e11f90ba',
         chatbox: {
           title: 'Como podemos ajudá-lo?',
           input_placeholder: 'Digite uma mensagem...',
@@ -26,6 +37,11 @@
       }).then(function(user) {
         console.log('Authenticated user:');
         console.log(user);
+      });
+    </script>
+    <script>
+      Smooch.init({
+        appId: '5985c40908d768ef00cbb4f1'
       });
     </script>
   </body>

@@ -20,7 +20,7 @@
   "extends": [
     "tslint:recommended",
     "tslint-eslint-rules",
-    "tslint-react",
-    "tslint-config-airbnb"
+    "tslint-config-airbnb",
+    "tslint-react"
   ]
 }

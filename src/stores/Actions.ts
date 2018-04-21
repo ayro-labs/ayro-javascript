@@ -9,10 +9,6 @@ import {ChatMessage} from 'models/ChatMessage';
 
 export class Actions {
 
-  public static readonly GET_USER_UID: string = 'GET_USER_UID';
-  public static readonly SET_USER_UID: string = 'SET_USER_UID';
-  public static readonly GET_DEVICE_UID: string = 'GET_DEVICE_UID';
-  public static readonly SET_DEVICE_UID: string = 'SET_DEVICE_UID';
   public static readonly SET_APP_STATUS: string = 'SET_APP_STATUS';
   public static readonly SET_USER_STATUS: string = 'SET_USER_STATUS';
   public static readonly SET_SETTINGS: string = 'SET_SETTINGS';
@@ -44,54 +40,42 @@ export class Actions {
   public static setAppStatus(appStatus: AppStatus): AnyAction {
     return {
       type: Actions.SET_APP_STATUS,
-      extraProps: {
-        appStatus: appStatus,
-      },
+      extraProps: {appStatus},
     };
   }
 
   public static setUserStatus(userStatus: UserStatus): AnyAction {
     return {
       type: Actions.SET_USER_STATUS,
-      extraProps: {
-        userStatus: userStatus,
-      },
+      extraProps: {userStatus},
     };
   }
 
   public static setSettings(settings: Settings): AnyAction {
     return {
       type: Actions.SET_SETTINGS,
-      extraProps: {
-        settings: settings,
-      },
+      extraProps: {settings},
     };
   }
 
   public static setApp(app: App): AnyAction {
     return {
       type: Actions.SET_APP,
-      extraProps: {
-        app: app,
-      },
+      extraProps: {app},
     };
   }
 
   public static setIntegration(integration: Integration): AnyAction {
     return {
       type: Actions.SET_INTEGRATION,
-      extraProps: {
-        integration: integration,
-      },
+      extraProps: {integration},
     };
   }
 
   public static setUser(user: User): AnyAction {
     return {
       type: Actions.SET_USER,
-      extraProps: {
-        user: user,
-      },
+      extraProps: {user},
     };
   }
 
@@ -104,9 +88,7 @@ export class Actions {
   public static setApiToken(apiToken: string): AnyAction {
     return {
       type: Actions.SET_API_TOKEN,
-      extraProps: {
-        apiToken: apiToken,
-      },
+      extraProps: {apiToken},
     };
   }
 
@@ -119,37 +101,28 @@ export class Actions {
   public static setChatMessages(chatMessages: ChatMessage[]): AnyAction {
     return {
       type: Actions.SET_CHAT_MESSAGES,
-      extraProps: {
-        chatMessages: chatMessages,
-      },
+      extraProps: {chatMessages},
     };
   }
 
   public static addChatMessage(chatMessage: ChatMessage): AnyAction {
     return {
       type: Actions.ADD_CHAT_MESSAGE,
-      extraProps: {
-        chatMessage: chatMessage,
-      },
+      extraProps: {chatMessage},
     };
   }
 
   public static updateChatMessage(id: string, chatMessage: ChatMessage): AnyAction {
     return {
       type: Actions.UPDATE_CHAT_MESSAGE,
-      extraProps: {
-        id,
-        chatMessage,
-      },
+      extraProps: {id, chatMessage},
     };
   }
 
   public static removeChatMessage(chatMessage: ChatMessage): AnyAction {
     return {
       type: Actions.REMOVE_CHAT_MESSAGE,
-      extraProps: {
-        chatMessage: chatMessage,
-      },
+      extraProps: {chatMessage},
     };
   }
 

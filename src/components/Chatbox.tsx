@@ -83,7 +83,7 @@ class Chatbox extends React.Component<IStateProps & IDispatchProps, IState> {
     this.setState({message: event.target.value});
   }
 
-  private postMessage() {
+  private async postMessage(): Promise<void> {
     if (this.state.message.length > 0) {
       this.inputElement.focus();
       const now = new Date();
@@ -96,13 +96,14 @@ class Chatbox extends React.Component<IStateProps & IDispatchProps, IState> {
       });
       this.props.addChatMessage(chatMessage);
       this.setState({message: ''});
-      AyroService.postMessage(this.props.apiToken, chatMessage.text).then((postedMessage) => {
+      try {
+        const postedMessage = await AyroService.postMessage(this.props.apiToken, chatMessage.text);
         postedMessage.status = ChatMessage.STATUS_SENT;
         this.props.updateChatMessage(chatMessage.id, postedMessage);
-      }).catch(() => {
+      } catch (err) {
         chatMessage.status = ChatMessage.STATUS_ERROR;
         this.props.updateChatMessage(chatMessage.id, chatMessage);
-      });
+      }
     }
   }
 
