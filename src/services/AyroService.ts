@@ -23,7 +23,7 @@ export class AyroService {
     const response = await fetch(AyroService.getUrl(`/apps/integrations/${process.env.CHANNEL}/init`), {
       method: 'POST',
       headers: AyroService.API_HEADERS,
-      body: JSON.stringify({app_token: appToken, device}),
+      body: JSON.stringify({device, app_token: appToken}),
     });
     const result = await AyroService.parseResponse(response);
     return {
