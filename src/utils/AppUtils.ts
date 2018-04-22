@@ -3,11 +3,11 @@ import {v4 as uuid} from 'uuid';
 import {Device} from 'models/Device';
 import {Storage} from 'utils/Storage';
 
-export class App {
+export class AppUtils {
 
   public static getDevice(): Device {
     return new Device({
-      uid: App.getDeviceUid(),
+      uid: AppUtils.getDeviceUid(),
       platform: 'web',
       info: {
         user_agent: navigator.userAgent,
@@ -19,10 +19,10 @@ export class App {
   private static readonly DEVICE_UID: string = 'device_uid';
 
   private static getDeviceUid() {
-    let uid = Storage.get(App.DEVICE_UID);
+    let uid = Storage.get(AppUtils.DEVICE_UID);
     if (!uid) {
       uid = uuid().replace(/-/g, '');
-      Storage.set(App.DEVICE_UID, uid);
+      Storage.set(AppUtils.DEVICE_UID, uid);
     }
     return uid;
   }

@@ -7,7 +7,7 @@ import {Settings} from 'models/Settings';
 import {User} from 'models/User';
 import {Actions} from 'stores/Actions';
 import {Store} from 'stores/Store';
-import {App} from 'utils/App';
+import {AppUtils} from 'utils/AppUtils';
 import {Messages} from 'utils/Messages';
 
 export class AyroApp {
@@ -38,7 +38,7 @@ export class AyroApp {
     try {
       const settings = new Settings(data);
       Store.dispatch(Actions.setSettings(settings));
-      const result = await AyroService.init(settings.app_token, App.getDevice());
+      const result = await AyroService.init(settings.app_token, AppUtils.getDevice());
       Store.dispatch(Actions.setAppStatus(AppStatus.INITIALIZED));
       Store.dispatch(Actions.setApp(result.app));
       Store.dispatch(Actions.setIntegration(result.integration));
@@ -58,7 +58,7 @@ export class AyroApp {
       const user = new User(data);
       const apiToken = Store.getState().apiToken;
       const appToken = Store.getState().settings.app_token;
-      const result = await AyroService.login(apiToken, appToken, user, App.getDevice());
+      const result = await AyroService.login(apiToken, appToken, user, AppUtils.getDevice());
       Store.dispatch(Actions.setUserStatus(UserStatus.LOGGED_IN));
       Store.dispatch(Actions.setUser(result.user));
       Store.dispatch(Actions.setApiToken(result.token));
