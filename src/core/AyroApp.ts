@@ -54,7 +54,6 @@ export class AyroApp {
   public async login(data: any): Promise<User> {
     this.assertInitialized();
     try {
-      this.fixUserAttributes(data);
       const user = new User(data);
       const apiToken = Store.getState().apiToken;
       const appToken = Store.getState().settings.app_token;
@@ -89,9 +88,7 @@ export class AyroApp {
     this.assertInitialized();
     this.assertAuthenticated();
     try {
-      this.fixUserAttributes(data);
       const user = new User(data);
-      Store.dispatch(Actions.setUser(user));
       const updatedUser = await AyroService.updateUser(Store.getState().apiToken, user);
       Store.dispatch(Actions.setUser(updatedUser));
       return updatedUser;
@@ -110,13 +107,6 @@ export class AyroApp {
   private assertAuthenticated() {
     if (this.getUserStatus() !== UserStatus.LOGGED_IN) {
       throw new Error('User is not authenticated, please make sure you call login function first.');
-    }
-  }
-
-  private fixUserAttributes(data: any) {
-    if (data) {
-      delete data.id;
-      delete data.identified;
     }
   }
 }
