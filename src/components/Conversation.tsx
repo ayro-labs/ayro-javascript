@@ -6,7 +6,6 @@ import * as PubSub from 'pubsub-js';
 import IncomingMessage from 'components/IncomingMessage';
 import OutgoingMessage from 'components/OutgoingMessage';
 
-import {AyroApp} from 'core/AyroApp';
 import {AyroService} from 'services/AyroService';
 import {UserStatus} from 'enums/UserStatus';
 import {User} from 'models/User';
