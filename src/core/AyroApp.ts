@@ -45,6 +45,7 @@ export class AyroApp {
       Store.dispatch(Actions.setUser(result.user));
       Store.dispatch(Actions.setApiToken(result.token));
       Components.init();
+      MessagingService.start();
     } catch (err) {
       Messages.improve(err);
       throw err;
@@ -61,6 +62,7 @@ export class AyroApp {
       Store.dispatch(Actions.setUserStatus(UserStatus.LOGGED_IN));
       Store.dispatch(Actions.setUser(result.user));
       Store.dispatch(Actions.setApiToken(result.token));
+      MessagingService.stop();
       MessagingService.start();
       return result.user;
     } catch (err) {
@@ -73,11 +75,12 @@ export class AyroApp {
     this.assertInitialized();
     this.assertAuthenticated();
     try {
-      await AyroService.logout(Store.getState().apiToken);
+      const result = await AyroService.logout(Store.getState().apiToken);
       Store.dispatch(Actions.setUserStatus(UserStatus.LOGGED_OUT));
-      Store.dispatch(Actions.unsetUser());
-      Store.dispatch(Actions.unsetApiToken());
+      Store.dispatch(Actions.setUser(result.user));
+      Store.dispatch(Actions.setApiToken(result.token));
       MessagingService.stop();
+      MessagingService.start();
     } catch (err) {
       Messages.improve(err);
       throw err;

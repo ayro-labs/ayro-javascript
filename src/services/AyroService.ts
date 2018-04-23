@@ -17,6 +17,11 @@ export interface ILoginResult {
   token: string;
 }
 
+export interface ILogoutResult {
+  user: User;
+  token: string;
+}
+
 export class AyroService {
 
   public static async init(appToken: string, device: Device): Promise<IInitResult> {
@@ -47,11 +52,16 @@ export class AyroService {
     };
   }
 
-  public static async logout(apiToken: string): Promise<void> {
-    await fetch(AyroService.getUrl('/users/logout'), {
+  public static async logout(apiToken: string): Promise<ILogoutResult> {
+    const response = await fetch(AyroService.getUrl('/users/logout'), {
       method: 'POST',
       headers: AyroService.getHeaders(apiToken),
     });
+    const result = await AyroService.parseResponse(response);
+    return {
+      user: new User(result.user),
+      token: result.token,
+    };
   }
 
   public static async updateUser(apiToken: string, user: User): Promise<User> {
