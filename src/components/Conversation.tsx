@@ -69,14 +69,7 @@ class Conversation extends React.Component<IStateProps & IDispatchProps, any> {
   }
 
   private onChatOpened() {
-    if (UserStatus.LOGGED_IN !== this.props.userStatus) {
-      (async () => {
-        await AyroApp.getInstance().login(this.props.user);
-        this.loadMessages();
-      })();
-    } else {
-      this.loadMessages();
-    }
+    this.loadMessages();
   }
 
   private onChatMessageAdded() {
