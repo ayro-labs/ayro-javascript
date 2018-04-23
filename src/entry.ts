@@ -3,6 +3,18 @@ import 'assets/styles/main.less';
 
 import {AyroApp} from 'core/AyroApp';
 import {User} from 'models/User';
+import {AppStatus} from 'enums/AppStatus';
+import {UserStatus} from 'enums/UserStatus';
+
+export function getAppStatus(): AppStatus {
+  const ayroApp = AyroApp.getInstance();
+  return ayroApp.getAppStatus();
+}
+
+export function getUserStatus(): UserStatus {
+  const ayroApp = AyroApp.getInstance();
+  return ayroApp.getUserStatus();
+}
 
 export function init(data: any): Promise<void> {
   const ayroApp = AyroApp.getInstance();
