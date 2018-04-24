@@ -39,11 +39,11 @@ export class AyroService {
     };
   }
 
-  public static async login(apiToken: string, appToken: string, user: User, device: Device): Promise<ILoginResult> {
+  public static async login(apiToken: string, appToken: string, jwtToken: string, user: User, device: Device): Promise<ILoginResult> {
     const response = await fetch(AyroService.getUrl('/users/login'), {
       method: 'POST',
       headers: AyroService.getHeaders(apiToken),
-      body: JSON.stringify({user, device, app_token: appToken}),
+      body: JSON.stringify({user, device, jwt: jwtToken, app_token: appToken}),
     });
     const result = await AyroService.parseResponse(response);
     return {

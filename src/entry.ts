@@ -21,9 +21,9 @@ export function init(data: any): Promise<void> {
   return ayroApp.init(data);
 }
 
-export function login(data: any): Promise<User> {
+export function login(data: any, jwtToken: string): Promise<User> {
   const ayroApp = AyroApp.getInstance();
-  return ayroApp.login(data);
+  return ayroApp.login(data, jwtToken);
 }
 
 export function logout(): Promise<void> {

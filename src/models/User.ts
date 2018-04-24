@@ -21,7 +21,7 @@ export class User {
       this.email = data.email;
       this.photo_url = data.photo_url;
       this.photo = data.photo;
-      this.sign_up_date = data.sign_up_date;
+      this.sign_up_date = data.sign_up_date instanceof Date ? data.sign_up_date : new Date(data.sign_up_date);
       this.properties = data.properties;
     }
   }

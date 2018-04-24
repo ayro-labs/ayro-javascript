@@ -10,7 +10,7 @@ export class Integration {
       this.type = data.type;
       this.channel = data.channel;
       this.configuration = data.configuration;
-      this.registration_date = data.registration_date;
+      this.registration_date = data.registration_date instanceof Date ? data.registration_date : new Date(data.registration_date);
     }
   }
 }

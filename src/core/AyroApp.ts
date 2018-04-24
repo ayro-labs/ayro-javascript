@@ -38,7 +38,8 @@ export class AyroApp {
     try {
       const settings = new Settings(data);
       Store.dispatch(Actions.setSettings(settings));
-      const result = await AyroService.init(settings.app_token, AppUtils.getDevice());
+      const device = AppUtils.getDevice();
+      const result = await AyroService.init(settings.app_token, device);
       Store.dispatch(Actions.setAppStatus(AppStatus.INITIALIZED));
       Store.dispatch(Actions.setApp(result.app));
       Store.dispatch(Actions.setIntegration(result.integration));
@@ -52,13 +53,14 @@ export class AyroApp {
     }
   }
 
-  public async login(data: any): Promise<User> {
+  public async login(data: any, jwtToken: string): Promise<User> {
     this.assertInitialized();
     try {
       const user = new User(data);
+      const device = AppUtils.getDevice();
       const apiToken = Store.getState().apiToken;
       const appToken = Store.getState().settings.app_token;
-      const result = await AyroService.login(apiToken, appToken, user, AppUtils.getDevice());
+      const result = await AyroService.login(apiToken, appToken, jwtToken, user, device);
       Store.dispatch(Actions.setUserStatus(UserStatus.LOGGED_IN));
       Store.dispatch(Actions.setUser(result.user));
       Store.dispatch(Actions.setApiToken(result.token));
@@ -75,7 +77,8 @@ export class AyroApp {
     this.assertInitialized();
     this.assertAuthenticated();
     try {
-      const result = await AyroService.logout(Store.getState().apiToken);
+      const apiToken = Store.getState().apiToken;
+      const result = await AyroService.logout(apiToken);
       Store.dispatch(Actions.setUserStatus(UserStatus.LOGGED_OUT));
       Store.dispatch(Actions.setUser(result.user));
       Store.dispatch(Actions.setApiToken(result.token));
@@ -92,7 +95,8 @@ export class AyroApp {
     this.assertAuthenticated();
     try {
       const user = new User(data);
-      const updatedUser = await AyroService.updateUser(Store.getState().apiToken, user);
+      const apiToken = Store.getState().apiToken;
+      const updatedUser = await AyroService.updateUser(apiToken, user);
       Store.dispatch(Actions.setUser(updatedUser));
       return updatedUser;
     } catch (err) {
