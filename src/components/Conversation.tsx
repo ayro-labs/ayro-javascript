@@ -55,7 +55,7 @@ class Conversation extends React.Component<IStateProps & IDispatchProps, any> {
       return <OutgoingMessage key={chatMessage.id} chatMessage={chatMessage} continuation={continuation}/>;
     });
     return (
-      <div className="ayro-conversation" ref={this.setConversationElement}>
+      <div className="ayro-chatbox-conversation" ref={this.setConversationElement}>
         <div className="ayro-messages">
           {messages}
         </div>

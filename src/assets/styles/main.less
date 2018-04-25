@@ -3,9 +3,6 @@
 @gray-light: #d8d8d8;
 
 #ayro-container {
-  @import "./fontawesome/fontawesome.less";
-  @import "./fontawesome/fa-solid.less";
-  @import "./fontawesome/fa-regular.less";
   i {
     font-style: normal;
   }
@@ -49,7 +46,7 @@
   }
 }
 .ayro-button {
-  .ayro-button-icon {
+  .ayro-icon-button {
     display: block;
     margin: auto;
     position: relative;
@@ -57,113 +54,92 @@
     bottom: 1px;
     width: 40px;
     height: 40px;
+    fill: @white;
   }
 }
-.ayro-chatbox {
-  .ayro-header {
-    display: flex;
-    align-items: center;
-    box-shadow: 0 -1px 3px rgba(0,0,0,.1);
-    height: 45px;
-    padding: 0px 15px;
-    color: @white;
-    font-size: 17px;
-    text-align: center;
+.ayro-chatbox-header {
+  display: flex;
+  align-items: center;
+  box-shadow: 0 -1px 3px rgba(0,0,0,.1);
+  height: 45px;
+  padding: 0px 15px;
+  color: @white;
+  font-size: 17px;
+  text-align: center;
+  cursor: pointer;
+  .ayro-icon-close {
+    margin-left: auto;
+    display: block;
+    width: 20px;
+    height: 20px;
+    fill: @white;
+  }
+}
+.ayro-chatbox-conversation {
+  display: flex;
+  flex-direction: column-reverse;
+  background-color: #f9f9f9;
+  height: ~"calc(100% - 90px)";
+  overflow-y: scroll;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #efefef;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: @gray;
+  }
+}
+.ayro-chatbox-footer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: @white;
+  box-shadow: 0 -1px 3px rgba(0,0,0,.1);
+  height: 45px;
+  padding: 0px 15px;
+  color: @gray;
+  .ayro-input {
+    flex: 1 1 auto;
+    margin-right: 15px;
+    input {
+      background: none;
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 14px;
+      color: #4e4e4e;
+    }
+  }
+  .ayro-icon-send {
     cursor: pointer;
-    .ayro-close {
-      margin-left: auto;
-    }
-    .fa {
-      font-size: 20px !important;
-    }
-  }
-  .ayro-conversation {
-    display: flex;
-    flex-direction: column-reverse;
-    background-color: #f9f9f9;
-    height: ~"calc(100% - 90px)";
-    overflow-y: scroll;
-    overflow-x: hidden;
-    &::-webkit-scrollbar {
-      width: 10px;
-    }
-    &::-webkit-scrollbar-track {
-      background-color: #efefef;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: @gray;
-    }
-  }
-  .ayro-footer {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background-color: @white;
-    box-shadow: 0 -1px 3px rgba(0,0,0,.1);
-    height: 45px;
-    padding: 0px 15px;
-    color: @gray;
-    .ayro-input {
-      flex: 1 1 auto;
-      margin-right: 15px;
-      input {
-        background: none;
-        border: none;
-        outline: none;
-        width: 100%;
-        font-size: 14px;
-        color: #4e4e4e;
-      }
-    }
-    .ayro-post {
-      cursor: pointer;
-    }
-    .fa {
-      font-size: 20px !important;
-    }
-  }
-}
-.ayro-post {
-  &.ayro-enabled {
-    color: @gray;
-  }
-  &.ayro-disabled {
-    color: @gray-light;
-  }
-  .ayro-fa-paper-plane {
     font-size: 20px;
+    &.ayro-enabled {
+      fill: @gray;
+    }
+    &.ayro-disabled {
+      fill: @gray-light;
+    }
   }
 }
 .ayro-messages {
   padding: 15px;
 }
 .ayro-message {
+  box-shadow: 0px 1px 4px rgba(0,0,0,.2);
   position: relative;
   display: inline-block;
   border-radius: 8px;
   max-width: 200px;
   padding: 5px 8px;
-  .ayro-message-text {
-    font-size: 15px;
-  }
+  font-size: 15px;
   .ayro-message-status {
     position: absolute;
     bottom: 6px;
     right: 10px;
     font-size: 11px;
-    .ayro-message-time {
-      margin-right: 4px;
-    }
-  }
-}
-.ayro-message-incoming, .ayro-message-outgoing {
-  margin-top: 4px;
-  margin-bottom: 4px;
-  &.ayro-message-discontinuation {
-    margin-top: 12px;
-  }
-  .ayro-message {
-    box-shadow: 0px 1px 4px rgba(0,0,0,.2);
   }
 }
 .ayro-message-incoming {
@@ -180,6 +156,7 @@
     background-color: @white;
     margin-left: 44px;
     .ayro-message-agent {
+      margin-bottom: 3px;
       font-size: 13px;
       font-weight: bold;
       color: @gray;
@@ -208,13 +185,35 @@
         display: inline;
       }
     }
+    .ayro-message-status {
+      display: flex;
+      align-items: center;
+    }
+    .ayro-message-time {
+      margin-right: 4px;
+    }
+    .ayro-icon-status {
+      width: 13px;
+      height: 13px;
+      fill: @white;
+    }
   }
   .ayro-message-retry {
     margin-left: 8px;
     height: 100%;
-    color: @gray;
-    font-size: 22px;
     cursor: pointer;
+    .ayro-icon-retry {
+      width: 22px;
+      height: 22px;
+      fill: @gray;
+    }
+  }
+}
+.ayro-message-incoming, .ayro-message-outgoing {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  &.ayro-message-discontinuation {
+    margin-top: 12px;
   }
 }
 
