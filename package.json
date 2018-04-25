@@ -31,7 +31,7 @@
     "publish-lib": "node tasks/publish.js"
   },
   "devDependencies": {
-    "@ayro/commons": "0.0.22",
+    "@ayro/commons": "0.0.24",
     "@octokit/rest": "15.2.6",
     "@types/core-js": "0.9.46",
     "@types/pubsub-js": "1.5.18",

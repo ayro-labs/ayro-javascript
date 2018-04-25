@@ -16,14 +16,14 @@
           input_placeholder: 'Digite uma mensagem...',
         },
       }).then(() => {
-        const jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjVhZGY5MWJhZTk2ZTgwNjg1MjZmNDBhYSJ9.eyJzY29wZSI6InVzZXIiLCJ1c2VyIjoiMSIsImlhdCI6MTUyNDYwMTQzMn0.hMkSC1OafnhgXSTPT4iHtGC-jTTtXmAWCcueizoIqs8';
+        const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjVhZGY5MWJhZTk2ZTgwNjg1MjZmNDBhYSJ9.eyJzY29wZSI6InVzZXIiLCJ1c2VyIjoiMSIsImlhdCI6MTUyNDYwMTQzMn0.hMkSC1OafnhgXSTPT4iHtGC-jTTtXmAWCcueizoIqs8';
         return Ayro.login({
           uid: '1',
           first_name: 'Sandro',
           last_name: 'Simas',
           email: 'sandro@ayro.io',
           photo_url: 'https://scontent.xx.fbcdn.net/v/t1.0-1/11709651_882143908522388_6031653989057086887_n.jpg?oh=42e99275199e478ebdc1b019445dbd41&oe=5A6A7A5D',
-        }, jwt);
+        }, jwtToken);
       }).then((user) => {
         console.log('Authenticated user:');
         console.log(user);
