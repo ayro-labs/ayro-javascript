@@ -101,6 +101,14 @@ export class AyroService {
     return new ChatMessage(result);
   }
 
+  public static async trackViewChat(apiToken: string): Promise<void> {
+    const response = await fetch(AyroService.getUrl(`/events/view_chat`), {
+      method: 'POST',
+      headers: AyroService.getHeaders(apiToken),
+    });
+    await AyroService.parseResponse(response);
+  }
+
   private static readonly API_HEADERS: any = {'Content-Type': 'application/json'};
 
   private static getUrl(url: string): string {

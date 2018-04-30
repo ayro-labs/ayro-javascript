@@ -47,6 +47,9 @@ export class AyroApp {
       Store.dispatch(Actions.setApiToken(result.token));
       Components.init();
       MessagingService.start();
+      setTimeout(() => {
+        AyroService.trackViewChat(Store.getState().apiToken);
+      }, 2000);
     } catch (err) {
       Messages.improve(err);
       throw err;
