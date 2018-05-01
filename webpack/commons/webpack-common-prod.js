@@ -1,3 +1,5 @@
+'use strict';
+
 const settings = require('../../configs/settings')('production');
 const webpackCommon = require('./webpack-common');
 const webpack = require('webpack');

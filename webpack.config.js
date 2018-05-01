@@ -1,3 +1,5 @@
+'use strict';
+
 const {properties} = require('@ayro/commons');
 const path = require('path');
 

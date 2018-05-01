@@ -1,3 +1,5 @@
+'use strict';
+
 const helpers = require('./commons/helpers');
 const webpackDev = require('./commons/webpack-common-dev');
 const webpack = require('webpack');
