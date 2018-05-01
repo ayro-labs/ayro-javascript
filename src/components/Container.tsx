@@ -1,14 +1,23 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 
+import IncomingMessage from 'components/IncomingMessage';
 import Chatbox from 'components/Chatbox';
 import ChatButton from 'components/ChatButton';
 
-class Container extends React.Component<any, any> {
+import {ChatMessage} from 'models/ChatMessage';
+import {IStoreState} from 'stores/Store';
+
+interface IStateProps {
+  lastUnread: ChatMessage;
+}
+
+class Container extends React.Component<IStateProps, {}> {
 
   public render() {
     return (
       <div id="ayro-container">
+        <IncomingMessage chatMessage={this.props.lastUnread} unreadStyle={true}/>
         <Chatbox/>
         <ChatButton/>
       </div>
@@ -16,4 +25,10 @@ class Container extends React.Component<any, any> {
   }
 }
 
-export default connect<any, any, any>(null, null)(Container);
+function mapStateToProps(state: IStoreState): IStateProps {
+  return {
+    lastUnread: state.lastUnread,
+  };
+}
+
+export default connect<IStateProps, any, any, IStoreState>(mapStateToProps, null)(Container);

@@ -1,32 +1,47 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators, Dispatch, AnyAction} from 'redux';
 
 import {ChatMessage} from 'models/ChatMessage';
+import {Actions} from 'stores/Actions';
 import {Classes} from 'utils/Classes';
 
 interface IParamProps {
   chatMessage: ChatMessage;
-  continuation: boolean;
+  continuation?: boolean;
+  unreadStyle?: boolean;
 }
 
-class IncomingMessage extends React.Component<IParamProps, any> {
+interface IDispatchProps {
+  clearUnreads: () => void;
+}
+
+class IncomingMessage extends React.Component<IParamProps & IDispatchProps, any> {
+
+  constructor(props: IDispatchProps & IParamProps) {
+    super(props);
+    this.renderCloseButton = this.renderCloseButton.bind(this);
+  }
 
   public render() {
-    return (
-      <div key={this.props.chatMessage.id} className={this.messageClasses()}>
-        {this.renderAuthorPhoto()}
-        <div className="ayro-message">
-          {this.renderAuthorName()}
-          <div className="ayro-message-text">
-            <span>{this.props.chatMessage.text}</span>
+    if (this.props.chatMessage) {
+      return (
+        <div key={this.props.chatMessage.id} className={this.messageClasses()}>
+          {this.renderAuthorPhoto()}
+          <div className="ayro-message">
+            {this.renderAuthorName()}
+            <div className="ayro-message-text">
+              <span>{this.props.chatMessage.text}</span>
+            </div>
+            <div className="ayro-message-status">
+              <span className="ayro-message-time">{this.formatMessageTime()}</span>
+            </div>
           </div>
-          <div className="ayro-message-status">
-            <span className="ayro-message-time">{this.formatMessageTime()}</span>
-          </div>
+          <div className="ayro-clear"/>
         </div>
-        <div className="ayro-clear"/>
-      </div>
-    );
+      );
+    }
+    return null;
   }
 
   private renderAuthorPhoto() {
@@ -45,7 +60,19 @@ class IncomingMessage extends React.Component<IParamProps, any> {
       return (
         <div className="ayro-message-agent">
           {this.props.chatMessage.agent.name}
+          {this.renderCloseButton()}
         </div>
+      );
+    }
+    return null;
+  }
+
+  private renderCloseButton() {
+    if (this.props.unreadStyle) {
+      return (
+        <svg onClick={this.props.clearUnreads} className="ayro-icon-close" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"/>
+        </svg>
       );
     }
     return null;
@@ -61,9 +88,15 @@ class IncomingMessage extends React.Component<IParamProps, any> {
   private messageClasses(): string {
     return Classes.get({
       'ayro-message-incoming': true,
-      'ayro-message-discontinuation': !this.props.continuation,
+      'ayro-message-discontinuation': this.props.continuation === false,
     });
   }
 }
 
-export default connect<any, any, IParamProps>(null, null)(IncomingMessage);
+function mapDispatchToProps(dispatch: Dispatch<AnyAction>): IDispatchProps {
+  return bindActionCreators({
+    clearUnreads: Actions.clearUnreads,
+  }, dispatch);
+}
+
+export default connect<any, IDispatchProps, IParamProps>(null, mapDispatchToProps)(IncomingMessage);

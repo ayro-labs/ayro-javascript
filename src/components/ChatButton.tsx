@@ -18,11 +18,6 @@ interface IDispatchProps {
 
 class ChatButton extends React.Component<IStateProps & IDispatchProps, {}> {
 
-  constructor(props: IStateProps & IDispatchProps) {
-    super(props);
-    this.openChat = this.openChat.bind(this);
-  }
-
   public render() {
     return (
       <button className={this.buttonClasses()} style={this.buttonStyles()} onClick={this.props.openChat}>
@@ -31,10 +26,6 @@ class ChatButton extends React.Component<IStateProps & IDispatchProps, {}> {
         </svg>
       </button>
     );
-  }
-
-  private openChat() {
-    this.props.openChat();
   }
 
   private buttonClasses(): string {

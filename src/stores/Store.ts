@@ -21,6 +21,7 @@ export interface IStoreState {
   apiToken: string;
   chatOpened: boolean;
   chatMessages: ChatMessage[];
+  lastUnread: ChatMessage;
 }
 
 export class Store {
@@ -47,6 +48,7 @@ export class Store {
     apiToken: null,
     chatOpened: false,
     chatMessages: [],
+    lastUnread: null,
   };
 
   private static STORE: ReduxStore<IStoreState> = createStore((state: IStoreState, action: AnyAction) => {
@@ -100,13 +102,18 @@ export class Store {
       case Actions.REMOVE_CHAT_MESSAGE:
         newState = Store.removeChatMessage(state, action);
         break;
+      case Actions.CLEAR_UNREADS:
+        newState = Store.clearUnreads(state);
+        break;
     }
     PubSub.publish(action.type, action);
     return newState;
   });
 
   private static openChat(state: IStoreState): IStoreState {
-    return DotProp.set(state, 'chatOpened', true);
+    let finalState = DotProp.set(state, 'chatOpened', true) as IStoreState;
+    finalState = DotProp.set(finalState, 'lastUnread', null) as IStoreState;
+    return finalState;
   }
 
   private static closeChat(state: IStoreState): IStoreState {
@@ -154,7 +161,12 @@ export class Store {
   }
 
   private static addChatMessage(state: IStoreState, action: AnyAction): IStoreState {
-    return DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => [...chatMessages, action.extraProps.chatMessage]);
+    const chatMessage = action.extraProps.chatMessage;
+    let finalState = DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => [...chatMessages, chatMessage]) as IStoreState;
+    if (!finalState.chatOpened && chatMessage.direction === ChatMessage.DIRECTION_INCOMING) {
+      finalState = DotProp.set(finalState, 'lastUnread', chatMessage);
+    }
+    return finalState;
   }
 
   private static updateChatMessage(state: IStoreState, action: AnyAction): IStoreState {
@@ -181,6 +193,10 @@ export class Store {
       });
       return newChatMessages;
     });
+  }
+
+  private static clearUnreads(state: IStoreState): IStoreState {
+    return DotProp.set(state, 'lastUnread', null);
   }
 
   private constructor() {

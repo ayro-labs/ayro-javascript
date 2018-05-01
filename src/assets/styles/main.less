@@ -40,9 +40,25 @@
     border: 1px solid rgba(0,0,0,.15);
     border-radius: 8px;
     right: 30px;
-    bottom: 30px;
+    bottom: 40px;
     width: 340px;
     height: 75%;
+  }
+  > .ayro-message-incoming {
+    z-index: 99999;
+    position: fixed;
+    right: 30px;
+    bottom: 110px;
+    .ayro-message {
+      max-width: 240px;
+    }
+    .ayro-icon-close {
+      float: right;
+      width: 13px;
+      height: 13px;
+      fill: @gray;
+      cursor: pointer;
+    }
   }
 }
 .ayro-button {
@@ -229,6 +245,11 @@
       bottom: 0px;
       width: 100%;
       height: 100%;
+    }
+    > .ayro-message-incoming {
+      right: 15px;
+      bottom: 86px;
+      max-width: 90%;
     }
   }
 }

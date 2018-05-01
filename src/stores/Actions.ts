@@ -24,6 +24,7 @@ export class Actions {
   public static readonly ADD_CHAT_MESSAGE: string = 'ADD_CHAT_MESSAGE';
   public static readonly UPDATE_CHAT_MESSAGE: string = 'UPDATE_CHAT_MESSAGE';
   public static readonly REMOVE_CHAT_MESSAGE: string = 'REMOVE_CHAT_MESSAGE';
+  public static readonly CLEAR_UNREADS: string = 'CLEAR_UNREADS';
 
   public static openChat(): AnyAction {
     return {
@@ -123,6 +124,12 @@ export class Actions {
     return {
       type: Actions.REMOVE_CHAT_MESSAGE,
       extraProps: {chatMessage},
+    };
+  }
+
+  public static clearUnreads(): AnyAction {
+    return {
+      type: Actions.CLEAR_UNREADS,
     };
   }
 
