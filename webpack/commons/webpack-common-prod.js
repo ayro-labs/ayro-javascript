@@ -1,5 +1,5 @@
 const settings = require('../../configs/settings')('production');
-const webpackCommon = require('./webpack-common.js');
+const webpackCommon = require('./webpack-common');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 
@@ -12,8 +12,6 @@ module.exports = webpackMerge(webpackCommon, {
         WEBCM_URL: JSON.stringify(settings.webcmUrl),
       },
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-    }),
+    new webpack.optimize.UglifyJsPlugin(),
   ],
 });

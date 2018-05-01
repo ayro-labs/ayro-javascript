@@ -1,5 +1,5 @@
 const settings = require('../../configs/settings')('development');
-const webpackCommon = require('./webpack-common.js');
+const webpackCommon = require('./webpack-common');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 
