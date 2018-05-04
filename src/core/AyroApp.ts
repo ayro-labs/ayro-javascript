@@ -44,8 +44,10 @@ export class AyroApp {
       Store.dispatch(Actions.setApp(result.app));
       Store.dispatch(Actions.setIntegration(result.integration));
       Store.dispatch(Actions.setUser(result.user));
+      Store.dispatch(Actions.setDevice(result.device));
       Store.dispatch(Actions.setApiToken(result.token));
       Components.init();
+      MessagingService.stop();
       MessagingService.start();
       await AyroService.trackViewChat(Store.getState().apiToken);
     } catch (err) {
@@ -64,6 +66,7 @@ export class AyroApp {
       const result = await AyroService.login(apiToken, appToken, jwtToken, user, device);
       Store.dispatch(Actions.setUserStatus(UserStatus.LOGGED_IN));
       Store.dispatch(Actions.setUser(result.user));
+      Store.dispatch(Actions.setDevice(result.device));
       Store.dispatch(Actions.setApiToken(result.token));
       MessagingService.stop();
       MessagingService.start();
@@ -82,6 +85,7 @@ export class AyroApp {
       const result = await AyroService.logout(apiToken);
       Store.dispatch(Actions.setUserStatus(UserStatus.LOGGED_OUT));
       Store.dispatch(Actions.setUser(result.user));
+      Store.dispatch(Actions.setDevice(result.device));
       Store.dispatch(Actions.setApiToken(result.token));
       MessagingService.stop();
       MessagingService.start();

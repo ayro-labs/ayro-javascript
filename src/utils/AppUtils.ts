@@ -19,7 +19,7 @@ export class AppUtils {
   private static readonly DEVICE_UID: string = 'device_uid';
   private static readonly DEVICE_PLATFORM: string = 'browser';
 
-  private static getDeviceUid() {
+  private static getDeviceUid(): string {
     let uid = Storage.get(AppUtils.DEVICE_UID);
     if (!uid) {
       uid = uuid().replace(/-/g, '');

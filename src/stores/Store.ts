@@ -8,6 +8,7 @@ import {Settings} from 'models/Settings';
 import {App} from 'models/App';
 import {Integration} from 'models/Integration';
 import {User} from 'models/User';
+import {Device} from 'models/Device';
 import {ChatMessage} from 'models/ChatMessage';
 import {Actions} from 'stores/Actions';
 
@@ -18,6 +19,7 @@ export interface IStoreState {
   app: App;
   integration: Integration;
   user: User;
+  device: Device;
   apiToken: string;
   chatOpened: boolean;
   chatMessages: ChatMessage[];
@@ -45,6 +47,7 @@ export class Store {
     app: null,
     integration: null,
     user: null,
+    device: null,
     apiToken: null,
     chatOpened: false,
     chatMessages: [],
@@ -81,14 +84,11 @@ export class Store {
       case Actions.SET_USER:
         newState = Store.setUser(state, action);
         break;
-      case Actions.UNSET_USER:
-        newState = Store.unsetUser(state);
+      case Actions.SET_DEVICE:
+        newState = Store.setDevice(state, action);
         break;
       case Actions.SET_API_TOKEN:
         newState = Store.setApiToken(state, action);
-        break;
-      case Actions.UNSET_API_TOKEN:
-        newState = Store.unsetApiToken(state);
         break;
       case Actions.SET_CHAT_MESSAGES:
         newState = Store.setChatMessages(state, action);
@@ -144,16 +144,12 @@ export class Store {
     return DotProp.set(state, 'user', action.extraProps.user);
   }
 
-  private static unsetUser(state: IStoreState): IStoreState {
-    return DotProp.set(state, 'user', null);
+  private static setDevice(state: IStoreState, action: AnyAction): IStoreState {
+    return DotProp.set(state, 'device', action.extraProps.device);
   }
 
   private static setApiToken(state: IStoreState, action: AnyAction): IStoreState {
     return DotProp.set(state, 'apiToken', action.extraProps.apiToken);
-  }
-
-  private static unsetApiToken(state: IStoreState): IStoreState {
-    return DotProp.set(state, 'apiToken', null);
   }
 
   private static setChatMessages(state: IStoreState, action: AnyAction): IStoreState {

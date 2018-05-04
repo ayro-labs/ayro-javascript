@@ -5,6 +5,7 @@ import {Settings} from 'models/Settings';
 import {App} from 'models/App';
 import {Integration} from 'models/Integration';
 import {User} from 'models/User';
+import {Device} from 'models/Device';
 import {ChatMessage} from 'models/ChatMessage';
 
 export class Actions {
@@ -15,9 +16,8 @@ export class Actions {
   public static readonly SET_APP: string = 'SET_APP';
   public static readonly SET_INTEGRATION: string = 'SET_INTEGRATION';
   public static readonly SET_USER: string = 'SET_USER';
-  public static readonly UNSET_USER: string = 'UNSET_USER';
+  public static readonly SET_DEVICE: string = 'SET_DEVICE';
   public static readonly SET_API_TOKEN: string = 'SET_API_TOKEN';
-  public static readonly UNSET_API_TOKEN: string = 'UNSET_API_TOKEN';
   public static readonly OPEN_CHAT: string = 'OPEN_CHAT';
   public static readonly CLOSE_CHAT: string = 'CLOSE_CHAT';
   public static readonly SET_CHAT_MESSAGES: string = 'SET_CHAT_MESSAGES';
@@ -80,9 +80,10 @@ export class Actions {
     };
   }
 
-  public static unsetUser(): AnyAction {
+  public static setDevice(device: Device): AnyAction {
     return {
-      type: Actions.UNSET_USER,
+      type: Actions.SET_DEVICE,
+      extraProps: {device},
     };
   }
 
@@ -90,12 +91,6 @@ export class Actions {
     return {
       type: Actions.SET_API_TOKEN,
       extraProps: {apiToken},
-    };
-  }
-
-  public static unsetApiToken(): AnyAction {
-    return {
-      type: Actions.UNSET_API_TOKEN,
     };
   }
 

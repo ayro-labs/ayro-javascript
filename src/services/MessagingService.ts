@@ -14,8 +14,8 @@ export class MessagingService {
       });
       MessagingService.socket.addExtension(MessagingService.authenticationExtension());
     }
-    const user = Store.getState().user;
-    MessagingService.subscription = MessagingService.socket.subscribe(`/users/${user.id}`, (data: any) => {
+    const device = Store.getState().device;
+    MessagingService.subscription = MessagingService.socket.subscribe(`/devices/${device.id}`, (data: any) => {
       MessagingService.messageReceived(data);
     });
   }

@@ -9,16 +9,19 @@ export interface IInitResult {
   app: App;
   integration: Integration;
   user: User;
+  device: Device;
   token: string;
 }
 
 export interface ILoginResult {
   user: User;
+  device: Device;
   token: string;
 }
 
 export interface ILogoutResult {
   user: User;
+  device: Device;
   token: string;
 }
 
@@ -35,6 +38,7 @@ export class AyroService {
       app: new App(result.app),
       integration: new Integration(result.integration),
       user: new User(result.user),
+      device: new Device(result.device),
       token: result.token,
     };
   }
@@ -48,6 +52,7 @@ export class AyroService {
     const result = await AyroService.parseResponse(response);
     return {
       user: new User(result.user),
+      device: new Device(result.device),
       token: result.token,
     };
   }
@@ -60,6 +65,7 @@ export class AyroService {
     const result = await AyroService.parseResponse(response);
     return {
       user: new User(result.user),
+      device: new Device(result.device),
       token: result.token,
     };
   }
