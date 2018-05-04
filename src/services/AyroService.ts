@@ -90,7 +90,7 @@ export class AyroService {
   }
 
   public static async postMessage(apiToken: string, message: string): Promise<ChatMessage> {
-    const response = await fetch(AyroService.getUrl(`/chat/${process.env.CHANNEL}`), {
+    const response = await fetch(AyroService.getUrl('/chat'), {
       method: 'POST',
       headers: AyroService.getHeaders(apiToken),
       body: JSON.stringify({
@@ -105,9 +105,6 @@ export class AyroService {
     const response = await fetch(AyroService.getUrl(`/events/view_chat`), {
       method: 'POST',
       headers: AyroService.getHeaders(apiToken),
-      body: JSON.stringify({
-        channel: process.env.CHANNEL,
-      }),
     });
     await AyroService.parseResponse(response);
   }
