@@ -41,15 +41,15 @@ async function prepareGithubRepository() {
   await commands.exec(`rm -rf ${GITHUB_REPOSITORY_NAME}/*`, TEMP_DIR);
 }
 
-async function copyGithubFiles() {
+async function copyFilesToGithubRepository() {
   commands.log('Copying files to Github repository...');
   await commands.exec(`cp dist/browser/ayro.min.js ${TEMP_GITHUB_REPOSITORY_DIR}`);
   await commands.exec(`cp dist/wordpress/ayro-wordpress.min.js ${TEMP_GITHUB_REPOSITORY_DIR}`);
 }
 
-async function pushGithubFiles() {
+async function pushFilesToGithubRepository() {
   commands.log('Committing, tagging and pushing files to Github repository...');
-  await commands.exec('git add .', TEMP_GITHUB_REPOSITORY_DIR);
+  await commands.exec('git add --all', TEMP_GITHUB_REPOSITORY_DIR);
   await commands.exec(`git commit -am 'Release ${packageJson.version}'`, TEMP_GITHUB_REPOSITORY_DIR);
   await commands.exec('git push origin master', TEMP_GITHUB_REPOSITORY_DIR);
   await commands.exec(`git tag ${packageJson.version}`, TEMP_GITHUB_REPOSITORY_DIR);
@@ -68,8 +68,8 @@ async function createGithubRelease() {
 
 async function beforePublish() {
   await prepareGithubRepository();
-  await copyGithubFiles();
-  await pushGithubFiles();
+  await copyFilesToGithubRepository();
+  await pushFilesToGithubRepository();
   await createGithubRelease();
 }
 
