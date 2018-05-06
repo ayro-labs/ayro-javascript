@@ -30,6 +30,7 @@
     border-radius: 50%;
     color: @white;
     cursor: pointer;
+    outline: none;
   }
   .ayro-chatbox {
     z-index: 99999;
@@ -37,7 +38,7 @@
     overflow: hidden;
     right: 30px;
     bottom: 40px;
-    width: 340px;
+    width: 360px;
     height: 75%;
     box-shadow: 0 0 25px rgba(0,0,0,.15);
     border: 1px solid rgba(0,0,0,.15);
@@ -145,11 +146,13 @@
 .ayro-message {
   position: relative;
   display: inline-block;
-  max-width: 220px;
-  padding: 6px 9px;
-  font-size: 15px;
+  max-width: 80%;
   box-shadow: 0px 1px 4px rgba(0,0,0,.2);
   border-radius: 8px;
+  .ayro-message-text {
+    font-size: 14px;
+    line-height: 1.5;
+  }
   .ayro-message-status {
     position: absolute;
     bottom: 6px;
@@ -159,22 +162,24 @@
 }
 .ayro-message-incoming {
   position: relative;
+  padding-left: 55px;
   .ayro-agent-photo {
     position: absolute;
+    left: 0;
     img {
-      width: 35px;
-      height: auto;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background-color: @white;
     }
   }
   .ayro-message {
-    margin-left: 44px;
+    padding: 10px 16px;
     background-color: @white;
     .ayro-message-agent {
-      margin-bottom: 5px;
-      font-size: 13px;
+      margin-bottom: 4px;
       font-weight: bold;
+      font-size: 13px;
       color: @gray;
     }
     .ayro-message-text {
@@ -195,6 +200,7 @@
   justify-content: flex-end;
   .ayro-message {
     color: @white;
+    padding: 8px 16px;
     .ayro-message-text {
       &::after {
         content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
@@ -250,6 +256,9 @@
       right: 15px;
       bottom: 86px;
       max-width: 90%;
+        .ayro-agent-photo {
+          padding-left: 6px;
+        }
     }
   }
 }
