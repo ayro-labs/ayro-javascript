@@ -28,10 +28,6 @@ async function lintLibrary() {
 async function buildLibrary() {
   commands.log('Building library...');
   await commands.exec('npm run build-prod', WORKING_DIR);
-  commands.log('Building browser library...');
-  await commands.exec('npm run build-browser-prod', WORKING_DIR);
-  commands.log('Building WordPress browser library...');
-  await commands.exec('npm run build-browser-wordpress-prod', WORKING_DIR);
 }
 
 async function prepareGithubRepository() {
