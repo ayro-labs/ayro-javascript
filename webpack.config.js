@@ -16,8 +16,5 @@ module.exports = (env) => {
   if (env && env.production) {
     return [webpackWebsiteLibProd, webpackWebsiteProd, webpackWordPressProd];
   }
-  if (env && env.development) {
-    return [webpackWebsiteLibDev, webpackWebsiteDev, webpackWordPressDev];
-  }
-  throw new Error('Invalid webpack build option');
+  return [webpackWebsiteLibDev, webpackWebsiteDev, webpackWordPressDev];
 };

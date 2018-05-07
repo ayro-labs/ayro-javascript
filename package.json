@@ -20,7 +20,7 @@
   "main": "lib/ayro.js",
   "scripts": {
     "lint": "eslint '**/*.js' && tslint 'src/**/*.ts?(x)'",
-    "build": "webpack --config 'webpack.config.js' --env.development",
+    "build": "webpack --config 'webpack.config.js'",
     "build-prod": "webpack --config 'webpack.config.js' --env.production",
     "test-server": "node tests/server.js",
     "release-lib": "node tasks/release.js",
