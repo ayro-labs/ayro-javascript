@@ -5,7 +5,7 @@ const webpackCommon = require('./webpack-common');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 
-module.exports = webpackMerge(webpackCommon, {
+module.exports = webpackMerge(webpackCommon(settings.env), {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
