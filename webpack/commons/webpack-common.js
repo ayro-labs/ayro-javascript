@@ -37,7 +37,7 @@ module.exports = (env) => {
               options: {
                 minimize: env === 'production',
               },
-            }
+            },
           ],
           include: helpers.root('/src/assets/styles'),
         },
@@ -51,7 +51,7 @@ module.exports = (env) => {
                 minimize: env === 'production',
               },
             },
-            'less-loader'
+            'less-loader',
           ],
           include: helpers.root('src/assets/styles'),
         },
