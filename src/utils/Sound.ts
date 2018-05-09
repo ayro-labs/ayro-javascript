@@ -30,6 +30,19 @@ export class Sound {
     if (!this.context) {
       return;
     }
+    if (this.context.state === 'running') {
+      this.loadSound();
+      return;
+    }
+    const onDocumentClick = () => {
+      this.loadSound();
+      document.removeEventListener('click', onDocumentClick);
+    };
+    document.addEventListener('click', onDocumentClick);
+  }
+
+  private async loadSound() {
+    await this.context.resume();
     const response = await fetch(this.soundUrl, {
       method: 'GET',
       headers: {
