@@ -1,6 +1,7 @@
 import {v4 as uuid} from 'uuid';
 
 import {Device} from 'models/Device';
+import {ChatMessage} from 'models/ChatMessage';
 import {Storage} from 'utils/Storage';
 
 export class AppUtils {
@@ -14,6 +15,12 @@ export class AppUtils {
         location: window.location.href,
       },
     });
+  }
+
+  public static formatMessageTime(chatMessage: ChatMessage): string {
+    const hours = chatMessage.date.getHours();
+    const minutes = chatMessage.date.getMinutes();
+    return [hours > 9 ? hours : '0' + hours, minutes > 9 ? minutes : '0' + minutes].join(':');
   }
 
   private static readonly DEVICE_UID: string = 'device_uid';

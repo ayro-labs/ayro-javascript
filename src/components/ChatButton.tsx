@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, AnyAction} from 'redux';
+import * as classNames from 'classnames';
 
 import {Integration} from 'models/Integration';
 import {Actions} from 'stores/Actions';
 import {StoreState} from 'stores/Store';
-import {Classes} from 'utils/Classes';
 
 interface StateProps {
   integration: Integration;
@@ -29,7 +29,7 @@ class ChatButton extends React.Component<StateProps & DispatchProps, {}> {
   }
 
   private buttonClasses(): string {
-    return Classes.get({
+    return classNames({
       'ayro-button': true,
       'ayro-show': !this.props.chatOpened,
       'ayro-hide': this.props.chatOpened,

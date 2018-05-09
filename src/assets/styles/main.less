@@ -47,23 +47,6 @@
     border: 1px solid rgba(0,0,0,.15);
     border-radius: 6px;
   }
-  > .ayro-message-incoming {
-    z-index: 99999;
-    position: fixed;
-    right: 30px;
-    bottom: 110px;
-    .ayro-message {
-      max-width: 300px;
-    }
-    .ayro-icon-close {
-      float: right;
-      width: 14px;
-      height: 14px;
-      margin-left: 10px;
-      fill: @gray;
-      cursor: pointer;
-    }
-  }
 }
 .ayro-button {
   .ayro-icon-button {
@@ -149,8 +132,6 @@
 }
 .ayro-message {
   position: relative;
-  display: inline-block;
-  max-width: 80%;
   box-shadow: 0px 1px 4px rgba(0,0,0,.2);
   border-radius: 8px;
   .ayro-message-text {
@@ -164,38 +145,39 @@
     font-size: 11px;
   }
 }
+.ayro-message-unread {
+  z-index: 99999;
+  position: fixed;
+  right: 30px;
+  bottom: 115px;
+  .ayro-agent-photo {
+    margin-right: 12px;
+  }
+  .ayro-message {
+    display: flex;
+    max-width: 300px;
+    padding: 12px 12px;
+    background-color: @white;
+    .ayro-icon-close {
+      float: right;
+      width: 14px;
+      height: 14px;
+      margin-left: 10px;
+      fill: @gray;
+      cursor: pointer;
+    }
+  }
+}
 .ayro-message-incoming {
   position: relative;
   padding-left: 55px;
   .ayro-agent-photo {
     position: absolute;
     left: 0;
-    img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: @white;
-    }
   }
   .ayro-message {
-    padding: 10px 16px;
+    padding: 14px 12px;
     background-color: @white;
-    .ayro-message-agent {
-      margin-bottom: 4px;
-      font-weight: bold;
-      font-size: 13px;
-      color: @gray;
-    }
-    .ayro-message-text {
-      color: #525252;
-      &::after {
-        content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
-        display: inline;
-      }
-    }
-    .ayro-message-time {
-      color: @gray;
-    }
   }
 }
 .ayro-message-outgoing {
@@ -235,9 +217,39 @@
     }
   }
 }
+.ayro-message-incoming, .ayro-message-unread {
+  .ayro-agent-photo {
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: @white;
+    }
+  }
+  .ayro-agent-name {
+    margin-bottom: 4px;
+    font-weight: bold;
+    font-size: 13px;
+    color: @gray;
+  }
+  .ayro-message-text {
+    color: #525252;
+    &::after {
+      content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
+      display: inline;
+    }
+  }
+  .ayro-message-time {
+    color: @gray;
+  }
+}
 .ayro-message-incoming, .ayro-message-outgoing {
   margin-top: 4px;
   margin-bottom: 4px;
+  .ayro-message {
+    display: inline-block;
+    max-width: 80%;
+  }
   &.ayro-message-discontinuation {
     margin-top: 12px;
   }
@@ -255,14 +267,13 @@
       bottom: 0px;
       width: 100%;
       height: 100%;
+      border: none;
+      border-radius: 0px;
     }
-    > .ayro-message-incoming {
+    .ayro-message-unread {
       right: 15px;
-      bottom: 86px;
+      bottom: 90px;
       max-width: 90%;
-        .ayro-agent-photo {
-          padding-left: 6px;
-        }
     }
   }
 }

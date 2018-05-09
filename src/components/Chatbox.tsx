@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, AnyAction} from 'redux';
+import * as classNames from 'classnames';
 
 import Conversation from 'components/Conversation';
 
@@ -10,7 +11,6 @@ import {Integration} from 'models/Integration';
 import {ChatMessage} from 'models/ChatMessage';
 import {Actions} from 'stores/Actions';
 import {StoreState} from 'stores/Store';
-import {Classes} from 'utils/Classes';
 
 interface StateProps {
   settings: Settings;
@@ -103,7 +103,7 @@ class Chatbox extends React.Component<StateProps & DispatchProps, ChatboxState> 
   }
 
   private chatboxClasses(): string {
-    return Classes.get({
+    return classNames({
       'ayro-chatbox': true,
       'ayro-show': this.props.chatOpened,
       'ayro-hide': !this.props.chatOpened,
@@ -111,7 +111,7 @@ class Chatbox extends React.Component<StateProps & DispatchProps, ChatboxState> 
   }
 
   private iconSendClasses(): string {
-    return Classes.get({
+    return classNames({
       'ayro-icon-send': true,
       'ayro-disabled': this.state.message.length === 0,
       'ayro-enabled': this.state.message.length > 0,

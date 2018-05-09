@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {AnyAction} from 'redux';
 import * as PubSub from 'pubsub-js';
 
-import IncomingMessage from 'components/IncomingMessage';
+import UnreadMessage from 'components/UnreadMessage';
 import Chatbox from 'components/Chatbox';
 import ChatButton from 'components/ChatButton';
 
@@ -37,7 +37,7 @@ class Container extends React.Component<StateProps, {}> {
   public render() {
     return (
       <div id="ayro-container">
-        <IncomingMessage chatMessage={this.props.lastUnread} unreadStyle={true}/>
+        <UnreadMessage/>
         <Chatbox/>
         <ChatButton/>
       </div>
