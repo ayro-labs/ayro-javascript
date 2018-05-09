@@ -5,8 +5,8 @@ const webpack = require('webpack');
 
 module.exports = (env) => {
   return {
-    entry: helpers.root('/src/entry.ts'),
     devtool: 'source-map',
+    entry: helpers.root('/src/entry.ts'),
     output: {
       path: helpers.root('/lib'),
       filename: 'ayro.js',
