@@ -11,25 +11,25 @@ import {UserStatus} from 'enums/UserStatus';
 import {User} from 'models/User';
 import {ChatMessage} from 'models/ChatMessage';
 import {Actions} from 'stores/Actions';
-import {IStoreState} from 'stores/Store';
+import {StoreState} from 'stores/Store';
 
-interface IStateProps {
+interface StateProps {
   userStatus: UserStatus;
   user: User;
   apiToken: string;
   chatMessages: ChatMessage[];
 }
 
-interface IDispatchProps {
+interface DispatchProps {
   setChatMessages: (chatMessages: ChatMessage[]) => void;
 }
 
-class Conversation extends React.Component<IStateProps & IDispatchProps, any> {
+class Conversation extends React.Component<StateProps & DispatchProps, {}> {
 
   private subscriptions: any[] = [];
   private conversationElement: HTMLDivElement;
 
-  constructor(props: IStateProps & IDispatchProps) {
+  constructor(props: StateProps & DispatchProps) {
     super(props);
     this.setConversationElement = this.setConversationElement.bind(this);
     this.onChatOpened = this.onChatOpened.bind(this);
@@ -82,7 +82,7 @@ class Conversation extends React.Component<IStateProps & IDispatchProps, any> {
   }
 }
 
-function mapStateToProps(state: IStoreState): IStateProps {
+function mapStateToProps(state: StoreState): StateProps {
   return {
     userStatus: state.userStatus,
     user: state.user,
@@ -91,10 +91,10 @@ function mapStateToProps(state: IStoreState): IStateProps {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<AnyAction>): IDispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<AnyAction>): DispatchProps {
   return bindActionCreators({
     setChatMessages: Actions.setChatMessages,
   }, dispatch);
 }
 
-export default connect<IStateProps, IDispatchProps, any, IStoreState>(mapStateToProps, mapDispatchToProps)(Conversation);
+export default connect<StateProps, DispatchProps, any, StoreState>(mapStateToProps, mapDispatchToProps)(Conversation);

@@ -5,7 +5,7 @@ import {User} from 'models/User';
 import {Device} from 'models/Device';
 import {ChatMessage} from 'models/ChatMessage';
 
-export interface IInitResult {
+export interface InitResult {
   app: App;
   integration: Integration;
   user: User;
@@ -13,13 +13,13 @@ export interface IInitResult {
   token: string;
 }
 
-export interface ILoginResult {
+export interface LoginResult {
   user: User;
   device: Device;
   token: string;
 }
 
-export interface ILogoutResult {
+export interface LogoutResult {
   user: User;
   device: Device;
   token: string;
@@ -27,7 +27,7 @@ export interface ILogoutResult {
 
 export class AyroService {
 
-  public static async init(appToken: string, device: Device): Promise<IInitResult> {
+  public static async init(appToken: string, device: Device): Promise<InitResult> {
     const response = await fetch(AyroService.getUrl(`/apps/integrations/${process.env.CHANNEL}/init`), {
       method: 'POST',
       headers: AyroService.API_HEADERS,
@@ -43,7 +43,7 @@ export class AyroService {
     };
   }
 
-  public static async login(apiToken: string, appToken: string, jwtToken: string, user: User, device: Device): Promise<ILoginResult> {
+  public static async login(apiToken: string, appToken: string, jwtToken: string, user: User, device: Device): Promise<LoginResult> {
     const response = await fetch(AyroService.getUrl('/users/login'), {
       method: 'POST',
       headers: AyroService.getHeaders(apiToken),
@@ -57,7 +57,7 @@ export class AyroService {
     };
   }
 
-  public static async logout(apiToken: string): Promise<ILogoutResult> {
+  public static async logout(apiToken: string): Promise<LogoutResult> {
     const response = await fetch(AyroService.getUrl('/users/logout'), {
       method: 'POST',
       headers: AyroService.getHeaders(apiToken),

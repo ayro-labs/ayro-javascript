@@ -1,3 +1,5 @@
+/* tslint:disable:variable-name */
+
 export class ChatboxSettings {
 
   public title: string = 'How can we help?';

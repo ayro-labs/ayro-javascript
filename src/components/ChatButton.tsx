@@ -4,19 +4,19 @@ import {bindActionCreators, Dispatch, AnyAction} from 'redux';
 
 import {Integration} from 'models/Integration';
 import {Actions} from 'stores/Actions';
-import {IStoreState} from 'stores/Store';
+import {StoreState} from 'stores/Store';
 import {Classes} from 'utils/Classes';
 
-interface IStateProps {
+interface StateProps {
   integration: Integration;
   chatOpened: boolean;
 }
 
-interface IDispatchProps {
+interface DispatchProps {
   openChat: () => void;
 }
 
-class ChatButton extends React.Component<IStateProps & IDispatchProps, {}> {
+class ChatButton extends React.Component<StateProps & DispatchProps, {}> {
 
   public render() {
     return (
@@ -43,17 +43,17 @@ class ChatButton extends React.Component<IStateProps & IDispatchProps, {}> {
   }
 }
 
-function mapStateToProps(state: IStoreState): IStateProps {
+function mapStateToProps(state: StoreState): StateProps {
   return {
     integration: state.integration,
     chatOpened: state.chatOpened,
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<AnyAction>): IDispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<AnyAction>): DispatchProps {
   return bindActionCreators({
     openChat: Actions.openChat,
   }, dispatch);
 }
 
-export default connect<IStateProps, IDispatchProps, any, IStoreState>(mapStateToProps, mapDispatchToProps)(ChatButton);
+export default connect<StateProps, DispatchProps, any, StoreState>(mapStateToProps, mapDispatchToProps)(ChatButton);

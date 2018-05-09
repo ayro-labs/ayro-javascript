@@ -1,13 +1,15 @@
 {
   "rules": {
+    "align": [true, "elements", "members", "parameters", "statements"],
+    "interface-name" : [true, "never-prefix"],
+    "max-line-length": {"options": {"limit": 999}},
+    "no-console": false,
+    "object-curly-spacing": [true, "never"],
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "space-before-function-paren": false,
-    "max-line-length": {"options": {"limit": 999}},
-    "object-curly-spacing": [true, "never"],
-    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-snake-case", "allow-pascal-case"],
-    "align": [true, "elements", "members", "parameters", "statements"],
     "trailing-comma": [true, {
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-snake-case", "allow-pascal-case"],
       "singleline": "never",
       "multiline": {
         "objects": "always",

@@ -1,3 +1,5 @@
+/* tslint:disable:variable-name */
+
 import {DeviceInfo} from 'models/DeviceInfo';
 
 export class Device {

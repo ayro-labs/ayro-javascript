@@ -9,6 +9,7 @@ import {Actions} from 'stores/Actions';
 import {Store} from 'stores/Store';
 import {AppUtils} from 'utils/AppUtils';
 import {Messages} from 'utils/Messages';
+import {Sounds} from 'utils/Sounds';
 
 export class AyroApp {
 
@@ -47,6 +48,7 @@ export class AyroApp {
       Store.dispatch(Actions.setDevice(result.device));
       Store.dispatch(Actions.setApiToken(result.token));
       Components.init();
+      Sounds.init();
       MessagingService.stop();
       MessagingService.start();
       await AyroService.trackViewChat(Store.getState().apiToken);

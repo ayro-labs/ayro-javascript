@@ -12,7 +12,7 @@ import {Device} from 'models/Device';
 import {ChatMessage} from 'models/ChatMessage';
 import {Actions} from 'stores/Actions';
 
-export interface IStoreState {
+export interface StoreState {
   appStatus: AppStatus;
   userStatus: UserStatus;
   settings: Settings;
@@ -28,11 +28,11 @@ export interface IStoreState {
 
 export class Store {
 
-  public static get(): ReduxStore<IStoreState> {
+  public static get(): ReduxStore<StoreState> {
     return Store.STORE;
   }
 
-  public static getState(): IStoreState {
+  public static getState(): StoreState {
     return Store.STORE.getState();
   }
 
@@ -40,7 +40,7 @@ export class Store {
     Store.STORE.dispatch(action);
   }
 
-  private static readonly INITIAL_STATE: IStoreState = {
+  private static readonly INITIAL_STATE: StoreState = {
     appStatus: null,
     userStatus: null,
     settings: null,
@@ -54,11 +54,11 @@ export class Store {
     lastUnread: null,
   };
 
-  private static STORE: ReduxStore<IStoreState> = createStore((state: IStoreState, action: AnyAction) => {
+  private static STORE: ReduxStore<StoreState> = createStore((state: StoreState, action: AnyAction) => {
     if (!state) {
       return Store.INITIAL_STATE;
     }
-    let newState: IStoreState = null;
+    let newState: StoreState = null;
     switch (action.type) {
       case Actions.OPEN_CHAT:
         newState = Store.openChat(state);
@@ -110,62 +110,62 @@ export class Store {
     return newState;
   });
 
-  private static openChat(state: IStoreState): IStoreState {
-    let finalState = DotProp.set(state, 'chatOpened', true) as IStoreState;
-    finalState = DotProp.set(finalState, 'lastUnread', null) as IStoreState;
+  private static openChat(state: StoreState): StoreState {
+    let finalState = DotProp.set(state, 'chatOpened', true) as StoreState;
+    finalState = DotProp.set(finalState, 'lastUnread', null) as StoreState;
     return finalState;
   }
 
-  private static closeChat(state: IStoreState): IStoreState {
+  private static closeChat(state: StoreState): StoreState {
     return DotProp.set(state, 'chatOpened', false);
   }
 
-  private static setAppStatus(state: IStoreState, action: AnyAction): IStoreState {
+  private static setAppStatus(state: StoreState, action: AnyAction): StoreState {
     return DotProp.set(state, 'appStatus', action.extraProps.appStatus);
   }
 
-  private static setUserStatus(state: IStoreState, action: AnyAction): IStoreState {
+  private static setUserStatus(state: StoreState, action: AnyAction): StoreState {
     return DotProp.set(state, 'userStatus', action.extraProps.userStatus);
   }
 
-  private static setSettings(state: IStoreState, action: AnyAction): IStoreState {
+  private static setSettings(state: StoreState, action: AnyAction): StoreState {
     return DotProp.set(state, 'settings', action.extraProps.settings);
   }
 
-  private static setApp(state: IStoreState, action: AnyAction): IStoreState {
+  private static setApp(state: StoreState, action: AnyAction): StoreState {
     return DotProp.set(state, 'app', action.extraProps.app);
   }
 
-  private static setIntegration(state: IStoreState, action: AnyAction): IStoreState {
+  private static setIntegration(state: StoreState, action: AnyAction): StoreState {
     return DotProp.set(state, 'integration', action.extraProps.integration);
   }
 
-  private static setUser(state: IStoreState, action: AnyAction): IStoreState {
+  private static setUser(state: StoreState, action: AnyAction): StoreState {
     return DotProp.set(state, 'user', action.extraProps.user);
   }
 
-  private static setDevice(state: IStoreState, action: AnyAction): IStoreState {
+  private static setDevice(state: StoreState, action: AnyAction): StoreState {
     return DotProp.set(state, 'device', action.extraProps.device);
   }
 
-  private static setApiToken(state: IStoreState, action: AnyAction): IStoreState {
+  private static setApiToken(state: StoreState, action: AnyAction): StoreState {
     return DotProp.set(state, 'apiToken', action.extraProps.apiToken);
   }
 
-  private static setChatMessages(state: IStoreState, action: AnyAction): IStoreState {
+  private static setChatMessages(state: StoreState, action: AnyAction): StoreState {
     return DotProp.set(state, 'chatMessages', action.extraProps.chatMessages);
   }
 
-  private static addChatMessage(state: IStoreState, action: AnyAction): IStoreState {
+  private static addChatMessage(state: StoreState, action: AnyAction): StoreState {
     const chatMessage = action.extraProps.chatMessage;
-    let finalState = DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => [...chatMessages, chatMessage]) as IStoreState;
+    let finalState = DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => [...chatMessages, chatMessage]) as StoreState;
     if (!finalState.chatOpened && chatMessage.direction === ChatMessage.DIRECTION_INCOMING) {
       finalState = DotProp.set(finalState, 'lastUnread', chatMessage);
     }
     return finalState;
   }
 
-  private static updateChatMessage(state: IStoreState, action: AnyAction): IStoreState {
+  private static updateChatMessage(state: StoreState, action: AnyAction): StoreState {
     return DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => {
       const newChatMessages: ChatMessage[] = [];
       chatMessages.forEach((chatMessage) => {
@@ -179,7 +179,7 @@ export class Store {
     });
   }
 
-  private static removeChatMessage(state: IStoreState, action: AnyAction): IStoreState {
+  private static removeChatMessage(state: StoreState, action: AnyAction): StoreState {
     return DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => {
       const newChatMessages: ChatMessage[] = [];
       chatMessages.forEach((chatMessage) => {
@@ -191,7 +191,7 @@ export class Store {
     });
   }
 
-  private static clearUnreads(state: IStoreState): IStoreState {
+  private static clearUnreads(state: StoreState): StoreState {
     return DotProp.set(state, 'lastUnread', null);
   }
 

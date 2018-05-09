@@ -6,19 +6,19 @@ import {ChatMessage} from 'models/ChatMessage';
 import {Actions} from 'stores/Actions';
 import {Classes} from 'utils/Classes';
 
-interface IParamProps {
+interface ParamProps {
   chatMessage: ChatMessage;
   continuation?: boolean;
   unreadStyle?: boolean;
 }
 
-interface IDispatchProps {
+interface DispatchProps {
   clearUnreads: () => void;
 }
 
-class IncomingMessage extends React.Component<IParamProps & IDispatchProps, any> {
+class IncomingMessage extends React.Component<ParamProps & DispatchProps, {}> {
 
-  constructor(props: IDispatchProps & IParamProps) {
+  constructor(props: DispatchProps & ParamProps) {
     super(props);
     this.renderCloseButton = this.renderCloseButton.bind(this);
   }
@@ -93,10 +93,10 @@ class IncomingMessage extends React.Component<IParamProps & IDispatchProps, any>
   }
 }
 
-function mapDispatchToProps(dispatch: Dispatch<AnyAction>): IDispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<AnyAction>): DispatchProps {
   return bindActionCreators({
     clearUnreads: Actions.clearUnreads,
   }, dispatch);
 }
 
-export default connect<any, IDispatchProps, IParamProps>(null, mapDispatchToProps)(IncomingMessage);
+export default connect<any, DispatchProps, ParamProps>(null, mapDispatchToProps)(IncomingMessage);

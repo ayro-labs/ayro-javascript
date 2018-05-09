@@ -1,3 +1,5 @@
+/* tslint:disable:variable-name */
+
 export class DeviceInfo {
 
   public user_agent: string;

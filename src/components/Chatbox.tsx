@@ -9,31 +9,31 @@ import {Settings} from 'models/Settings';
 import {Integration} from 'models/Integration';
 import {ChatMessage} from 'models/ChatMessage';
 import {Actions} from 'stores/Actions';
-import {IStoreState} from 'stores/Store';
+import {StoreState} from 'stores/Store';
 import {Classes} from 'utils/Classes';
 
-interface IStateProps {
+interface StateProps {
   settings: Settings;
   integration: Integration;
   apiToken: string;
   chatOpened: boolean;
 }
 
-interface IDispatchProps {
+interface DispatchProps {
   closeChat: () => void;
   addChatMessage: (chatMessage: ChatMessage) => void;
   updateChatMessage: (id: string, chatMessage: ChatMessage) => void;
 }
 
-interface IState {
+interface ChatboxState {
   message: string;
 }
 
-class Chatbox extends React.Component<IStateProps & IDispatchProps, IState> {
+class Chatbox extends React.Component<StateProps & DispatchProps, ChatboxState> {
 
   private inputElement: HTMLInputElement;
 
-  constructor(props: IStateProps & IDispatchProps) {
+  constructor(props: StateProps & DispatchProps) {
     super(props);
     this.state = {message: ''};
     this.setInputElement = this.setInputElement.bind(this);
@@ -125,7 +125,7 @@ class Chatbox extends React.Component<IStateProps & IDispatchProps, IState> {
   }
 }
 
-function mapStateToProps(state: IStoreState): IStateProps {
+function mapStateToProps(state: StoreState): StateProps {
   return {
     settings: state.settings,
     integration: state.integration,
@@ -134,7 +134,7 @@ function mapStateToProps(state: IStoreState): IStateProps {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<AnyAction>): IDispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<AnyAction>): DispatchProps {
   return bindActionCreators({
     closeChat: Actions.closeChat,
     addChatMessage: Actions.addChatMessage,
@@ -142,4 +142,4 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>): IDispatchProps {
   }, dispatch);
 }
 
-export default connect<IStateProps, IDispatchProps, any, IStoreState>(mapStateToProps, mapDispatchToProps)(Chatbox);
+export default connect<StateProps, DispatchProps, any, StoreState>(mapStateToProps, mapDispatchToProps)(Chatbox);

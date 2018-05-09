@@ -6,28 +6,28 @@ import {AyroService} from 'services/AyroService';
 import {Integration} from 'models/Integration';
 import {ChatMessage} from 'models/ChatMessage';
 import {Actions} from 'stores/Actions';
-import {IStoreState} from 'stores/Store';
+import {StoreState} from 'stores/Store';
 import {Classes} from 'utils/Classes';
 
-interface IStateProps {
+interface StateProps {
   integration: Integration;
   apiToken: string;
 }
 
-interface IDispatchProps {
+interface DispatchProps {
   addChatMessage: (chatMessage: ChatMessage) => void;
   updateChatMessage: (id: string, chatMessage: ChatMessage) => void;
   removeChatMessage: (chatMessage: ChatMessage) => void;
 }
 
-interface IParamProps {
+interface ParamProps {
   chatMessage: ChatMessage;
   continuation: boolean;
 }
 
-class OutgoingMessage extends React.Component<IStateProps & IDispatchProps & IParamProps, any> {
+class OutgoingMessage extends React.Component<StateProps & DispatchProps & ParamProps, {}> {
 
-  constructor(props: IStateProps & IDispatchProps & IParamProps) {
+  constructor(props: StateProps & DispatchProps & ParamProps) {
     super(props);
     this.retryMessage = this.retryMessage.bind(this);
   }
@@ -130,14 +130,14 @@ class OutgoingMessage extends React.Component<IStateProps & IDispatchProps & IPa
   }
 }
 
-function mapStateToProps(state: IStoreState): IStateProps {
+function mapStateToProps(state: StoreState): StateProps {
   return {
     integration: state.integration,
     apiToken: state.apiToken,
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<AnyAction>): IDispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<AnyAction>): DispatchProps {
   return bindActionCreators({
     addChatMessage: Actions.addChatMessage,
     updateChatMessage: Actions.updateChatMessage,
@@ -145,4 +145,4 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>): IDispatchProps {
   }, dispatch);
 }
 
-export default connect<IStateProps, IDispatchProps, IParamProps, IStoreState>(mapStateToProps, mapDispatchToProps)(OutgoingMessage);
+export default connect<StateProps, DispatchProps, ParamProps, StoreState>(mapStateToProps, mapDispatchToProps)(OutgoingMessage);

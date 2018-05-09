@@ -1,3 +1,5 @@
+/* tslint:disable:variable-name */
+
 import {Agent} from 'models/Agent';
 
 export class ChatMessage {
