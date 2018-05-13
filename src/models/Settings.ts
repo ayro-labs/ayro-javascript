@@ -5,14 +5,13 @@ import {ChatboxSettings} from 'models/ChatboxSettings';
 export class Settings {
 
   public app_token: string;
-  public chatbox: ChatboxSettings;
   public sounds: boolean;
+  public chatbox: ChatboxSettings;
 
   constructor(data?: any) {
-    if (data) {
-      this.app_token = data.app_token;
-      this.chatbox = new ChatboxSettings(data.chatbox);
-      this.sounds = data.sounds || true;
-    }
+    const attrs = data || {};
+    this.app_token = attrs.app_token;
+    this.sounds = attrs.sounds || true;
+    this.chatbox = new ChatboxSettings(attrs.chatbox);
   }
 }
