@@ -51,10 +51,14 @@ export class AyroApp {
       Sounds.init();
       MessagingService.stop();
       MessagingService.start();
-      await AyroService.trackViewChat(Store.getState().apiToken);
     } catch (err) {
       Messages.improve(err);
       throw err;
+    }
+    try {
+      await AyroService.trackViewChat(Store.getState().apiToken);
+    } catch (err) {
+      // Nothing to do...
     }
   }
 

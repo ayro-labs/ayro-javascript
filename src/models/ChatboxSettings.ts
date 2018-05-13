@@ -4,7 +4,7 @@ export class ChatboxSettings {
 
   private static readonly DEFAULT_TITLE = 'How can we help?';
   private static readonly DEFAULT_INPUT_PLACEHOLDER = 'Type a message...';
-  private static readonly DEFAULT_CONNECT_CHANNELS_MESSAGE_PLACEHOLDER = 'Conecte outros aplicativos para ser notificado quando for respondido.';
+  private static readonly DEFAULT_CONNECT_CHANNELS_MESSAGE_PLACEHOLDER = 'Conecte seus apps e seja notificado dentro deles quando for respondido.';
 
   public title: string;
   public input_placeholder: string;

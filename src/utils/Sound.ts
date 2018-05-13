@@ -18,7 +18,7 @@ export class Sound {
       return;
     }
     const gainNode = this.context.createGain();
-    gainNode.gain.value = 0.5;
+    gainNode.gain.value = 0.6;
     gainNode.connect(this.context.destination);
     const source = this.context.createBufferSource();
     source.buffer = this.buffer;

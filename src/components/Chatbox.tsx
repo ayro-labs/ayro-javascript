@@ -36,12 +36,12 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
 
   constructor(props: StateProps & DispatchProps) {
     super(props);
-    this.state = {message: ''};
     this.setInputElement = this.setInputElement.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
     this.onMessageChanged = this.onMessageChanged.bind(this);
     this.closeChat = this.closeChat.bind(this);
     this.postMessage = this.postMessage.bind(this);
+    this.state = {message: ''};
   }
 
   public render() {

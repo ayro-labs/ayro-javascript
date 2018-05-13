@@ -49,7 +49,8 @@ class Container extends React.Component<StateProps> {
   // tslint:disable-next-line:variable-name
   private onChatMessageAdded(_type: string, action: AnyAction) {
     const chatMessage: ChatMessage = action.extraProps.chatMessage;
-    if (chatMessage.direction === ChatMessage.DIRECTION_INCOMING && (!this.props.showChat || !document.hasFocus())) {
+    const canPlaySound = chatMessage.direction === ChatMessage.DIRECTION_INCOMING && chatMessage.type === ChatMessage.TYPE_TEXT;
+    if (canPlaySound && (!this.props.showChat || !document.hasFocus())) {
       Sounds.playChatMessageSound();
     }
   }

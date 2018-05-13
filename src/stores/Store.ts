@@ -204,10 +204,10 @@ export class Store {
   }
 
   private static addChatMessage(state: StoreState, action: AnyAction): StoreState {
-    const chatMessage = action.extraProps.chatMessage;
+    const chatMessage: ChatMessage = action.extraProps.chatMessage;
     const buttonDisplayed = state.showButton && !state.showChat && !state.showConnectChannel;
     let updatedState = DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => [...chatMessages, chatMessage]) as StoreState;
-    if (buttonDisplayed && chatMessage.direction === ChatMessage.DIRECTION_INCOMING) {
+    if (buttonDisplayed && chatMessage.direction === ChatMessage.DIRECTION_INCOMING && chatMessage.type === ChatMessage.TYPE_TEXT) {
       updatedState = DotProp.set(updatedState, 'lastUnread', chatMessage);
     }
     return updatedState;

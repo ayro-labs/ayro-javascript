@@ -27,9 +27,12 @@ class ConnectEmail extends React.Component<StateProps, OwnState> {
 
   constructor(props: StateProps) {
     super(props);
-    this.state = {email: '', connected: false};
     this.onEmailChanged = this.onEmailChanged.bind(this);
     this.connectEmail = this.connectEmail.bind(this);
+    this.state = {
+      email: this.props.user.email || '',
+      connected: false
+    };
   }
 
   public render() {
@@ -39,7 +42,7 @@ class ConnectEmail extends React.Component<StateProps, OwnState> {
           <img src={this.channel.icon}/>
           <p>Conecte seu email e seja notificado quando receber uma resposta.</p>
           <div className="ayro-flex">
-            <input className={this.inputClasses()} onChange={this.onEmailChanged} defaultValue={this.props.user.email} name="email" type="email" placeholder="Email"/>
+            <input className={this.inputClasses()} onChange={this.onEmailChanged} defaultValue={this.state.email} name="email" type="email" placeholder="Email"/>
             <button className={this.buttonClasses()} style={this.buttonStyles()} onClick={this.connectEmail} type="submit">Enviar</button>
           </div>
         </div>

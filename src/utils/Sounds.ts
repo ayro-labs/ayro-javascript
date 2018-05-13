@@ -15,6 +15,6 @@ export class Sounds {
     }
   }
 
-  private static incomingMessageSound: Sound = new Sound('https://cdn.ayro.io/incoming_message.mp3');
+  private static incomingMessageSound: Sound = new Sound('https://cdn.ayro.io/incoming-message.mp3');
 
 }
