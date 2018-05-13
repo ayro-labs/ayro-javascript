@@ -5,34 +5,35 @@ import * as classNames from 'classnames';
 import {ChatMessage} from 'models/ChatMessage';
 import {AppUtils} from 'utils/AppUtils';
 
-interface ParamProps {
+interface OwnProps {
   chatMessage: ChatMessage;
   continuation?: boolean;
 }
 
-class IncomingMessage extends React.Component<ParamProps, {}> {
+class IncomingMessage extends React.Component<OwnProps> {
 
   public render() {
     return (
       <div key={this.props.chatMessage.id} className={this.messageClasses()}>
-        {this.renderAuthorPhoto()}
-        <div className="ayro-message">
-          {this.renderAuthorName()}
-          <div className="ayro-message-text">
-            <span>{this.props.chatMessage.text}</span>
-          </div>
-          <div className="ayro-message-status">
-            <span className="ayro-message-time">
-              {AppUtils.formatMessageTime(this.props.chatMessage)}
-            </span>
+        {this.renderAgentPhoto()}
+        <div className="ayro-balloon">
+          <div className="ayro-message">
+            {this.renderAgentName()}
+            <div className="ayro-text">
+              <span>{this.props.chatMessage.text}</span>
+            </div>
+            <div className="ayro-status">
+              <span className="ayro-status-time">
+                {AppUtils.formatMessageTime(this.props.chatMessage)}
+              </span>
+            </div>
           </div>
         </div>
-        <div className="ayro-clear"/>
       </div>
     );
   }
 
-  private renderAuthorPhoto() {
+  private renderAgentPhoto() {
     if (this.props.continuation) {
       return null;
     }
@@ -43,7 +44,7 @@ class IncomingMessage extends React.Component<ParamProps, {}> {
     );
   }
 
-  private renderAuthorName() {
+  private renderAgentName() {
     if (this.props.continuation) {
       return null;
     }
@@ -62,4 +63,4 @@ class IncomingMessage extends React.Component<ParamProps, {}> {
   }
 }
 
-export default connect<any, any, ParamProps>(null, null)(IncomingMessage);
+export default connect<{}, {}, OwnProps>(null)(IncomingMessage);

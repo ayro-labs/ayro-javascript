@@ -10,9 +10,14 @@ import {Integration} from 'models/Integration';
 import {User} from 'models/User';
 import {Device} from 'models/Device';
 import {ChatMessage} from 'models/ChatMessage';
+import {Channel} from 'models/Channel';
 import {Actions} from 'stores/Actions';
 
 export interface StoreState {
+  showButton: boolean;
+  showChat: boolean;
+  showConnectChannel: boolean;
+  channelToConnect: Channel;
   appStatus: AppStatus;
   userStatus: UserStatus;
   settings: Settings;
@@ -21,7 +26,6 @@ export interface StoreState {
   user: User;
   device: Device;
   apiToken: string;
-  chatOpened: boolean;
   chatMessages: ChatMessage[];
   lastUnread: ChatMessage;
 }
@@ -41,6 +45,9 @@ export class Store {
   }
 
   private static readonly INITIAL_STATE: StoreState = {
+    showButton: true,
+    showChat: false,
+    showConnectChannel: false,
     appStatus: null,
     userStatus: null,
     settings: null,
@@ -49,9 +56,9 @@ export class Store {
     user: null,
     device: null,
     apiToken: null,
-    chatOpened: false,
     chatMessages: [],
     lastUnread: null,
+    channelToConnect: null,
   };
 
   private static STORE: ReduxStore<StoreState> = createStore((state: StoreState, action: AnyAction) => {
@@ -60,11 +67,29 @@ export class Store {
     }
     let newState: StoreState = null;
     switch (action.type) {
-      case Actions.OPEN_CHAT:
-        newState = Store.openChat(state);
+      case Actions.SHOW_BUTTON:
+        newState = Store.showButton(state);
         break;
-      case Actions.CLOSE_CHAT:
-        newState = Store.closeChat(state);
+      case Actions.HIDE_BUTTON:
+        newState = Store.hideButton(state);
+        break;
+      case Actions.SHOW_CHAT:
+        newState = Store.showChat(state);
+        break;
+      case Actions.HIDE_CHAT:
+        newState = Store.hideChat(state);
+        break;
+      case Actions.SHOW_CONNECT_CHANNEL:
+        newState = Store.showConnectChannel(state);
+        break;
+      case Actions.HIDE_CONNECT_CHANNEL:
+        newState = Store.hideConnectChannel(state);
+        break;
+      case Actions.SET_CHANNEL_TO_CONNECT:
+        newState = Store.setChannelToConnect(state, action);
+        break;
+      case Actions.UNSET_CHANNEL_TO_CONNECT:
+        newState = Store.unsetChannelToConnect(state);
         break;
       case Actions.SET_APP_STATUS:
         newState = Store.setAppStatus(state, action);
@@ -110,14 +135,36 @@ export class Store {
     return newState;
   });
 
-  private static openChat(state: StoreState): StoreState {
-    let finalState = DotProp.set(state, 'chatOpened', true) as StoreState;
-    finalState = DotProp.set(finalState, 'lastUnread', null) as StoreState;
-    return finalState;
+  private static showButton(state: StoreState): StoreState {
+    return DotProp.set(state, 'showButton', true);
   }
 
-  private static closeChat(state: StoreState): StoreState {
-    return DotProp.set(state, 'chatOpened', false);
+  private static hideButton(state: StoreState): StoreState {
+    return DotProp.set(state, 'showButton', false);
+  }
+
+  private static showChat(state: StoreState): StoreState {
+    return DotProp.set(state, 'showChat', true);
+  }
+
+  private static hideChat(state: StoreState): StoreState {
+    return DotProp.set(state, 'showChat', false);
+  }
+
+  private static showConnectChannel(state: StoreState): StoreState {
+    return DotProp.set(state, 'showConnectChannel', true);
+  }
+
+  private static hideConnectChannel(state: StoreState): StoreState {
+    return DotProp.set(state, 'showConnectChannel', false);
+  }
+
+  private static setChannelToConnect(state: StoreState, action: AnyAction): StoreState {
+    return DotProp.set(state, 'channelToConnect', action.extraProps.channel);
+  }
+
+  private static unsetChannelToConnect(state: StoreState): StoreState {
+    return DotProp.set(state, 'channelToConnect', null);
   }
 
   private static setAppStatus(state: StoreState, action: AnyAction): StoreState {
@@ -158,11 +205,12 @@ export class Store {
 
   private static addChatMessage(state: StoreState, action: AnyAction): StoreState {
     const chatMessage = action.extraProps.chatMessage;
-    let finalState = DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => [...chatMessages, chatMessage]) as StoreState;
-    if (!finalState.chatOpened && chatMessage.direction === ChatMessage.DIRECTION_INCOMING) {
-      finalState = DotProp.set(finalState, 'lastUnread', chatMessage);
+    const buttonDisplayed = state.showButton && !state.showChat && !state.showConnectChannel;
+    let updatedState = DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => [...chatMessages, chatMessage]) as StoreState;
+    if (buttonDisplayed && chatMessage.direction === ChatMessage.DIRECTION_INCOMING) {
+      updatedState = DotProp.set(updatedState, 'lastUnread', chatMessage);
     }
-    return finalState;
+    return updatedState;
   }
 
   private static updateChatMessage(state: StoreState, action: AnyAction): StoreState {

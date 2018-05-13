@@ -80,6 +80,14 @@ export class AyroService {
     return new User(result);
   }
 
+  public static async trackViewChat(apiToken: string): Promise<void> {
+    const response = await fetch(AyroService.getUrl(`/events/view_chat`), {
+      method: 'POST',
+      headers: AyroService.getHeaders(apiToken),
+    });
+    await AyroService.parseResponse(response);
+  }
+
   public static async listMessages(apiToken: string): Promise<ChatMessage[]> {
     const response = await fetch(AyroService.getUrl('/chat'), {
       method: 'GET',
@@ -107,10 +115,11 @@ export class AyroService {
     return new ChatMessage(result);
   }
 
-  public static async trackViewChat(apiToken: string): Promise<void> {
-    const response = await fetch(AyroService.getUrl(`/events/view_chat`), {
+  public static async connectEmail(apiToken: string, email: string): Promise<void> {
+    const response = await fetch(AyroService.getUrl('/users/connect/email'), {
       method: 'POST',
       headers: AyroService.getHeaders(apiToken),
+      body: JSON.stringify({email}),
     });
     await AyroService.parseResponse(response);
   }

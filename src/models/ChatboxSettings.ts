@@ -2,17 +2,19 @@
 
 export class ChatboxSettings {
 
-  public title: string = 'How can we help?';
-  public input_placeholder: string = 'Type a message...';
+  private static readonly DEFAULT_TITLE = 'How can we help?';
+  private static readonly DEFAULT_INPUT_PLACEHOLDER = 'Type a message...';
+  private static readonly DEFAULT_CONNECT_CHANNELS_MESSAGE_PLACEHOLDER = 'Conecte outros aplicativos para ser notificado quando for respondido.';
+
+  public title: string;
+  public input_placeholder: string;
+  public connect_channels_message: string;
 
   constructor(data?: any) {
     if (data) {
-      if (data.title) {
-        this.title = data.title;
-      }
-      if (data.input_placeholder) {
-        this.input_placeholder = data.input_placeholder;
-      }
+      this.title = data.title || ChatboxSettings.DEFAULT_TITLE;
+      this.input_placeholder = data.input_placeholder || ChatboxSettings.DEFAULT_INPUT_PLACEHOLDER;
+      this.connect_channels_message = data.connect_channels_message || ChatboxSettings.DEFAULT_CONNECT_CHANNELS_MESSAGE_PLACEHOLDER;
     }
   }
 }

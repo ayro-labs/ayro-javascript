@@ -3,9 +3,10 @@ import {connect} from 'react-redux';
 import {AnyAction} from 'redux';
 import * as PubSub from 'pubsub-js';
 
-import UnreadMessage from 'components/UnreadMessage';
-import Chatbox from 'components/Chatbox';
 import ChatButton from 'components/ChatButton';
+import Chatbox from 'components/Chatbox';
+import ConnectChannel from 'components/ConnectChannel';
+import UnreadMessage from 'components/UnreadMessage';
 
 import {ChatMessage} from 'models/ChatMessage';
 import {StoreState} from 'stores/Store';
@@ -14,10 +15,10 @@ import {Sounds} from 'utils/Sounds';
 
 interface StateProps {
   lastUnread: ChatMessage;
-  chatOpened: boolean;
+  showChat: boolean;
 }
 
-class Container extends React.Component<StateProps, {}> {
+class Container extends React.Component<StateProps> {
 
   private subscriptions: any[] = [];
 
@@ -38,6 +39,7 @@ class Container extends React.Component<StateProps, {}> {
     return (
       <div id="ayro-container">
         <UnreadMessage/>
+        <ConnectChannel/>
         <Chatbox/>
         <ChatButton/>
       </div>
@@ -47,7 +49,7 @@ class Container extends React.Component<StateProps, {}> {
   // tslint:disable-next-line:variable-name
   private onChatMessageAdded(_type: string, action: AnyAction) {
     const chatMessage: ChatMessage = action.extraProps.chatMessage;
-    if (chatMessage.direction === ChatMessage.DIRECTION_INCOMING && (!this.props.chatOpened || !document.hasFocus())) {
+    if (chatMessage.direction === ChatMessage.DIRECTION_INCOMING && (!this.props.showChat || !document.hasFocus())) {
       Sounds.playChatMessageSound();
     }
   }
@@ -56,8 +58,8 @@ class Container extends React.Component<StateProps, {}> {
 function mapStateToProps(state: StoreState): StateProps {
   return {
     lastUnread: state.lastUnread,
-    chatOpened: state.chatOpened,
+    showChat: state.showChat,
   };
 }
 
-export default connect<StateProps, any, any, StoreState>(mapStateToProps, null)(Container);
+export default connect<StateProps, {}, {}, StoreState>(mapStateToProps)(Container);

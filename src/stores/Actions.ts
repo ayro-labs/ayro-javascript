@@ -7,8 +7,18 @@ import {Integration} from 'models/Integration';
 import {User} from 'models/User';
 import {Device} from 'models/Device';
 import {ChatMessage} from 'models/ChatMessage';
+import {Channel} from 'models/Channel';
 
 export class Actions {
+
+  public static readonly SHOW_BUTTON: string = 'SHOW_BUTTON';
+  public static readonly HIDE_BUTTON: string = 'HIDE_BUTTON';
+  public static readonly SHOW_CHAT: string = 'SHOW_CHAT';
+  public static readonly HIDE_CHAT: string = 'HIDE_CHAT';
+  public static readonly SHOW_CONNECT_CHANNEL: string = 'SHOW_CONNECT_CHANNEL';
+  public static readonly HIDE_CONNECT_CHANNEL: string = 'HIDE_CONNECT_CHANNEL';
+  public static readonly SET_CHANNEL_TO_CONNECT: string = 'SET_CHANNEL_TO_CONNECT';
+  public static readonly UNSET_CHANNEL_TO_CONNECT: string = 'UNSET_CHANNEL_TO_CONNECT';
 
   public static readonly SET_APP_STATUS: string = 'SET_APP_STATUS';
   public static readonly SET_USER_STATUS: string = 'SET_USER_STATUS';
@@ -18,23 +28,58 @@ export class Actions {
   public static readonly SET_USER: string = 'SET_USER';
   public static readonly SET_DEVICE: string = 'SET_DEVICE';
   public static readonly SET_API_TOKEN: string = 'SET_API_TOKEN';
-  public static readonly OPEN_CHAT: string = 'OPEN_CHAT';
-  public static readonly CLOSE_CHAT: string = 'CLOSE_CHAT';
   public static readonly SET_CHAT_MESSAGES: string = 'SET_CHAT_MESSAGES';
   public static readonly ADD_CHAT_MESSAGE: string = 'ADD_CHAT_MESSAGE';
   public static readonly UPDATE_CHAT_MESSAGE: string = 'UPDATE_CHAT_MESSAGE';
   public static readonly REMOVE_CHAT_MESSAGE: string = 'REMOVE_CHAT_MESSAGE';
   public static readonly CLEAR_UNREADS: string = 'CLEAR_UNREADS';
 
-  public static openChat(): AnyAction {
+  public static showButton(): AnyAction {
     return {
-      type: Actions.OPEN_CHAT,
+      type: Actions.SHOW_BUTTON,
     };
   }
 
-  public static closeChat(): AnyAction {
+  public static hideButton(): AnyAction {
     return {
-      type: Actions.CLOSE_CHAT,
+      type: Actions.HIDE_BUTTON,
+    };
+  }
+
+  public static showChat(): AnyAction {
+    return {
+      type: Actions.SHOW_CHAT,
+    };
+  }
+
+  public static hideChat(): AnyAction {
+    return {
+      type: Actions.HIDE_CHAT,
+    };
+  }
+
+  public static showConnectChannel(): AnyAction {
+    return {
+      type: Actions.SHOW_CONNECT_CHANNEL,
+    };
+  }
+
+  public static hideConnectChannel(): AnyAction {
+    return {
+      type: Actions.HIDE_CONNECT_CHANNEL,
+    };
+  }
+
+  public static setChannelToConnect(channel: Channel): AnyAction {
+    return {
+      type: Actions.SET_CHANNEL_TO_CONNECT,
+      extraProps: {channel},
+    };
+  }
+
+  public static unsetChannelToConnect(): AnyAction {
+    return {
+      type: Actions.UNSET_CHANNEL_TO_CONNECT,
     };
   }
 

@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, AnyAction} from 'redux';
 import * as PubSub from 'pubsub-js';
 
+import ConnectChannelsMessage from 'components/ConnectChannelsMessage';
 import IncomingMessage from 'components/IncomingMessage';
 import OutgoingMessage from 'components/OutgoingMessage';
 
@@ -24,7 +25,7 @@ interface DispatchProps {
   setChatMessages: (chatMessages: ChatMessage[]) => void;
 }
 
-class Conversation extends React.Component<StateProps & DispatchProps, {}> {
+class Conversation extends React.Component<StateProps & DispatchProps> {
 
   private subscriptions: any[] = [];
   private conversationElement: HTMLDivElement;
@@ -32,13 +33,14 @@ class Conversation extends React.Component<StateProps & DispatchProps, {}> {
   constructor(props: StateProps & DispatchProps) {
     super(props);
     this.setConversationElement = this.setConversationElement.bind(this);
-    this.onChatOpened = this.onChatOpened.bind(this);
     this.onChatMessageAdded = this.onChatMessageAdded.bind(this);
   }
 
   public componentDidMount() {
-    this.subscriptions.push(PubSub.subscribe(Actions.OPEN_CHAT, this.onChatOpened));
     this.subscriptions.push(PubSub.subscribe(Actions.ADD_CHAT_MESSAGE, this.onChatMessageAdded));
+    if (this.props.chatMessages.length === 0) {
+      this.loadMessages();
+    }
   }
 
   public componentWillUnmount() {
@@ -46,33 +48,48 @@ class Conversation extends React.Component<StateProps & DispatchProps, {}> {
   }
 
   public render() {
-    const messages = this.props.chatMessages.map((chatMessage, index) => {
-      const previousChatMessage = this.props.chatMessages[index - 1];
-      const continuation = previousChatMessage && previousChatMessage.agent.id === chatMessage.agent.id;
-      if (chatMessage.direction === ChatMessage.DIRECTION_INCOMING) {
-        return <IncomingMessage key={chatMessage.id} chatMessage={chatMessage} continuation={continuation}/>;
-      }
-      return <OutgoingMessage key={chatMessage.id} chatMessage={chatMessage} continuation={continuation}/>;
-    });
     return (
-      <div className="ayro-chatbox-conversation" ref={this.setConversationElement}>
+      <div className="ayro-content" ref={this.setConversationElement}>
         <div className="ayro-messages">
-          {messages}
+          {this.renderMessages()}
         </div>
       </div>
     );
+  }
+
+  private renderMessages() {
+    return this.props.chatMessages.map((chatMessage, index) => {
+      const previousMessage = this.props.chatMessages[index - 1];
+      const continuation = previousMessage && previousMessage.direction === chatMessage.direction && this.isSameAgent(previousMessage, chatMessage);
+      if (chatMessage.direction === ChatMessage.DIRECTION_INCOMING) {
+        switch (chatMessage.type) {
+          case ChatMessage.TYPE_TEXT:
+            return <IncomingMessage key={chatMessage.id} chatMessage={chatMessage} continuation={continuation}/>;
+          case ChatMessage.TYPE_CONNECT_CHANNELS:
+            return <ConnectChannelsMessage key={chatMessage.id} chatMessage={chatMessage}/>;
+          default:
+            return null;
+        }
+      }
+      switch (chatMessage.type) {
+        case ChatMessage.TYPE_TEXT:
+          return <OutgoingMessage key={chatMessage.id} chatMessage={chatMessage} continuation={continuation}/>;
+        default:
+          return null;
+      }
+    });
   }
 
   private setConversationElement(div: HTMLDivElement) {
     this.conversationElement = div;
   }
 
-  private onChatOpened() {
-    this.loadMessages();
-  }
-
   private onChatMessageAdded() {
     this.conversationElement.scrollTop = this.conversationElement.scrollHeight;
+  }
+
+  private isSameAgent(previousMessage: ChatMessage, chatMessage: ChatMessage) {
+    return !previousMessage.agent && !chatMessage.agent || (previousMessage.agent && chatMessage.agent && previousMessage.agent.id === chatMessage.agent.id);
   }
 
   private async loadMessages(): Promise<void> {
@@ -97,4 +114,4 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>): DispatchProps {
   }, dispatch);
 }
 
-export default connect<StateProps, DispatchProps, any, StoreState>(mapStateToProps, mapDispatchToProps)(Conversation);
+export default connect<StateProps, DispatchProps, {}, StoreState>(mapStateToProps, mapDispatchToProps)(Conversation);
