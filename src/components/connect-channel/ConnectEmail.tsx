@@ -31,7 +31,7 @@ class ConnectEmail extends React.Component<StateProps, OwnState> {
     this.connectEmail = this.connectEmail.bind(this);
     this.state = {
       email: this.props.user.email || '',
-      connected: false
+      connected: false,
     };
   }
 
