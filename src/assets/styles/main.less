@@ -89,7 +89,8 @@
 .ayro-box {
   z-index: 99999;
   position: fixed;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   right: 30px;
   bottom: 40px;
   width: 360px;
@@ -97,34 +98,32 @@
   box-shadow: 0 0 25px rgba(0,0,0,.15);
   border: 1px solid rgba(0,0,0,.15);
   border-radius: 6px;
+  overflow: hidden;
   > .ayro-header {
+    flex: 0 0 45px;
     display: flex;
     align-items: center;
-    height: 45px;
     padding: 0px 15px;
     font-size: 17px;
     text-align: center;
     box-shadow: 0 -1px 3px rgba(0,0,0,.1);
-    cursor: pointer;
     color: @white;
     > .ayro-title {
       margin-left: 10px;
-    }
-    > .ayro-arrow-left-icon {
-      width: 20px;
-      height: 20px;
-      fill: @white;
     }
     > .ayro-close-icon {
       width: 20px;
       height: 20px;
       margin-left: auto;
       fill: @white;
+      cursor: pointer;
     }
   }
   > .ayro-content {
-    height: 100%;
+    flex: 1 1 auto;
     background-color: @white;
+    overflow-y: scroll;
+    overflow-x: hidden;
     &::-webkit-scrollbar {
       width: 10px;
     }
@@ -142,15 +141,12 @@
     > .ayro-content {
       display: flex;
       flex-direction: column-reverse;
-      height: ~"calc(100% - 90px)";
-      overflow-y: scroll;
-      overflow-x: hidden;
     }
     > .ayro-footer {
+      flex: 0 0 45px;
       position: relative;
       display: flex;
       align-items: center;
-      height: 45px;
       padding: 0px 15px;
       box-shadow: 0 -1px 3px rgba(0,0,0,.2);
       background-color: @white;
@@ -180,10 +176,15 @@
 
 .ayro-connect-channel {
   &.ayro-box {
+    > .ayro-header {
+      > .ayro-arrow-left-icon {
+        width: 20px;
+        height: 20px;
+        fill: @white;
+        cursor: pointer;
+      }
+    }
     > .ayro-content {
-      height: ~"calc(100% - 45px)";
-      overflow-y: scroll;
-      overflow-x: hidden;
       > .ayro-channel {
         padding: 40px 20px 40px 20px;
       }
@@ -328,8 +329,7 @@
   margin-top: 12px;
   margin-bottom: 12px;
   > .ayro-balloon {
-    padding: 8px 12px;
-    box-shadow: none;
+    padding: 12px 12px;
     background-color: #f4f4f4;
     border: 1px solid #d1d1d1;
     > .ayro-message {
@@ -338,7 +338,7 @@
         color: @gray-dark;
       }
       > .ayro-available-channels {
-        margin-top: 10px;
+        margin-top: 8px;
       }
     }
   }
@@ -369,7 +369,7 @@
 
 .ayro-message-incoming, .ayro-message-unread {
   > .ayro-balloon {
-    border: 1px solid #d6d6d6;
+    border: 1px solid #d1d1d1;
     background-color: @white;
     > .ayro-message {
       > .ayro-agent-name {

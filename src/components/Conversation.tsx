@@ -34,10 +34,12 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
     super(props);
     this.setConversationElement = this.setConversationElement.bind(this);
     this.onChatMessageAdded = this.onChatMessageAdded.bind(this);
+    this.onUserChanged = this.onUserChanged.bind(this);
   }
 
   public componentDidMount() {
     this.subscriptions.push(PubSub.subscribe(Actions.ADD_CHAT_MESSAGE, this.onChatMessageAdded));
+    this.subscriptions.push(PubSub.subscribe(Actions.SET_USER, this.onUserChanged));
     if (this.props.chatMessages.length === 0) {
       this.loadMessages();
     }
@@ -82,6 +84,10 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
 
   private setConversationElement(div: HTMLDivElement) {
     this.conversationElement = div;
+  }
+
+  private onUserChanged() {
+    this.loadMessages();
   }
 
   private onChatMessageAdded() {

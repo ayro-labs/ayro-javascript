@@ -1,20 +1,22 @@
 export class Sound {
 
-  private soundUrl: string;
+  private url: string;
   private context: AudioContext;
   private buffer: AudioBuffer;
 
-  constructor(soundUrl: string) {
+  constructor(url: string) {
     try {
-      this.soundUrl = soundUrl;
+      this.url = url;
       this.context = new AudioContext();
     } catch (err) {
       // Nothing to do...
     }
   }
 
-  public play() {
+  public async play() {
     if (!this.buffer) {
+      // Loads asynchronously and probably will play in the next time
+      this.load();
       return;
     }
     const gainNode = this.context.createGain();
@@ -26,8 +28,8 @@ export class Sound {
     source.start();
   }
 
-  public async load() {
-    if (!this.context) {
+  public load() {
+    if (!this.context || this.buffer) {
       return;
     }
     if (this.context.state === 'running') {
@@ -42,14 +44,18 @@ export class Sound {
   }
 
   private async loadSound() {
-    await this.context.resume();
-    const response = await fetch(this.soundUrl, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'audio/mp3',
-      },
-    });
-    const audioData = await response.arrayBuffer();
-    this.buffer = await this.context.decodeAudioData(audioData);
+    try {
+      await this.context.resume();
+      const response = await fetch(this.url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'audio/mp3',
+        },
+      });
+      const audioData = await response.arrayBuffer();
+      this.buffer = await this.context.decodeAudioData(audioData);
+    } catch (err) {
+      // Nothing to do...
+    }
   }
 }
