@@ -1,6 +1,5 @@
 {
   "rules": {
-    "typedef": [true, "call-signature", "parameter"],
     "align": [true, "elements", "members", "parameters", "statements"],
     "interface-name" : [true, "never-prefix"],
     "max-line-length": {"options": {"limit": 999}},
@@ -11,6 +10,7 @@
     "ordered-imports": false,
     "space-before-function-paren": false,
     "trailing-comma": [true, {
+    "typedef": [true, "call-signature", "parameter"],
     "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-snake-case", "allow-pascal-case"],
       "singleline": "never",
       "multiline": {
