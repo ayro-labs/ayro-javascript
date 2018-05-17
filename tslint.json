@@ -10,8 +10,6 @@
     "ordered-imports": false,
     "space-before-function-paren": false,
     "trailing-comma": [true, {
-    "typedef": [true, "call-signature", "parameter"],
-    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-snake-case", "allow-pascal-case"],
       "singleline": "never",
       "multiline": {
         "objects": "always",
@@ -19,7 +17,9 @@
         "functions": "never",
         "typeLiterals": "ignore"
       }
-    }]
+    }],
+    "typedef": [true, "call-signature", "parameter"],
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-snake-case", "allow-pascal-case"]
   },
   "extends": [
     "tslint:recommended",
