@@ -40,7 +40,7 @@ export class Store {
     return Store.STORE.getState();
   }
 
-  public static dispatch(action: AnyAction) {
+  public static dispatch(action: AnyAction): void {
     Store.STORE.dispatch(action);
   }
 

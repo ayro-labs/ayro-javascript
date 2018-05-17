@@ -25,7 +25,7 @@ class ChatButton extends React.Component<StateProps & DispatchProps> {
     this.openChat = this.openChat.bind(this);
   }
 
-  public render() {
+  public render(): JSX.Element {
     if (!this.props.showButton) {
       return null;
     }
@@ -44,7 +44,7 @@ class ChatButton extends React.Component<StateProps & DispatchProps> {
     };
   }
 
-  private openChat() {
+  private openChat(): void {
     this.props.unsetLastUnread();
     this.props.hideButton();
     window.parent.postMessage({

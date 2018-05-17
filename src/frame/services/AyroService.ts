@@ -130,7 +130,7 @@ export class AyroService {
     return process.env.API_URL + url;
   }
 
-  private static getHeaders(apiToken: string) {
+  private static getHeaders(apiToken: string): any {
     const headers = Object.assign({}, AyroService.API_HEADERS);
     if (apiToken) {
       headers.authorization = `Bearer ${apiToken}`;

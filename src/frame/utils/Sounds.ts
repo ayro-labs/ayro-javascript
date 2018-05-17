@@ -3,13 +3,13 @@ import {Store} from 'frame/stores/Store';
 
 export class Sounds {
 
-  public static async init() {
+  public static async init(): Promise<void> {
     if (Store.getState().settings.sounds) {
       await this.INCOMING_MESSAGE.load();
     }
   }
 
-  public static playChatMessageSound() {
+  public static playChatMessageSound(): void {
     if (Store.getState().settings.sounds) {
       this.INCOMING_MESSAGE.play();
     }

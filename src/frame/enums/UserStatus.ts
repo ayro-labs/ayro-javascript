@@ -1,6 +1,6 @@
 export enum UserStatus {
 
-  LOGGED_OUT = 0,
-  LOGGED_IN = 1,
+  LOGGED_OUT = 'logged_out',
+  LOGGED_IN = 'logged_in',
 
 }

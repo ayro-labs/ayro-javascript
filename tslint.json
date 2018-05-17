@@ -1,9 +1,11 @@
 {
   "rules": {
+    "typedef": [true, "call-signature", "parameter"],
     "align": [true, "elements", "members", "parameters", "statements"],
     "interface-name" : [true, "never-prefix"],
     "max-line-length": {"options": {"limit": 999}},
     "no-console": false,
+    "no-inferrable-types": true,
     "object-curly-spacing": [true, "never"],
     "object-literal-sort-keys": false,
     "ordered-imports": false,

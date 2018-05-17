@@ -12,7 +12,7 @@ interface OwnProps {
 
 class IncomingMessage extends React.Component<OwnProps> {
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <div key={this.props.chatMessage.id} className={this.messageClasses()}>
         {this.renderAgentPhoto()}
@@ -33,7 +33,7 @@ class IncomingMessage extends React.Component<OwnProps> {
     );
   }
 
-  private renderAgentPhoto() {
+  private renderAgentPhoto(): JSX.Element {
     if (this.props.continuation) {
       return null;
     }
@@ -44,7 +44,7 @@ class IncomingMessage extends React.Component<OwnProps> {
     );
   }
 
-  private renderAgentName() {
+  private renderAgentName(): JSX.Element {
     if (this.props.continuation) {
       return null;
     }

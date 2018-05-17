@@ -37,7 +37,7 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
     this.onUserChanged = this.onUserChanged.bind(this);
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     this.subscriptions.push(PubSub.subscribe(Actions.ADD_CHAT_MESSAGE, this.onChatMessageAdded));
     this.subscriptions.push(PubSub.subscribe(Actions.SET_USER, this.onUserChanged));
     if (this.props.chatMessages.length === 0) {
@@ -45,11 +45,11 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
     }
   }
 
-  public componentWillUnmount() {
+  public componentWillUnmount(): void {
     this.subscriptions.forEach(subscription => PubSub.unsubscribe(subscription));
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <div className="content" ref={this.contentRef}>
         <div className="messages">
@@ -59,7 +59,7 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
     );
   }
 
-  private renderMessages() {
+  private renderMessages(): JSX.Element[] {
     return this.props.chatMessages.map((chatMessage, index) => {
       const previousMessage = this.props.chatMessages[index - 1];
       const continuation = previousMessage && previousMessage.direction === chatMessage.direction && this.isSameAgent(previousMessage, chatMessage);
@@ -82,15 +82,15 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
     });
   }
 
-  private onUserChanged() {
+  private onUserChanged(): void {
     this.loadMessages();
   }
 
-  private onChatMessageAdded() {
+  private onChatMessageAdded(): void {
     this.contentRef.current.scrollTop = this.contentRef.current.scrollHeight;
   }
 
-  private isSameAgent(previousMessage: ChatMessage, chatMessage: ChatMessage) {
+  private isSameAgent(previousMessage: ChatMessage, chatMessage: ChatMessage): boolean {
     return !previousMessage.agent && !chatMessage.agent || (previousMessage.agent && chatMessage.agent && previousMessage.agent.id === chatMessage.agent.id);
   }
 

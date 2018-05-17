@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, AnyAction} from 'redux';
-import lodashTruncate from 'lodash.truncate';
+import * as truncate from 'lodash.truncate';
 
 import {ChatMessage} from 'frame/models/ChatMessage';
 import {Actions} from 'frame/stores/Actions';
@@ -24,7 +24,7 @@ class UnreadMessage extends React.Component<StateProps & DispatchProps> {
     this.closeUnreadMessage = this.closeUnreadMessage.bind(this);
   }
 
-  public render() {
+  public render(): JSX.Element {
     if (!this.props.lastUnread) {
       return null;
     }
@@ -56,14 +56,14 @@ class UnreadMessage extends React.Component<StateProps & DispatchProps> {
   }
 
   private getTruncatedText(): string {
-    return lodashTruncate(this.props.lastUnread.text, {
+    return truncate(this.props.lastUnread.text, {
       length: 100,
       separator: ' ',
       omission: '...',
     });
   }
 
-  private closeUnreadMessage() {
+  private closeUnreadMessage(): void {
     this.props.unsetLastUnread();
     window.parent.postMessage({
       type: Constants.EVENT_SIZE_CHANGED,

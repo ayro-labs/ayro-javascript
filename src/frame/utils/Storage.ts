@@ -1,6 +1,6 @@
 export class Storage {
 
-  public static set(key: string, value: string) {
+  public static set(key: string, value: string): void {
     try {
       if (localStorage) {
         localStorage.setItem(key, value);
@@ -22,7 +22,7 @@ export class Storage {
     return value || null;
   }
 
-  public static remove(key: string) {
+  public static remove(key: string): void {
     if (localStorage) {
       localStorage.removeItem(key);
     }

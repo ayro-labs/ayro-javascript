@@ -35,7 +35,7 @@ class ConnectEmail extends React.Component<StateProps, OwnState> {
     this.connectEmail = this.connectEmail.bind(this);
   }
 
-  public render() {
+  public render(): JSX.Element {
     if (!this.state.connected) {
       return (
         <div className="connect-email">
@@ -78,16 +78,16 @@ class ConnectEmail extends React.Component<StateProps, OwnState> {
     };
   }
 
-  private onEmailChanged(event: any) {
+  private onEmailChanged(event: any): void {
     this.emailDirty = true;
     this.setState({email: event.target.value});
   }
 
-  private isValidEmail() {
+  private isValidEmail(): boolean {
     return this.emailRegex.test(this.state.email);
   }
 
-  private async connectEmail() {
+  private async connectEmail(): Promise<void> {
     if (this.isValidEmail()) {
       await AyroService.connectEmail(this.props.apiToken, this.state.email);
       this.setState({...this.state, connected: true});

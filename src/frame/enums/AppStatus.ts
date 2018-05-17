@@ -1,6 +1,6 @@
 export enum AppStatus {
 
-  NOT_INITIALIZED = 0,
-  INITIALIZED = 1,
+  NOT_INITIALIZED = 'not_initialized',
+  INITIALIZED = 'initialized',
 
 }

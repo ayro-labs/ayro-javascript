@@ -45,15 +45,15 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
     this.postMessage = this.postMessage.bind(this);
   }
 
-  public render() {
+  public render(): JSX.Element {
     if (!this.props.showChat) {
       return null;
     }
     return (
       <div className="chat main-box">
-        <div className="header" style={this.headerStyles()}>
+        <div className="header" style={this.headerStyles()} onClick={this.closeChat}>
           {this.props.settings.chatbox.title}
-          <svg onClick={this.closeChat} className="close-icon" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+          <svg className="close-icon" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
             <path d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"/>
           </svg>
         </div>
@@ -82,21 +82,21 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
     };
   }
 
-  private setInputElement(input: HTMLInputElement) {
+  private setInputElement(input: HTMLInputElement): void {
     this.inputElement = input;
   }
 
-  private onKeyPress(event: any) {
+  private onKeyPress(event: any): void {
     if (event.key === 'Enter') {
       this.postMessage();
     }
   }
 
-  private onMessageChanged(event: any) {
+  private onMessageChanged(event: any): void {
     this.setState({message: event.target.value});
   }
 
-  private closeChat() {
+  private closeChat(): void {
     this.props.hideChat();
     window.parent.postMessage({
       type: Constants.EVENT_SIZE_CHANGED,

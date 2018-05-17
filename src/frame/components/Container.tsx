@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, AnyAction} from 'redux';
 import * as PubSub from 'pubsub-js';
-import lodashDebounce from 'lodash.debounce';
+import * as debounce from 'lodash.debounce';
 
 import ChatButton from 'frame/components/ChatButton';
 import Chatbox from 'frame/components/Chatbox';
@@ -48,12 +48,12 @@ class Container extends React.Component<StateProps & DispatchProps, OwnState> {
     this.onWindowResize = this.onWindowResize.bind(this);
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     this.subscriptions.push(PubSub.subscribe(Actions.ADD_CHAT_MESSAGE, this.onChatMessageAdded));
-    window.parent.addEventListener('resize', lodashDebounce(this.onWindowResize, 200));
+    window.parent.addEventListener('resize', debounce(this.onWindowResize, 200));
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <div id="container" className={this.containerClasses()} ref={this.containerRef}>
         <UnreadMessage/>
@@ -64,11 +64,11 @@ class Container extends React.Component<StateProps & DispatchProps, OwnState> {
     );
   }
 
-  private containerClasses() {
+  private containerClasses(): string {
     return `container-${this.state.screenSize}`;
   }
 
-  private onWindowResize() {
+  private onWindowResize(): void {
     const width = window.parent.document.documentElement.clientWidth;
     if (width <= Container.MAX_WIDTH_XS) {
       this.setState({screenSize: Container.SIZE_XS});
@@ -80,7 +80,7 @@ class Container extends React.Component<StateProps & DispatchProps, OwnState> {
   }
 
   // tslint:disable-next-line:variable-name
-  private onChatMessageAdded(_type: string, action: AnyAction) {
+  private onChatMessageAdded(_type: string, action: AnyAction): void {
     const chatMessage: ChatMessage = action.extraProps.chatMessage;
     const expectedMessageType = chatMessage.direction === ChatMessage.DIRECTION_INCOMING && chatMessage.type === ChatMessage.TYPE_TEXT;
     if (expectedMessageType) {

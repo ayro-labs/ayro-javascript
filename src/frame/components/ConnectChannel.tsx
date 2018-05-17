@@ -33,12 +33,12 @@ class ConnectChannel extends React.Component<StateProps & DispatchProps> {
     this.closeConnectChannel = this.closeConnectChannel.bind(this);
   }
 
-  public render() {
+  public render(): JSX.Element {
     if (!this.props.showConnectChannel || !this.props.channelToConnect) {
       return null;
     }
     return (
-      <div className="connect-channel box">
+      <div className="connect-channel main-box">
         <div className="header" style={this.headerStyles()}>
           <svg onClick={this.backToChat} className="arrow-left-icon" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
             <path d="M1664 896v128q0 53-32.5 90.5t-84.5 37.5h-704l293 294q38 36 38 90t-38 90l-75 76q-37 37-90 37-52 0-91-37l-651-652q-37-37-37-90 0-52 37-91l651-650q38-38 91-38 52 0 90 38l75 74q38 38 38 91t-38 91l-293 293h704q52 0 84.5 37.5t32.5 90.5z"/>
@@ -59,7 +59,7 @@ class ConnectChannel extends React.Component<StateProps & DispatchProps> {
     );
   }
 
-  private renderContent() {
+  private renderContent(): JSX.Element {
     switch (this.props.channelToConnect) {
       case Channels.EMAIL:
         return <ConnectEmail/>;
@@ -74,13 +74,13 @@ class ConnectChannel extends React.Component<StateProps & DispatchProps> {
     };
   }
 
-  private backToChat() {
+  private backToChat(): void {
     this.props.showChat();
     this.props.hideConnectChannel();
     this.props.unsetChannelToConnect();
   }
 
-  private closeConnectChannel() {
+  private closeConnectChannel(): void {
     this.props.hideConnectChannel();
     this.props.unsetChannelToConnect();
     window.parent.postMessage({

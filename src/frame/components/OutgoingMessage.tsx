@@ -33,7 +33,7 @@ class OutgoingMessage extends React.Component<StateProps & DispatchProps & OwnPr
     this.retryMessage = this.retryMessage.bind(this);
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <div key={this.props.chatMessage.id} className={this.messageClasses()}>
         <div className="balloon" style={this.balloonStyles()}>
@@ -54,7 +54,7 @@ class OutgoingMessage extends React.Component<StateProps & DispatchProps & OwnPr
     );
   }
 
-  private renderStatusIcon() {
+  private renderStatusIcon(): JSX.Element {
     switch (this.props.chatMessage.status) {
       case ChatMessage.STATUS_SENDING:
         return (
@@ -79,7 +79,7 @@ class OutgoingMessage extends React.Component<StateProps & DispatchProps & OwnPr
     }
   }
 
-  private renderRefreshButton() {
+  private renderRefreshButton(): JSX.Element {
     if (this.props.chatMessage.status !== ChatMessage.STATUS_ERROR) {
       return null;
     }

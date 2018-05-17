@@ -27,7 +27,7 @@ interface OwnProps {
 
 class ConnectChannelMessage extends React.Component<StateProps & DispatchProps & OwnProps> {
 
-  public render() {
+  public render(): JSX.Element {
     if (!this.props.showConnectChannel) {
       return null;
     }
@@ -48,7 +48,7 @@ class ConnectChannelMessage extends React.Component<StateProps & DispatchProps &
     );
   }
 
-  private renderAvailableChannels() {
+  private renderAvailableChannels(): JSX.Element[] {
     return this.props.chatMessage.metadata.available_channels.map((availableChannel: string) => {
       const channel = Channels.get(availableChannel);
       if (!channel) {
@@ -63,7 +63,7 @@ class ConnectChannelMessage extends React.Component<StateProps & DispatchProps &
     });
   }
 
-  private renderChannelConnectedIcon(channel: Channel) {
+  private renderChannelConnectedIcon(channel: Channel): JSX.Element {
     if (!channel.connected) {
       return null;
     }
@@ -82,7 +82,7 @@ class ConnectChannelMessage extends React.Component<StateProps & DispatchProps &
     };
   }
 
-  private openConnectChannel(channel: Channel) {
+  private openConnectChannel(channel: Channel): void {
     this.props.setChannelToConnect(channel);
     this.props.showConnectChannel();
     this.props.hideChat();

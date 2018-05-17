@@ -6,7 +6,7 @@ import {Store} from 'frame/stores/Store';
 
 export class MessagingService {
 
-  public static start() {
+  public static start(): void {
     if (!MessagingService.socket) {
       MessagingService.socket = new Faye.Client(process.env.WEBCM_URL, {
         timeout: MessagingService.FAYE_TIMEOUT_SECONDS,
@@ -20,7 +20,7 @@ export class MessagingService {
     });
   }
 
-  public static stop() {
+  public static stop(): void {
     if (MessagingService.subscription) {
       MessagingService.subscription.cancel();
     }
@@ -33,7 +33,7 @@ export class MessagingService {
   private static socket: any;
   private static subscription: any;
 
-  private static messageReceived(data: any) {
+  private static messageReceived(data: any): void {
     switch (data.event) {
       case MessagingService.EVENT_CHAT_MESSAGE:
         const chatMessage = new ChatMessage(data.message);
@@ -44,7 +44,7 @@ export class MessagingService {
     }
   }
 
-  private static authenticationExtension() {
+  private static authenticationExtension(): any {
     return {
       outgoing: (message: any, callback: (message: any) => void) => {
         if (!message.ext) {

@@ -29,14 +29,6 @@ export class AyroApp {
     Store.dispatch(Actions.setUserStatus(UserStatus.LOGGED_OUT));
   }
 
-  public getAppStatus(): AppStatus {
-    return Store.getState().appStatus;
-  }
-
-  public getUserStatus(): UserStatus {
-    return Store.getState().userStatus;
-  }
-
   public async init(data: any): Promise<void> {
     try {
       const settings = new Settings(data);
@@ -121,13 +113,21 @@ export class AyroApp {
     }
   }
 
-  private assertInitialized() {
+  public getAppStatus(): AppStatus {
+    return Store.getState().appStatus;
+  }
+
+  public getUserStatus(): UserStatus {
+    return Store.getState().userStatus;
+  }
+
+  private assertInitialized(): void {
     if (this.getAppStatus() !== AppStatus.INITIALIZED) {
       throw new Error('App not initialized, please make sure you call init function first.');
     }
   }
 
-  private assertAuthenticated() {
+  private assertAuthenticated(): void {
     if (this.getUserStatus() !== UserStatus.LOGGED_IN) {
       throw new Error('User is not authenticated, please make sure you call login function first.');
     }

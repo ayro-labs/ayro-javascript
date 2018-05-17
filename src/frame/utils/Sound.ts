@@ -13,7 +13,7 @@ export class Sound {
     }
   }
 
-  public async play() {
+  public async play(): Promise<void> {
     if (!this.buffer) {
       // Loads asynchronously and probably will play in the next time
       this.load();
@@ -28,7 +28,7 @@ export class Sound {
     source.start();
   }
 
-  public load() {
+  public load(): void {
     if (!this.context || this.buffer) {
       return;
     }
@@ -43,7 +43,7 @@ export class Sound {
     document.addEventListener('click', onDocumentClick);
   }
 
-  private async loadSound() {
+  private async loadSound(): Promise<void> {
     try {
       await this.context.resume();
       const response = await fetch(this.url, {
