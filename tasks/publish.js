@@ -84,7 +84,7 @@ if (require.main === module) {
   publishTask.withLintTask(lintLibrary);
   publishTask.withBuildTask(buildLibrary);
   publishTask.withBeforePublishTask(beforePublish);
-  publishTask.withPublishTassk(publish);
+  publishTask.withPublishTask(publish);
   publishTask.isNpmProject(true);
   publishTask.run();
 }
