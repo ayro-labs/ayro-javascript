@@ -41,7 +41,7 @@ async function prepareGithubRepository() {
 
 async function copyFilesToGithubRepository() {
   commands.log('Copying files to Github repository...');
-  await commands.exec(`cp dist/ayro-${project.version}.min.js ${GITHUB_REPOSITORY_DIR}`);
+  await commands.exec(`cp dist/ayro.min.js ${GITHUB_REPOSITORY_DIR}/ayro-${project.version}.min.js`);
 }
 
 async function pushFilesToGithubRepository() {
@@ -70,12 +70,15 @@ async function beforePublish() {
   await createGithubRelease();
   await commands.exec('rm -Rf lib', WORKING_DIR);
   await commands.exec('mkdir lib', WORKING_DIR);
-  await commands.exec(`cp dist/ayro-${project.version}.min.js lib/ayro.js`, WORKING_DIR);
+  await commands.exec('cp dist/ayro.min.js lib/ayro.js', WORKING_DIR);
 }
 
 async function publish() {
   commands.log('Uploading library to Amazon S3...');
-  await commands.exec(`aws s3 cp dist ${S3_BUCKET} --recursive --acl public-read`, WORKING_DIR);
+  await commands.exec(`aws s3 cp dist/ayro.min.js ${S3_BUCKET}/ayro-${project.version}.min.js --acl public-read`, WORKING_DIR);
+  await commands.exec(`aws s3 cp dist/ayro.min.css ${S3_BUCKET}/ayro-${project.version}.min.css --acl public-read`, WORKING_DIR);
+  await commands.exec(`aws s3 cp dist/ayro-frame.min.js ${S3_BUCKET}/ayro-frame-${project.version}.min.js --acl public-read`, WORKING_DIR);
+  await commands.exec(`aws s3 cp dist/ayro-frame.min.css ${S3_BUCKET}/ayro-frame-${project.version}.min.css --acl public-read`, WORKING_DIR);
 }
 
 // Run this if call directly from command line

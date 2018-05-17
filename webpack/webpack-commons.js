@@ -1,6 +1,5 @@
 'use strict';
 
-const project = require('../package.json');
 const helpers = require('./helpers');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -20,11 +19,11 @@ module.exports = (settings, frame) => {
     entry = helpers.root('/src/lib/entry.ts');
   }
   if (isDevelopment()) {
-    jsFilename = frame ? `ayro-frame-${project.version}.js` : `ayro-${project.version}.js`;
-    cssFilename = frame ? `ayro-frame-${project.version}.css` : `ayro-${project.version}.css`;
+    jsFilename = frame ? 'ayro-frame.js' : 'ayro.js';
+    cssFilename = frame ? 'ayro-frame.css' : 'ayro.css';
   } else {
-    jsFilename = frame ? `ayro-frame-${project.version}.min.js` : `ayro-${project.version}.min.js`;
-    cssFilename = frame ? `ayro-frame-${project.version}.min.css` : `ayro-${project.version}.min.css`;
+    jsFilename = frame ? 'ayro-frame.min.js' : 'ayro.min.js';
+    cssFilename = frame ? 'ayro-frame.min.css' : 'ayro.min.css';
   }
 
   const output = {
