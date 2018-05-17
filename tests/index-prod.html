@@ -9,9 +9,7 @@
   <body>
     <script src="/dist/browser/ayro.min.js"></script>
     <script>
-      Ayro.init({
-        app_token: '52be128ce33217f8419e020a714687606eb4178d',
-      }).then(() => {
+      Ayro.init({app_token: '52be128ce33217f8419e020a714687606eb4178d'}).then(() => {
         const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjVhZTAwNWNhOTkxM2VkMDAwZTczZmI3NyJ9.eyJzY29wZSI6InVzZXIiLCJ1c2VySWQiOiIxIiwiaWF0IjoxNTI0NjcxMDE4fQ.fLfNAT7Jv7hAK5SLsTqUPV6jtCAaM6XPHLcZUkOLUWU';
         return Ayro.login({
           uid: '1',

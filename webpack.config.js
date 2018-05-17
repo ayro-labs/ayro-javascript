@@ -1,20 +1,27 @@
 'use strict';
 
 const {properties} = require('@ayro/commons');
-const path = require('path');
+const helpers = require('./webpack/helpers');
 
-properties.setup(path.join(__dirname, 'config.properties'));
+properties.setup(helpers.root('/config.properties'));
 
-const webpackWebsiteLibDev = require('./webpack/webpack-website-lib-dev.js');
-const webpackWebsiteLibProd = require('./webpack/webpack-website-lib-prod.js');
-const webpackWebsiteDev = require('./webpack/webpack-website-dev.js');
-const webpackWebsiteProd = require('./webpack/webpack-website-prod.js');
-const webpackWordPressDev = require('./webpack/webpack-wordpress-dev.js');
-const webpackWordPressProd = require('./webpack/webpack-wordpress-prod.js');
+const devSettings = require('./configs/settings')('development');
+const prodSettings = require('./configs/settings')('production');
+const webpackCommons = require('./webpack/webpack-commons.js');
+const del = require('del');
+
+del.sync([helpers.root('/dist')]);
 
 module.exports = (env) => {
+  let configs;
   if (env && env.production) {
-    return [webpackWebsiteLibProd, webpackWebsiteProd, webpackWordPressProd];
+    const libConfig = webpackCommons(prodSettings, false);
+    const frameConfig = webpackCommons(prodSettings, true);
+    configs = [libConfig, frameConfig];
+  } else {
+    const libConfig = webpackCommons(devSettings, false);
+    const frameConfig = webpackCommons(devSettings, true);
+    configs = [libConfig, frameConfig];
   }
-  return [webpackWebsiteLibDev, webpackWebsiteDev, webpackWordPressDev];
+  return configs;
 };
