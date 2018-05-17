@@ -70,7 +70,7 @@ async function beforePublish() {
   await createGithubRelease();
   await commands.exec('rm -Rf lib', WORKING_DIR);
   await commands.exec('mkdir lib', WORKING_DIR);
-  await commands.exec(`cp dist/ayro-${project.version}.min.js lib`, WORKING_DIR);
+  await commands.exec(`cp dist/ayro-${project.version}.min.js lib/ayro.js`, WORKING_DIR);
 }
 
 async function publish() {
