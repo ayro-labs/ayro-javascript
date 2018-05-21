@@ -25,7 +25,7 @@ npm run test-server
 ## Releasing a new version ##
 
 ````
-npm run release-lib -- <major|minor|patch>
+npm run release-lib -- major|minor|patch|version
 ````
 
 ## Publishing the new version to Github, Npm and Amazon S3 ##
