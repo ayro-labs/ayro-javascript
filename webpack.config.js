@@ -5,12 +5,14 @@ const helpers = require('./webpack/helpers');
 
 properties.setup(helpers.root('/config.properties'));
 
-const devSettings = require('./configs/settings')('development');
-const prodSettings = require('./configs/settings')('production');
+const settings = require('./configs/settings');
 const webpackCommon = require('./webpack/webpack-common.js');
 const del = require('del');
 
 del.sync([helpers.root('/dist')]);
+
+const devSettings = settings('development');
+const prodSettings = settings('production');
 
 module.exports = (env) => {
   let configs;

@@ -2,47 +2,42 @@
 
 const helpers = require('./helpers');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const JsUglifyPlugin = require('uglifyjs-webpack-plugin');
+const CssExtractPlugin = require('mini-css-extract-plugin');
+const CssOptimizePlugin = require('optimize-css-assets-webpack-plugin');
+const CssPurgePlugin = require('purgecss-webpack-plugin');
+const glob = require('glob');
 
 module.exports = (settings, frame) => {
-  function isDevelopment() {
-    return settings.env === 'development';
+  function isProduction() {
+    return settings.env === 'production';
   }
 
-  let entry;
-  let jsFilename;
-  let cssFilename;
+  let entry = helpers.root('/src', frame ? 'frame' : 'lib', 'entry.ts');
+  let jsFilename = frame ? 'ayro-frame.js' : 'ayro.js';
+  let cssFilename = frame ? 'ayro-frame.css' : 'ayro.css';
 
-  if (frame) {
-    entry = helpers.root('/src/frame/entry.ts');
-  } else {
-    entry = helpers.root('/src/lib/entry.ts');
-  }
-  if (isDevelopment()) {
-    jsFilename = frame ? 'ayro-frame.js' : 'ayro.js';
-    cssFilename = frame ? 'ayro-frame.css' : 'ayro.css';
-  } else {
+  if (isProduction()) {
     jsFilename = frame ? 'ayro-frame.min.js' : 'ayro.min.js';
     cssFilename = frame ? 'ayro-frame.min.css' : 'ayro.min.css';
   }
 
-  const output = {
-    path: helpers.root('/dist'),
-    filename: jsFilename,
-    library: 'Ayro',
-    libraryTarget: 'umd',
-    umdNamedDefine: true,
-  };
+  const optimization = {};
+  if (isProduction()) {
+    optimization.minimizer = [
+      new JsUglifyPlugin({cache: true, parallel: true, sourceMap: true}),
+      new CssOptimizePlugin({cssProcessorOptions: {map: {inline: false}}}),
+    ];
+  }
 
   const plugins = [
-    new webpack.LoaderOptionsPlugin({debug: true}),
     new webpack.optimize.ModuleConcatenationPlugin(),
-    new ExtractTextPlugin({filename: cssFilename, allChunks: true}),
+    new CssExtractPlugin({filename: cssFilename}),
+    new CssPurgePlugin({paths: glob.sync(`${helpers.root('/src')}/**/*`, {nodir: true})}),
   ];
   if (frame) {
     plugins.push(new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(settings.env),
         API_URL: JSON.stringify(settings.apiUrl),
         WEBCM_URL: JSON.stringify(settings.webcmUrl),
       },
@@ -50,7 +45,6 @@ module.exports = (settings, frame) => {
   } else {
     plugins.push(new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(settings.env),
         LIB_URL: JSON.stringify(settings.libUrl),
         LIB_CSS_URL: JSON.stringify(settings.libCssUrl),
         FRAME_URL: JSON.stringify(settings.frameUrl),
@@ -58,15 +52,20 @@ module.exports = (settings, frame) => {
       },
     }));
   }
-  if (!isDevelopment()) {
-    plugins.push(new webpack.optimize.UglifyJsPlugin());
-  }
 
   return {
     entry,
-    output,
+    optimization,
     plugins,
-    devtool: isDevelopment() ? 'source-map' : false,
+    mode: settings.env,
+    devtool: 'source-map',
+    output: {
+      path: helpers.root('/dist'),
+      filename: jsFilename,
+      library: 'Ayro',
+      libraryTarget: 'umd',
+      umdNamedDefine: true,
+    },
     resolve: {
       extensions: ['.ts', '.tsx', '.js'],
       modules: [
@@ -83,28 +82,12 @@ module.exports = (settings, frame) => {
         },
         {
           test: /\.css$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [{
-              loader: 'css-loader',
-              options: {
-                minimize: !isDevelopment(),
-              },
-            }],
-          }),
+          use: [CssExtractPlugin.loader, 'css-loader'],
           include: helpers.root('/src'),
         },
         {
           test: /\.less$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [{
-              loader: 'css-loader',
-              options: {
-                minimize: !isDevelopment(),
-              },
-            }, 'less-loader'],
-          }),
+          use: [CssExtractPlugin.loader, 'css-loader', 'less-loader'],
           include: helpers.root('/src'),
         },
       ],
