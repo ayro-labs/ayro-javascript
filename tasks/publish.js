@@ -6,7 +6,7 @@ const project = require('../package');
 const helpers = require('../utils/helpers');
 const {publishTask, commands} = require('@ayro/commons');
 const GitHubApi = require('@octokit/rest');
-const path = require('path')
+const path = require('path');
 const Promise = require('bluebird');
 
 const WORKING_DIR = helpers.root();

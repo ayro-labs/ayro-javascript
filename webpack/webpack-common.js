@@ -26,7 +26,12 @@ module.exports = (settings, frame) => {
   if (isProduction()) {
     optimization.minimizer = [
       new JsUglifyPlugin({cache: true, parallel: true, sourceMap: true}),
-      new CssOptimizePlugin({cssProcessorOptions: {map: {inline: false}}}),
+      new CssOptimizePlugin({
+        cssProcessorOptions: {
+          map: {inline: false},
+          safe: false,
+        },
+      }),
     ];
   }
 
