@@ -1,6 +1,7 @@
 /* tslint:disable:variable-name */
 
 import {ChatboxSettings} from 'frame/models/ChatboxSettings';
+import {ConnectEmailSettings} from 'frame/models/ConnectEmailSettings';
 
 export class Settings {
 
@@ -8,6 +9,7 @@ export class Settings {
   public channel: string;
   public sounds: boolean;
   public chatbox: ChatboxSettings;
+  public connect_email: ConnectEmailSettings;
 
   constructor(data?: any) {
     const attrs = data || {};
@@ -15,5 +17,6 @@ export class Settings {
     this.channel = attrs.channel || 'website';
     this.sounds = attrs.sounds || true;
     this.chatbox = new ChatboxSettings(attrs.chatbox);
+    this.connect_email = new ConnectEmailSettings(attrs.connect_email);
   }
 }

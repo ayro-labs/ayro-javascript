@@ -3,12 +3,14 @@ import {connect} from 'react-redux';
 import * as classNames from 'classnames';
 
 import {AyroService} from 'frame/services/AyroService';
+import {Settings} from 'frame/models/Settings';
 import {Integration} from 'frame/models/Integration';
 import {User} from 'frame/models/User';
 import {StoreState} from 'frame/stores/Store';
 import {Channels} from 'frame/utils/Channels';
 
 interface StateProps {
+  settings: Settings;
   integration: Integration;
   user: User;
   apiToken: string;
@@ -40,10 +42,12 @@ class ConnectEmail extends React.Component<StateProps, OwnState> {
       return (
         <div className="connect-email">
           <img src={this.channel.icon}/>
-          <p>Conecte seu email e seja notificado quando receber uma resposta.</p>
+          <p>{this.props.settings.connect_email.description}</p>
           <div className="flex">
-            <input className={this.inputClasses()} onChange={this.onEmailChanged} defaultValue={this.state.email} name="email" type="email" placeholder="Email"/>
-            <button className={this.buttonClasses()} style={this.buttonStyles()} onClick={this.connectEmail} type="submit">Enviar</button>
+            <input className={this.inputClasses()} onChange={this.onEmailChanged} defaultValue={this.state.email} name="email" type="email" placeholder={this.props.settings.connect_email.input_placeholder}/>
+            <button className={this.buttonClasses()} style={this.buttonStyles()} onClick={this.connectEmail} type="submit">
+              {this.props.settings.connect_email.send_button}
+            </button>
           </div>
         </div>
       );
@@ -51,7 +55,7 @@ class ConnectEmail extends React.Component<StateProps, OwnState> {
     return (
       <div className="connect-email">
         <img src={this.channel.icon}/>
-        <p>Email conectado com sucesso!</p>
+        <p>{this.props.settings.connect_email.success_message}</p>
       </div>
     );
   }
@@ -98,6 +102,7 @@ class ConnectEmail extends React.Component<StateProps, OwnState> {
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
+    settings: state.settings,
     integration: state.integration,
     apiToken: state.apiToken,
     user: state.user,
