@@ -1,0 +1,35 @@
+## Installing dependencies ##
+
+````
+npm install
+````
+
+## Building for development environment ##
+
+````
+npm run build
+````
+
+## Building for production environment ##
+
+````
+npm run build-prod
+````
+
+## Running the project for test purpose ##
+
+````
+npm run test-server
+````
+
+## Releasing a new version ##
+
+````
+npm run release-lib -- <major|minor|patch>
+````
+
+## Publishing the new version to Github, Npm and Amazon S3 ##
+
+````
+npm run publish-lib
+````
