@@ -13,10 +13,8 @@ module.exports = (settings, frame) => {
     return settings.env === 'production';
   }
 
-  let entry = helpers.root('/src', frame ? 'frame' : 'lib', 'entry.ts');
   let jsFilename = frame ? 'ayro-frame.js' : 'ayro.js';
   let cssFilename = frame ? 'ayro-frame.css' : 'ayro.css';
-
   if (isProduction()) {
     jsFilename = frame ? 'ayro-frame.min.js' : 'ayro.min.js';
     cssFilename = frame ? 'ayro-frame.min.css' : 'ayro.min.css';
@@ -33,7 +31,7 @@ module.exports = (settings, frame) => {
   const plugins = [
     new webpack.optimize.ModuleConcatenationPlugin(),
     new CssExtractPlugin({filename: cssFilename}),
-    new CssPurgePlugin({paths: glob.sync(`${helpers.root('/src')}/**/*`, {nodir: true})}),
+    new CssPurgePlugin({paths: glob.sync(`${helpers.root('src')}/**/*`, {nodir: true})}),
   ];
   if (frame) {
     plugins.push(new webpack.DefinePlugin({
@@ -54,13 +52,13 @@ module.exports = (settings, frame) => {
   }
 
   return {
-    entry,
     optimization,
     plugins,
     mode: settings.env,
     devtool: 'source-map',
+    entry: helpers.root('src', frame ? 'frame' : 'lib', 'entry.ts'),
     output: {
-      path: helpers.root('/dist'),
+      path: helpers.root('dist'),
       filename: jsFilename,
       library: 'Ayro',
       libraryTarget: 'umd',
@@ -69,8 +67,8 @@ module.exports = (settings, frame) => {
     resolve: {
       extensions: ['.ts', '.tsx', '.js'],
       modules: [
-        helpers.root('/src'),
-        helpers.root('/node_modules'),
+        helpers.root('src'),
+        helpers.root('node_modules'),
       ],
     },
     module: {
@@ -78,17 +76,17 @@ module.exports = (settings, frame) => {
         {
           test: /\.tsx?$/,
           use: 'ts-loader',
-          include: helpers.root('/src'),
+          include: helpers.root('src'),
         },
         {
           test: /\.css$/,
           use: [CssExtractPlugin.loader, 'css-loader'],
-          include: helpers.root('/src'),
+          include: helpers.root('src'),
         },
         {
           test: /\.less$/,
           use: [CssExtractPlugin.loader, 'css-loader', 'less-loader'],
-          include: helpers.root('/src'),
+          include: helpers.root('src'),
         },
       ],
     },

@@ -15,10 +15,10 @@ module.exports = (env) => {
   } else {
     settings.apiUrl = properties.get('api.url', 'http://localhost:3000');
     settings.webcmUrl = properties.get('webcm.url', 'http://localhost:3102');
-    settings.libUrl = `/dist/ayro.js`;
-    settings.libCssUrl = `/dist/ayro.css`;
-    settings.frameUrl = `/dist/ayro-frame.js`;
-    settings.frameCssUrl = `/dist/ayro-frame.css`;
+    settings.libUrl = '/dist/ayro.js';
+    settings.libCssUrl = '/dist/ayro.css';
+    settings.frameUrl = '/dist/ayro-frame.js';
+    settings.frameCssUrl = '/dist/ayro-frame.css';
   }
   return settings;
 };

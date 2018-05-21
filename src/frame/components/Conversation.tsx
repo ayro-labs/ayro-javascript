@@ -40,6 +40,7 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
   public componentDidMount(): void {
     this.subscriptions.push(PubSub.subscribe(Actions.ADD_CHAT_MESSAGE, this.onChatMessageAdded));
     this.subscriptions.push(PubSub.subscribe(Actions.SET_USER, this.onUserChanged));
+    this.scrollToBottom();
     if (this.props.chatMessages.length === 0) {
       this.loadMessages();
     }
@@ -84,12 +85,16 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
     });
   }
 
+  private scrollToBottom(): void {
+    this.contentRef.current.scrollTop = this.contentRef.current.scrollHeight;
+  }
+
   private onUserChanged(): void {
     this.loadMessages();
   }
 
   private onChatMessageAdded(): void {
-    this.contentRef.current.scrollTop = this.contentRef.current.scrollHeight;
+    this.scrollToBottom();
   }
 
   private isSameAgent(previousMessage: ChatMessage, chatMessage: ChatMessage): boolean {
@@ -99,7 +104,7 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
   private async loadMessages(): Promise<void> {
     const chatMessages = await AyroService.listMessages(this.props.apiToken);
     this.props.setChatMessages(chatMessages);
-    this.contentRef.current.scrollTop = this.contentRef.current.scrollHeight;
+    this.scrollToBottom();
   }
 }
 
