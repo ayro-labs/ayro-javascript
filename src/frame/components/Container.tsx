@@ -79,7 +79,6 @@ class Container extends React.Component<StateProps & DispatchProps, OwnState> {
     }
   }
 
-  // tslint:disable-next-line:variable-name
   private onChatMessageAdded(_type: string, action: AnyAction): void {
     const chatMessage: ChatMessage = action.extraProps.chatMessage;
     const expectedMessageType = chatMessage.direction === ChatMessage.DIRECTION_INCOMING && chatMessage.type === ChatMessage.TYPE_TEXT;
