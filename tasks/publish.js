@@ -1,12 +1,15 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 'use strict';
 
 const project = require('../package');
+const helpers = require('../utils/helpers');
 const {publishTask, commands} = require('@ayro/commons');
-const path = require('path');
 const GitHubApi = require('@octokit/rest');
+const path = require('path')
 const Promise = require('bluebird');
 
-const WORKING_DIR = path.resolve(__dirname, '../');
+const WORKING_DIR = helpers.root();
 const GITHUB_REPOSITORY_NAME = 'ayro-javascript';
 const GITHUB_REPOSITORY_OWNER = 'ayrolabs';
 const GITHUB_TEMP_DIR = '/tmp';

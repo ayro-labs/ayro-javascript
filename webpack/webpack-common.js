@@ -1,6 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 'use strict';
 
-const helpers = require('./helpers');
+const helpers = require('../utils/helpers');
 const webpack = require('webpack');
 const JsUglifyPlugin = require('uglifyjs-webpack-plugin');
 const CssExtractPlugin = require('mini-css-extract-plugin');

@@ -1,12 +1,12 @@
 'use strict';
 
+const helpers = require('../utils/helpers');
 const {properties} = require('@ayro/commons');
-const helpers = require('./webpack/helpers');
 
 properties.setup(helpers.root('config.properties'));
 
-const settings = require('./configs/settings');
-const webpackCommon = require('./webpack/webpack-common.js');
+const settings = require('../configs/settings');
+const webpackCommon = require('./webpack-common.js');
 const del = require('del');
 
 del.sync([helpers.root('dist')]);

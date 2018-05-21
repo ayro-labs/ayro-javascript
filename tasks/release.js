@@ -1,9 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 'use strict';
 
+const helpers = require('../utils/helpers');
 const {releaseTask, commands} = require('@ayro/commons');
-const path = require('path');
 
-const WORKING_DIR = path.resolve(__dirname, '../');
+const WORKING_DIR = helpers.root();
 
 async function lintLibrary() {
   commands.log('Linting library...');
