@@ -33,9 +33,9 @@ class ConnectChannelMessage extends React.Component<StateProps & DispatchProps &
     }
     const availableChannels = this.renderAvailableChannels();
     return (
-      <div key={this.props.chatMessage.id} className="message-connect-channel">
+      <div key={this.props.chatMessage.id} className="message message-connect-channel">
         <div className="balloon">
-          <div className="message">
+          <div className="message-content">
             <div className="text">
               <span>{this.props.settings.chatbox.connect_channels_message}</span>
             </div>

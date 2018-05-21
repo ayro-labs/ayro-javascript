@@ -52,8 +52,10 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
   public render(): JSX.Element {
     return (
       <div className="content" ref={this.contentRef}>
-        <div className="messages">
-          {this.renderMessages()}
+        <div className="conversation">
+          <div className="messages">
+            {this.renderMessages()}
+          </div>
         </div>
       </div>
     );

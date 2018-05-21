@@ -37,7 +37,7 @@ class OutgoingMessage extends React.Component<StateProps & DispatchProps & OwnPr
     return (
       <div key={this.props.chatMessage.id} className={this.messageClasses()}>
         <div className="balloon" style={this.balloonStyles()}>
-          <div className="message">
+          <div className="message-content">
             <div className="text">
               <span>{this.props.chatMessage.text}</span>
             </div>
@@ -94,6 +94,7 @@ class OutgoingMessage extends React.Component<StateProps & DispatchProps & OwnPr
 
   private messageClasses(): string {
     return classNames({
+      message: true,
       'message-outgoing': true,
       'message-discontinuation': !this.props.continuation,
     });
