@@ -29,7 +29,7 @@ module.exports = (settings, frame) => {
       new CssOptimizePlugin({
         cssProcessorOptions: {
           map: {inline: false},
-          safe: false,
+          safe: true,
         },
       }),
     ];
