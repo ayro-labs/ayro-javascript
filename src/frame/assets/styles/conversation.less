@@ -68,6 +68,7 @@
     }
     > .balloon {
       padding: 10px 14px;
+      border: 1px solid #d1d1d1;
     }
   }
   &.message-outgoing {
@@ -129,7 +130,7 @@
     max-width: 330px;
     > .balloon {
       display: flex;
-      padding: 12px;
+      padding: 14px 12px;
       > .message-content {
         margin-left: 12px;
         >.close-icon {
@@ -145,7 +146,6 @@
   }
   &.message-incoming, &.message-unread {
     > .balloon {
-      border: 1px solid #d1d1d1;
       background-color: @white;
       > .message-content {
         > .agent-name {

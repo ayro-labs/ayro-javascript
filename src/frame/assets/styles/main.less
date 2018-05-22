@@ -3,9 +3,10 @@
 @gray-light: #d8d8d8;
 @gray-dark: #525252;
 
-@import "general.less";
-@import "utils.less";
-@import "conversation.less";
+@import "general";
+@import "utils";
+@import "chat";
+@import "conversation";
 @import "connect-channel";
 
 .main-button {
@@ -38,7 +39,6 @@
   right: 15px;
   bottom: 20px;
   width: 360px;
-  height: 500px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 6px;
   overflow: hidden;
@@ -69,58 +69,21 @@
     height: 405px;
     background-color: @white;
   }
+  > .footer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 45px;
+    padding: 0px 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background-color: @white;
+  }
 }
 
-.chat {
-  &.main-box {
+.main-box {
+  &.without-footer {
     > .content {
-      justify-content: flex-end;
-      overflow-y: scroll;
-      overflow-x: hidden;
-      &::-webkit-scrollbar {
-        width: 10px;
-      }
-      &::-webkit-scrollbar-track {
-        background-color: #efefef;
-      }
-      &::-webkit-scrollbar-thumb {
-        background-color: @gray;
-      }
-      > .conversation {
-        max-height: 375px;
-        > .messages {
-          padding: 15px;
-        }
-      }
-    }
-    > .footer {
-      position: relative;
-      display: flex;
-      align-items: center;
-      height: 45px;
-      padding: 0px 15px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      background-color: @white;
-      > input {
-        flex: 1 1 auto;
-        margin-right: 15px;
-        border: none;
-        outline: none;
-        background: none;
-        color: #4e4e4e;
-        font-size: 15px;
-      }
-      > .send-icon {
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        &.enabled {
-          fill: @gray;
-        }
-        &.disabled {
-          fill: @gray-light;
-        }
-      }
+      height: 450px;
     }
   }
 }
