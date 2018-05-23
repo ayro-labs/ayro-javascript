@@ -51,6 +51,7 @@ class Container extends React.Component<StateProps & DispatchProps, OwnState> {
   public componentDidMount(): void {
     this.subscriptions.push(PubSub.subscribe(Actions.ADD_CHAT_MESSAGE, this.onChatMessageAdded));
     window.parent.addEventListener('resize', debounce(this.onWindowResize, 200));
+    this.onWindowResize();
   }
 
   public render(): JSX.Element {

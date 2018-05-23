@@ -36,17 +36,20 @@
 
 .main-box {
   position: absolute;
+  display: flex;
+  flex-direction: column;
   right: 15px;
   bottom: 20px;
   width: 360px;
+  height: calc(100% - 40px);
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 6px;
   overflow: hidden;
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.15);
   > .header {
+    flex: 0 0 50px;
     display: flex;
     align-items: center;
-    height: 50px;
     padding: 0px 15px;
     cursor: pointer;
     color: @white;
@@ -64,16 +67,16 @@
     }
   }
   > .content {
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    height: 405px;
     background-color: @white;
   }
   > .footer {
+    flex: 0 0 45px;
     position: relative;
     display: flex;
     align-items: center;
-    height: 45px;
     padding: 0px 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     background-color: @white;
