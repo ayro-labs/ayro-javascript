@@ -38,7 +38,10 @@ module.exports = (settings, frame) => {
   const plugins = [
     new webpack.optimize.ModuleConcatenationPlugin(),
     new CssExtractPlugin({filename: cssFilename}),
-    new CssPurgePlugin({paths: glob.sync(`${helpers.root('src')}/**/*`, {nodir: true})}),
+    new CssPurgePlugin({
+      paths: glob.sync(`${helpers.root('src')}/**/*`, {nodir: true}),
+      whitelistPatterns: [/^container-/],
+    }),
   ];
   if (frame) {
     plugins.push(new webpack.DefinePlugin({
