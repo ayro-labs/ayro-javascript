@@ -3,7 +3,10 @@
 'use strict';
 
 const project = require('../package.json');
-const {properties} = require('@ayro/commons');
+const {configs} = require('@ayro/commons');
+const path = require('path');
+
+const config = configs.load(path.resolve('config.yml'));
 
 module.exports = (env) => {
   const settings = {env};
@@ -15,8 +18,8 @@ module.exports = (env) => {
     settings.frameUrl = `https://cdn.ayro.io/sdks/ayro-frame-${project.version}.min.js`;
     settings.frameCssUrl = `https://cdn.ayro.io/sdks/ayro-frame-${project.version}.min.css`;
   } else {
-    settings.apiUrl = properties.get('api.url', 'http://localhost:3000');
-    settings.webcmUrl = properties.get('webcm.url', 'http://localhost:3102');
+    settings.apiUrl = config.get('api.url', 'http://localhost:3000');
+    settings.webcmUrl = config.get('webcm.url', 'http://localhost:3102');
     settings.libUrl = '/dist/ayro.js';
     settings.libCssUrl = '/dist/ayro.css';
     settings.frameUrl = '/dist/ayro-frame.js';

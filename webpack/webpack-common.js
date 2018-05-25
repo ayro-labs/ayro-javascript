@@ -2,12 +2,12 @@
 
 'use strict';
 
-const helpers = require('../utils/helpers');
 const webpack = require('webpack');
 const JsUglifyPlugin = require('uglifyjs-webpack-plugin');
 const CssExtractPlugin = require('mini-css-extract-plugin');
 const CssOptimizePlugin = require('optimize-css-assets-webpack-plugin');
 const CssPurgePlugin = require('purgecss-webpack-plugin');
+const path = require('path');
 const glob = require('glob');
 
 module.exports = (settings, frame) => {
@@ -39,7 +39,7 @@ module.exports = (settings, frame) => {
     new webpack.optimize.ModuleConcatenationPlugin(),
     new CssExtractPlugin({filename: cssFilename}),
     new CssPurgePlugin({
-      paths: glob.sync(`${helpers.root('src')}/**/*`, {nodir: true}),
+      paths: glob.sync(`${path.resolve('src')}/**/*`, {nodir: true}),
       whitelistPatterns: [/^container-/],
     }),
   ];
@@ -66,9 +66,9 @@ module.exports = (settings, frame) => {
     plugins,
     mode: settings.env,
     devtool: 'source-map',
-    entry: helpers.root('src', frame ? 'frame' : 'lib', 'entry.ts'),
+    entry: path.resolve('src', frame ? 'frame' : 'lib', 'entry.ts'),
     output: {
-      path: helpers.root('dist'),
+      path: path.resolve('dist'),
       filename: jsFilename,
       library: 'Ayro',
       libraryTarget: 'umd',
@@ -77,8 +77,8 @@ module.exports = (settings, frame) => {
     resolve: {
       extensions: ['.ts', '.tsx', '.js'],
       modules: [
-        helpers.root('src'),
-        helpers.root('node_modules'),
+        path.resolve('src'),
+        path.resolve('node_modules'),
       ],
     },
     module: {
@@ -86,17 +86,17 @@ module.exports = (settings, frame) => {
         {
           test: /\.tsx?$/,
           use: 'ts-loader',
-          include: helpers.root('src'),
+          include: path.resolve('src'),
         },
         {
           test: /\.css$/,
           use: [CssExtractPlugin.loader, 'css-loader'],
-          include: helpers.root('src'),
+          include: path.resolve('src'),
         },
         {
           test: /\.less$/,
           use: [CssExtractPlugin.loader, 'css-loader', 'less-loader'],
-          include: helpers.root('src'),
+          include: path.resolve('src'),
         },
       ],
     },

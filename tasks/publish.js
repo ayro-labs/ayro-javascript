@@ -3,13 +3,12 @@
 'use strict';
 
 const project = require('../package');
-const helpers = require('../utils/helpers');
 const {publishTask, commands} = require('@ayro/commons');
-const GitHubApi = require('@octokit/rest');
 const path = require('path');
+const GitHubApi = require('@octokit/rest');
 const Promise = require('bluebird');
 
-const WORKING_DIR = helpers.root();
+const WORKING_DIR = path.resolve();
 const GITHUB_REPOSITORY_NAME = 'ayro-javascript';
 const GITHUB_REPOSITORY_OWNER = 'ayrolabs';
 const GITHUB_TEMP_DIR = '/tmp';

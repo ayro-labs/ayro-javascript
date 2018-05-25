@@ -1,15 +1,11 @@
 'use strict';
 
-const helpers = require('../utils/helpers');
-const {properties} = require('@ayro/commons');
-
-properties.setup(helpers.root('config.properties'));
-
 const settings = require('../configs/settings');
 const webpackCommon = require('./webpack-common.js');
+const path = require('path');
 const del = require('del');
 
-del.sync([helpers.root('dist')]);
+del.sync([path.resolve('dist')]);
 
 const devSettings = settings('development');
 const prodSettings = settings('production');

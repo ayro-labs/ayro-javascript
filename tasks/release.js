@@ -2,10 +2,10 @@
 
 'use strict';
 
-const helpers = require('../utils/helpers');
 const {releaseTask, commands} = require('@ayro/commons');
+const path = require('path');
 
-const WORKING_DIR = helpers.root();
+const WORKING_DIR = path.resolve();
 
 async function lintLibrary() {
   commands.log('Linting library...');
