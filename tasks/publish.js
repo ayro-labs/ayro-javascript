@@ -3,7 +3,7 @@
 'use strict';
 
 const project = require('../package');
-const {publishTask, commands} = require('@ayro/commons');
+const {commands, publish} = require('@ayro/commons');
 const path = require('path');
 const GitHubApi = require('@octokit/rest');
 const Promise = require('bluebird');
@@ -75,7 +75,7 @@ async function beforePublish() {
   await commands.exec('cp dist/ayro.min.js lib/ayro.js', WORKING_DIR);
 }
 
-async function publish() {
+async function publishToS3() {
   commands.log('Uploading library to Amazon S3...');
   await commands.exec(`aws s3 cp dist/ayro.min.js ${S3_BUCKET}/ayro-${project.version}.min.js --acl public-read`, WORKING_DIR);
   await commands.exec(`aws s3 cp dist/ayro.min.css ${S3_BUCKET}/ayro-${project.version}.min.css --acl public-read`, WORKING_DIR);
@@ -85,11 +85,11 @@ async function publish() {
 
 // Run this if call directly from command line
 if (require.main === module) {
-  publishTask.withWorkingDir(WORKING_DIR);
-  publishTask.withLintTask(lintLibrary);
-  publishTask.withBuildTask(buildLibrary);
-  publishTask.withBeforePublishTask(beforePublish);
-  publishTask.withPublishTask(publish);
-  publishTask.isNpmProject(true);
-  publishTask.run();
+  publish.withWorkingDir(WORKING_DIR);
+  publish.withLintTask(lintLibrary);
+  publish.withBuildTask(buildLibrary);
+  publish.withBeforePublishTask(beforePublish);
+  publish.withPublishTask(publishToS3);
+  publish.isNpmProject(true);
+  publish.run();
 }
