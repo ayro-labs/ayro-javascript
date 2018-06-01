@@ -71,7 +71,7 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
           case ChatMessage.TYPE_TEXT:
             return <IncomingMessage key={chatMessage.id} chatMessage={chatMessage} continuation={continuation}/>;
           case ChatMessage.TYPE_CONNECT_CHANNELS:
-            return <ConnectChannelsMessage key={chatMessage.id} chatMessage={chatMessage}/>;
+            return <ConnectChannelsMessage key={chatMessage.id} chatMessage={chatMessage} continuation={continuation}/>;
           default:
             return null;
         }

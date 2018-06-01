@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, AnyAction} from 'redux';
+import * as classNames from 'classnames';
 
 import {Settings} from 'frame/models/Settings';
 import {Integration} from 'frame/models/Integration';
@@ -23,6 +24,7 @@ interface DispatchProps {
 
 interface OwnProps {
   chatMessage: ChatMessage;
+  continuation?: boolean;
 }
 
 class ConnectChannelMessage extends React.Component<StateProps & DispatchProps & OwnProps> {
@@ -33,9 +35,11 @@ class ConnectChannelMessage extends React.Component<StateProps & DispatchProps &
     }
     const availableChannels = this.renderAvailableChannels();
     return (
-      <div key={this.props.chatMessage.id} className="message message-connect-channel">
+      <div key={this.props.chatMessage.id} className={this.messageClasses()}>
+        {this.renderAgentPhoto()}
         <div className="balloon">
           <div className="message-content">
+            {this.renderAgentName()}
             <div className="text">
               <span>{this.props.settings.chatbox.connect_channels_message}</span>
             </div>
@@ -63,6 +67,28 @@ class ConnectChannelMessage extends React.Component<StateProps & DispatchProps &
     });
   }
 
+  private renderAgentPhoto(): JSX.Element {
+    if (this.props.continuation) {
+      return null;
+    }
+    return (
+      <div className="agent-photo">
+        <img src={this.props.chatMessage.agent.photo_url}/>
+      </div>
+    );
+  }
+
+  private renderAgentName(): JSX.Element {
+    if (this.props.continuation) {
+      return null;
+    }
+    return (
+      <div className="agent-name">
+        {this.props.chatMessage.agent.name}
+      </div>
+    );
+  }
+
   private renderChannelConnectedIcon(channel: Channel): JSX.Element {
     if (!channel.connected) {
       return null;
@@ -74,6 +100,14 @@ class ConnectChannelMessage extends React.Component<StateProps & DispatchProps &
         </svg>
       </div>
     );
+  }
+
+  private messageClasses(): string {
+    return classNames({
+      message: true,
+      'message-connect-channel': true,
+      'message-discontinuation': !this.props.continuation,
+    });
   }
 
   private connectedBackgroundStyles(): any {

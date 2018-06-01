@@ -58,7 +58,7 @@
 
 .message {
   flex: 0 0 auto;
-  &.message-incoming {
+  &.message-incoming, &.message-connect-channel {
     position: relative;
     padding-left: 55px;
     max-width: 75%;
@@ -110,12 +110,8 @@
     }
   }
   &.message-connect-channel {
-    margin-top: 12px;
-    margin-bottom: 12px;
+    max-width: 100%;
     > .balloon {
-      padding: 12px 12px;
-      background-color: #f4f4f4;
-      border: 1px solid #d1d1d1;
       > .message-content {
         > .available-channels {
           margin-top: 8px;
@@ -144,7 +140,7 @@
       }
     }
   }
-  &.message-incoming, &.message-unread {
+  &.message-incoming, &.message-connect-channel, &.message-unread {
     > .balloon {
       background-color: @white;
       > .message-content {
