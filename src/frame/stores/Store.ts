@@ -10,14 +10,11 @@ import {Integration} from 'frame/models/Integration';
 import {User} from 'frame/models/User';
 import {Device} from 'frame/models/Device';
 import {ChatMessage} from 'frame/models/ChatMessage';
-import {Channel} from 'frame/models/Channel';
 import {Actions} from 'frame/stores/Actions';
 
 export interface StoreState {
   showButton: boolean;
   showChat: boolean;
-  showConnectChannel: boolean;
-  channelToConnect: Channel;
   appStatus: AppStatus;
   userStatus: UserStatus;
   settings: Settings;
@@ -47,7 +44,6 @@ export class Store {
   private static readonly INITIAL_STATE: StoreState = {
     showButton: true,
     showChat: false,
-    showConnectChannel: false,
     appStatus: null,
     userStatus: null,
     settings: null,
@@ -58,7 +54,6 @@ export class Store {
     apiToken: null,
     chatMessages: [],
     lastUnread: null,
-    channelToConnect: null,
   };
 
   private static STORE: ReduxStore<StoreState> = createStore((state: StoreState, action: AnyAction) => {
@@ -78,18 +73,6 @@ export class Store {
         break;
       case Actions.HIDE_CHAT:
         newState = Store.hideChat(state);
-        break;
-      case Actions.SHOW_CONNECT_CHANNEL:
-        newState = Store.showConnectChannel(state);
-        break;
-      case Actions.HIDE_CONNECT_CHANNEL:
-        newState = Store.hideConnectChannel(state);
-        break;
-      case Actions.SET_CHANNEL_TO_CONNECT:
-        newState = Store.setChannelToConnect(state, action);
-        break;
-      case Actions.UNSET_CHANNEL_TO_CONNECT:
-        newState = Store.unsetChannelToConnect(state);
         break;
       case Actions.SET_APP_STATUS:
         newState = Store.setAppStatus(state, action);
@@ -152,22 +135,6 @@ export class Store {
 
   private static hideChat(state: StoreState): StoreState {
     return DotProp.set(state, 'showChat', false);
-  }
-
-  private static showConnectChannel(state: StoreState): StoreState {
-    return DotProp.set(state, 'showConnectChannel', true);
-  }
-
-  private static hideConnectChannel(state: StoreState): StoreState {
-    return DotProp.set(state, 'showConnectChannel', false);
-  }
-
-  private static setChannelToConnect(state: StoreState, action: AnyAction): StoreState {
-    return DotProp.set(state, 'channelToConnect', action.extraProps.channel);
-  }
-
-  private static unsetChannelToConnect(state: StoreState): StoreState {
-    return DotProp.set(state, 'channelToConnect', null);
   }
 
   private static setAppStatus(state: StoreState, action: AnyAction): StoreState {

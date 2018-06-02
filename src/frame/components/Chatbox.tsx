@@ -84,6 +84,7 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
 
   private setInputElement(input: HTMLInputElement): void {
     this.inputElement = input;
+    this.inputElement.focus();
   }
 
   private onKeyPress(event: any): void {

@@ -1,8 +1,8 @@
 .agent-photo {
   > img {
+    .border-radius(50%);
     width: 40px;
     height: 40px;
-    border-radius: 50%;
   }
 }
 
@@ -19,13 +19,13 @@
     cursor: pointer;
   }
   > .connected-background {
+    .border-radius(50%);
     display: inline-block;
     position: absolute;
     width: 15px;
     height: 15px;
     right: 0px;
     bottom: 0px;
-    border-radius: 50%;
     text-align: center;
     >.connected-icon {
       width: 9px;
@@ -61,7 +61,7 @@
   &.message-incoming, &.message-connect-channel {
     position: relative;
     padding-left: 55px;
-    max-width: 75%;
+    max-width: 92%;
     > .agent-photo {
       position: absolute;
       left: 0;
@@ -156,8 +156,8 @@
     }
   }
   &.message-incoming, &.message-outgoing {
-    margin-top: 4px;
-    margin-bottom: 4px;
+    margin-top: 8px;
+    margin-bottom: 8px;
     &.message-discontinuation {
       margin-top: 12px;
     }

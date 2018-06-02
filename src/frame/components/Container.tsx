@@ -6,7 +6,6 @@ import * as debounce from 'lodash.debounce';
 
 import ChatButton from 'frame/components/ChatButton';
 import Chatbox from 'frame/components/Chatbox';
-import ConnectChannel from 'frame/components/ConnectChannel';
 import UnreadMessage from 'frame/components/UnreadMessage';
 
 import {ChatMessage} from 'frame/models/ChatMessage';
@@ -18,7 +17,6 @@ import {Constants} from 'utils/Constants';
 interface StateProps {
   showButton: boolean;
   showChat: boolean;
-  showConnectChannel: boolean;
   lastUnread: ChatMessage;
 }
 
@@ -58,7 +56,6 @@ class Container extends React.Component<StateProps & DispatchProps, OwnState> {
     return (
       <div id="container" className={this.containerClasses()} ref={this.containerRef}>
         <UnreadMessage/>
-        <ConnectChannel/>
         <Chatbox/>
         <ChatButton/>
       </div>
@@ -104,7 +101,6 @@ function mapStateToProps(state: StoreState): StateProps {
   return {
     showButton: state.showButton,
     showChat: state.showChat,
-    showConnectChannel: state.showConnectChannel,
     lastUnread: state.lastUnread,
   };
 }

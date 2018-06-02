@@ -7,7 +7,6 @@ import {Integration} from 'frame/models/Integration';
 import {User} from 'frame/models/User';
 import {Device} from 'frame/models/Device';
 import {ChatMessage} from 'frame/models/ChatMessage';
-import {Channel} from 'frame/models/Channel';
 
 export class Actions {
 
@@ -15,10 +14,6 @@ export class Actions {
   public static readonly HIDE_BUTTON: string = 'HIDE_BUTTON';
   public static readonly SHOW_CHAT: string = 'SHOW_CHAT';
   public static readonly HIDE_CHAT: string = 'HIDE_CHAT';
-  public static readonly SHOW_CONNECT_CHANNEL: string = 'SHOW_CONNECT_CHANNEL';
-  public static readonly HIDE_CONNECT_CHANNEL: string = 'HIDE_CONNECT_CHANNEL';
-  public static readonly SET_CHANNEL_TO_CONNECT: string = 'SET_CHANNEL_TO_CONNECT';
-  public static readonly UNSET_CHANNEL_TO_CONNECT: string = 'UNSET_CHANNEL_TO_CONNECT';
 
   public static readonly SET_APP_STATUS: string = 'SET_APP_STATUS';
   public static readonly SET_USER_STATUS: string = 'SET_USER_STATUS';
@@ -56,31 +51,6 @@ export class Actions {
   public static hideChat(): AnyAction {
     return {
       type: Actions.HIDE_CHAT,
-    };
-  }
-
-  public static showConnectChannel(): AnyAction {
-    return {
-      type: Actions.SHOW_CONNECT_CHANNEL,
-    };
-  }
-
-  public static hideConnectChannel(): AnyAction {
-    return {
-      type: Actions.HIDE_CONNECT_CHANNEL,
-    };
-  }
-
-  public static setChannelToConnect(channel: Channel): AnyAction {
-    return {
-      type: Actions.SET_CHANNEL_TO_CONNECT,
-      extraProps: {channel},
-    };
-  }
-
-  public static unsetChannelToConnect(): AnyAction {
-    return {
-      type: Actions.UNSET_CHANNEL_TO_CONNECT,
     };
   }
 
