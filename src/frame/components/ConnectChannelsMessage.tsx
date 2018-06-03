@@ -52,7 +52,7 @@ class ConnectChannelMessage extends React.Component<StateProps & DispatchProps &
     });
     this.state = {
       email: !isNil(emailDevice) ? emailDevice.info.email : this.props.user.email || '',
-      editingEmail: !isNil(emailDevice),
+      editingEmail: isNil(emailDevice),
     };
   }
 
