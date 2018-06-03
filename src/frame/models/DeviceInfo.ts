@@ -2,6 +2,9 @@
 
 export class DeviceInfo {
 
+  // Email
+  public email: string;
+  // Browser
   public user_agent: string;
   public browser_name: string;
   public browser_version: string;
@@ -10,6 +13,7 @@ export class DeviceInfo {
 
   constructor(data?: any) {
     if (data) {
+      this.email = data.email;
       this.user_agent = data.user_agent;
       this.browser_name = data.browser_name;
       this.browser_version = data.browser_version;

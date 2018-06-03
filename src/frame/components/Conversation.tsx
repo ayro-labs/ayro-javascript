@@ -15,9 +15,9 @@ import {Actions} from 'frame/stores/Actions';
 import {StoreState} from 'frame/stores/Store';
 
 interface StateProps {
+  apiToken: string;
   userStatus: UserStatus;
   user: User;
-  apiToken: string;
   chatMessages: ChatMessage[];
 }
 
@@ -32,9 +32,9 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
 
   constructor(props: StateProps & DispatchProps) {
     super(props);
-    this.contentRef = React.createRef<HTMLDivElement>();
     this.onChatMessageAdded = this.onChatMessageAdded.bind(this);
     this.onUserChanged = this.onUserChanged.bind(this);
+    this.contentRef = React.createRef<HTMLDivElement>();
   }
 
   public componentDidMount(): void {
@@ -110,9 +110,9 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
+    apiToken: state.apiToken,
     userStatus: state.userStatus,
     user: state.user,
-    apiToken: state.apiToken,
     chatMessages: state.chatMessages,
   };
 }

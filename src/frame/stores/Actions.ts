@@ -22,6 +22,7 @@ export class Actions {
   public static readonly SET_INTEGRATION: string = 'SET_INTEGRATION';
   public static readonly SET_USER: string = 'SET_USER';
   public static readonly SET_DEVICE: string = 'SET_DEVICE';
+  public static readonly SET_DEVICES: string = 'SET_DEVICES';
   public static readonly SET_API_TOKEN: string = 'SET_API_TOKEN';
   public static readonly SET_CHAT_MESSAGES: string = 'SET_CHAT_MESSAGES';
   public static readonly ADD_CHAT_MESSAGE: string = 'ADD_CHAT_MESSAGE';
@@ -103,6 +104,12 @@ export class Actions {
     };
   }
 
+  public static setDevices(devices: Device[]): AnyAction {
+    return {
+      type: Actions.SET_DEVICES,
+      extraProps: {devices},
+    };
+  }
   public static setApiToken(apiToken: string): AnyAction {
     return {
       type: Actions.SET_API_TOKEN,

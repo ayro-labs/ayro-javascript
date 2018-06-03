@@ -38,11 +38,13 @@ export class AyroApp {
       Store.dispatch(Actions.setSettings(settings));
       const device = AppUtils.getDevice();
       const result = await AyroService.init(settings.app_token, settings.channel, device);
+      const devices = await AyroService.listDevices(result.token);
       Store.dispatch(Actions.setAppStatus(AppStatus.INITIALIZED));
       Store.dispatch(Actions.setApp(result.app));
       Store.dispatch(Actions.setIntegration(result.integration));
       Store.dispatch(Actions.setUser(result.user));
       Store.dispatch(Actions.setDevice(result.device));
+      Store.dispatch(Actions.setDevices(devices));
       Store.dispatch(Actions.setApiToken(result.token));
       Components.init();
       Sounds.init();
@@ -67,9 +69,11 @@ export class AyroApp {
       const apiToken = Store.getState().apiToken;
       const appToken = Store.getState().settings.app_token;
       const result = await AyroService.login(apiToken, appToken, jwtToken, user, device);
+      const devices = await AyroService.listDevices(result.token);
       Store.dispatch(Actions.setUserStatus(UserStatus.LOGGED_IN));
       Store.dispatch(Actions.setUser(result.user));
       Store.dispatch(Actions.setDevice(result.device));
+      Store.dispatch(Actions.setDevices(devices));
       Store.dispatch(Actions.setApiToken(result.token));
       MessagingService.stop();
       MessagingService.start();

@@ -41,9 +41,9 @@ class Container extends React.Component<StateProps & DispatchProps, OwnState> {
 
   constructor(props: StateProps & DispatchProps) {
     super(props);
-    this.state = {screenSize: Container.SIZE_MD};
     this.onChatMessageAdded = this.onChatMessageAdded.bind(this);
     this.onWindowResize = this.onWindowResize.bind(this);
+    this.state = {screenSize: Container.SIZE_MD};
   }
 
   public componentDidMount(): void {

@@ -11,8 +11,8 @@ import {StoreState} from 'frame/stores/Store';
 import {AppUtils} from 'frame/utils/AppUtils';
 
 interface StateProps {
-  integration: Integration;
   apiToken: string;
+  integration: Integration;
 }
 
 interface DispatchProps {
@@ -126,8 +126,8 @@ class OutgoingMessage extends React.Component<StateProps & DispatchProps & OwnPr
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
-    integration: state.integration,
     apiToken: state.apiToken,
+    integration: state.integration,
   };
 }
 

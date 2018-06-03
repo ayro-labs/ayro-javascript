@@ -88,6 +88,19 @@ export class AyroService {
     await AyroService.parseResponse(response);
   }
 
+  public static async listDevices(apiToken: string): Promise<Device[]> {
+    const response = await fetch(AyroService.getUrl('/users/devices'), {
+      method: 'GET',
+      headers: AyroService.getHeaders(apiToken),
+    });
+    const result = await AyroService.parseResponse(response);
+    const devices: Device[] = [];
+    result.forEach((device: any) => {
+      devices.push(new Device(device));
+    });
+    return devices;
+  }
+
   public static async listMessages(apiToken: string): Promise<ChatMessage[]> {
     const response = await fetch(AyroService.getUrl('/chat'), {
       method: 'GET',

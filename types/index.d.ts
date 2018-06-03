@@ -3,3 +3,4 @@ declare module 'dot-prop-immutable';
 declare module 'classnames';
 declare module 'lodash.debounce';
 declare module 'lodash.truncate';
+declare module 'lodash.isnil';

@@ -14,10 +14,10 @@ import {StoreState} from 'frame/stores/Store';
 import {Constants} from 'utils/Constants';
 
 interface StateProps {
+  showChat: boolean;
+  apiToken: string;
   settings: Settings;
   integration: Integration;
-  apiToken: string;
-  showChat: boolean;
 }
 
 interface DispatchProps {
@@ -37,12 +37,12 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
 
   constructor(props: StateProps & DispatchProps) {
     super(props);
-    this.state = {message: ''};
     this.setInputElement = this.setInputElement.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
     this.onMessageChanged = this.onMessageChanged.bind(this);
     this.closeChat = this.closeChat.bind(this);
     this.postMessage = this.postMessage.bind(this);
+    this.state = {message: ''};
   }
 
   public render(): JSX.Element {
@@ -136,10 +136,10 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
+    showChat: state.showChat,
+    apiToken: state.apiToken,
     settings: state.settings,
     integration: state.integration,
-    apiToken: state.apiToken,
-    showChat: state.showChat,
   };
 }
 

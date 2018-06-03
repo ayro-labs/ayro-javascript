@@ -22,6 +22,7 @@ export interface StoreState {
   integration: Integration;
   user: User;
   device: Device;
+  devices: Device[];
   apiToken: string;
   chatMessages: ChatMessage[];
   lastUnread: ChatMessage;
@@ -51,6 +52,7 @@ export class Store {
     integration: null,
     user: null,
     device: null,
+    devices: [],
     apiToken: null,
     chatMessages: [],
     lastUnread: null,
@@ -94,6 +96,9 @@ export class Store {
         break;
       case Actions.SET_DEVICE:
         newState = Store.setDevice(state, action);
+        break;
+      case Actions.SET_DEVICES:
+        newState = Store.setDevices(state, action);
         break;
       case Actions.SET_API_TOKEN:
         newState = Store.setApiToken(state, action);
@@ -163,6 +168,10 @@ export class Store {
 
   private static setDevice(state: StoreState, action: AnyAction): StoreState {
     return DotProp.set(state, 'device', action.extraProps.device);
+  }
+
+  private static setDevices(state: StoreState, action: AnyAction): StoreState {
+    return DotProp.set(state, 'devices', action.extraProps.devices);
   }
 
   private static setApiToken(state: StoreState, action: AnyAction): StoreState {

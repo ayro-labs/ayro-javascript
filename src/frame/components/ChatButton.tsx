@@ -8,8 +8,8 @@ import {StoreState} from 'frame/stores/Store';
 import {Constants} from 'utils/Constants';
 
 interface StateProps {
-  integration: Integration;
   showButton: boolean;
+  integration: Integration;
 }
 
 interface DispatchProps {
@@ -59,8 +59,8 @@ class ChatButton extends React.Component<StateProps & DispatchProps> {
 
 function mapStateToProps(state: StoreState): StateProps {
   return {
-    integration: state.integration,
     showButton: state.showButton,
+    integration: state.integration,
   };
 }
 
