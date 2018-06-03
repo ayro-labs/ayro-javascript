@@ -100,8 +100,8 @@ class ConnectChannelMessage extends React.Component<StateProps & DispatchProps &
           <span>{messageSettings.email_provided}</span>
           <div className="mt">
             <div className="flex">
-              <input className={this.inputClasses()} name="email" type="email" value={this.state.email} disabled/>
-              <button className={this.buttonClasses()} style={this.buttonStyles()} onClick={this.editEmail} type="submit">
+              <input className={this.inputClasses()} value={this.state.email} disabled={true} name="email" type="email"/>
+              <button className={this.buttonClasses()} style={this.buttonStyles()} onClick={this.editEmail} type="button">
                 {messageSettings.edit_email_button}
               </button>
             </div>
@@ -115,7 +115,7 @@ class ConnectChannelMessage extends React.Component<StateProps & DispatchProps &
         <div className="mt">
           <div className="flex">
             <input className={this.inputClasses()} onChange={this.onEmailChanged} defaultValue={this.state.email} name="email" type="email" placeholder={messageSettings.email_input_placeholder}/>
-            <button className={this.buttonClasses()} style={this.buttonStyles()} onClick={this.sendEmail} type="submit">
+            <button className={this.buttonClasses()} style={this.buttonStyles()} onClick={this.sendEmail} type="button">
               {messageSettings.send_email_button}
             </button>
           </div>
