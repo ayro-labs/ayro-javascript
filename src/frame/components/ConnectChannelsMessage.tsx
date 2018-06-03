@@ -111,7 +111,7 @@ class ConnectChannelMessage extends React.Component<StateProps & DispatchProps &
     }
     return (
       <div>
-        <span>{messageSettings.leave_your_email}</span>
+        <span>{messageSettings.ask_for_email}</span>
         <div className="mt">
           <div className="flex">
             <input className={this.inputClasses()} onChange={this.onEmailChanged} defaultValue={this.state.email} name="email" type="email" placeholder={messageSettings.email_input_placeholder}/>
