@@ -2,10 +2,6 @@
 
 import {Agent} from 'frame/models/Agent';
 
-interface Metadata {
-  available_channels: string[];
-}
-
 export class ChatMessage {
 
   public static readonly TYPE_TEXT: string = 'text';
@@ -25,8 +21,10 @@ export class ChatMessage {
   public text: string;
   public status: string;
   public direction: string;
-  public metadata: Metadata;
   public date: Date;
+
+  // Specific attributes
+  public available_channels: string[];
 
   constructor(data?: any) {
     if (data) {
@@ -37,8 +35,10 @@ export class ChatMessage {
       this.text = data.text;
       this.status = data.status;
       this.direction = data.direction;
-      this.metadata = data.metadata;
       this.date = data.date instanceof Date ? data.date : new Date(data.date);
+
+      // Specific attributes
+      this.available_channels = data.available_channels;
     }
   }
 }
