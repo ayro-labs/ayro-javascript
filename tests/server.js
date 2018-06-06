@@ -9,7 +9,7 @@ logger.setup({level: 'debug'});
 const app = express();
 
 app.set('env', 'development');
-app.set('port', 9000);
+app.set('port', 9001);
 app.set('view options', {layout: false});
 app.use('/dist', express.static(path.resolve('dist')));
 

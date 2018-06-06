@@ -1,4 +1,6 @@
 import * as Faye from 'faye';
+import * as firebase from 'firebase/app';
+import 'firebase/messaging';
 
 import {ChatMessage} from 'frame/models/ChatMessage';
 import {Actions} from 'frame/stores/Actions';
@@ -7,6 +9,27 @@ import {Store} from 'frame/stores/Store';
 export class MessagingService {
 
   public static start(): void {
+    const config = {
+      apiKey: 'AIzaSyCtyxGruZtJPCgcdr0FpHFp0VGnQhci51c',
+      projectId: 'ayro-testapp',
+      messagingSenderId: '805636879679',
+    };
+    firebase.initializeApp(config);
+    const messaging = firebase.messaging();
+    messaging.getToken().then((currentToken) => {
+      if (currentToken) {
+        console.log(currentToken);
+      } else {
+        messaging.requestPermission().then(() => {
+          console.log('Notification permission granted.');
+        }).catch((err) => {
+          console.log('Unable to get permission to notify.', err);
+        });
+      }
+    }).catch((err) => {
+      console.log('An error occurred while retrieving token. ', err);
+    });
+
     if (!MessagingService.socket) {
       MessagingService.socket = new Faye.Client(process.env.WEBCM_URL, {
         timeout: MessagingService.FAYE_TIMEOUT_SECONDS,

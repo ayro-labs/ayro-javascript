@@ -121,6 +121,7 @@ export class AyroService {
       method: 'POST',
       headers: AyroService.getHeaders(apiToken),
       body: JSON.stringify({
+        type: 'text',
         text: message,
       }),
     });

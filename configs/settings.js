@@ -20,10 +20,10 @@ module.exports = (env) => {
   } else {
     settings.apiUrl = config.get('api.url', 'http://localhost:3000');
     settings.webcmUrl = config.get('webcm.url', 'http://localhost:3102');
-    settings.libUrl = 'http://localhost:9000/dist/ayro.js';
-    settings.libCssUrl = 'http://localhost:9000/dist/ayro.css';
-    settings.frameUrl = 'http://localhost:9000/dist/ayro-frame.js';
-    settings.frameCssUrl = 'http://localhost:9000/dist/ayro-frame.css';
+    settings.libUrl = 'https://localhost:9000/dist/ayro.js';
+    settings.libCssUrl = 'https://localhost:9000/dist/ayro.css';
+    settings.frameUrl = 'https://localhost:9000/dist/ayro-frame.js';
+    settings.frameCssUrl = 'https://localhost:9000/dist/ayro-frame.css';
   }
   return settings;
 };
