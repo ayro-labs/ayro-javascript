@@ -39,7 +39,7 @@ class IncomingMessage extends React.Component<OwnProps> {
     }
     return (
       <div className="agent-photo">
-        <img src={this.props.chatMessage.agent.photo_url}/>
+        <img src={this.props.chatMessage.agent.photo}/>
       </div>
     );
   }

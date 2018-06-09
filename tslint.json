@@ -5,6 +5,7 @@
     "max-line-length": {"options": {"limit": 999}},
     "no-console": false,
     "no-inferrable-types": true,
+    "no-string-literal": true,
     "object-curly-spacing": [true, "never"],
     "object-literal-sort-keys": false,
     "ordered-imports": false,

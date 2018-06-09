@@ -30,7 +30,7 @@ export class AyroService {
   public static async init(appToken: string, channel: string, device: Device): Promise<InitResult> {
     const response = await fetch(AyroService.getUrl(`/apps/integrations/${channel}/init`), {
       method: 'POST',
-      headers: AyroService.API_HEADERS,
+      headers: AyroService.getDefaultHeaders(),
       body: JSON.stringify({device, app_token: appToken}),
     });
     const result = await AyroService.parseResponse(response);
@@ -46,7 +46,7 @@ export class AyroService {
   public static async login(apiToken: string, appToken: string, jwtToken: string, user: User, device: Device): Promise<LoginResult> {
     const response = await fetch(AyroService.getUrl('/users/login'), {
       method: 'POST',
-      headers: AyroService.getHeaders(apiToken),
+      headers: AyroService.getDefaultHeaders(apiToken),
       body: JSON.stringify({user, device, jwt: jwtToken, app_token: appToken}),
     });
     const result = await AyroService.parseResponse(response);
@@ -60,7 +60,7 @@ export class AyroService {
   public static async logout(apiToken: string): Promise<LogoutResult> {
     const response = await fetch(AyroService.getUrl('/users/logout'), {
       method: 'POST',
-      headers: AyroService.getHeaders(apiToken),
+      headers: AyroService.getDefaultHeaders(apiToken),
     });
     const result = await AyroService.parseResponse(response);
     return {
@@ -73,7 +73,7 @@ export class AyroService {
   public static async updateUser(apiToken: string, user: User): Promise<User> {
     const response = await fetch(AyroService.getUrl('/users'), {
       method: 'PUT',
-      headers: AyroService.getHeaders(apiToken),
+      headers: AyroService.getDefaultHeaders(apiToken),
       body: JSON.stringify(user),
     });
     const result = await AyroService.parseResponse(response);
@@ -83,7 +83,7 @@ export class AyroService {
   public static async trackViewChat(apiToken: string): Promise<void> {
     const response = await fetch(AyroService.getUrl(`/events/view_chat`), {
       method: 'POST',
-      headers: AyroService.getHeaders(apiToken),
+      headers: AyroService.getDefaultHeaders(apiToken),
     });
     await AyroService.parseResponse(response);
   }
@@ -91,7 +91,7 @@ export class AyroService {
   public static async listDevices(apiToken: string): Promise<Device[]> {
     const response = await fetch(AyroService.getUrl('/users/devices'), {
       method: 'GET',
-      headers: AyroService.getHeaders(apiToken),
+      headers: AyroService.getDefaultHeaders(apiToken),
     });
     const result = await AyroService.parseResponse(response);
     const devices: Device[] = [];
@@ -104,7 +104,7 @@ export class AyroService {
   public static async listMessages(apiToken: string): Promise<ChatMessage[]> {
     const response = await fetch(AyroService.getUrl('/chat'), {
       method: 'GET',
-      headers: AyroService.getHeaders(apiToken),
+      headers: AyroService.getDefaultHeaders(apiToken),
     });
     const result = await AyroService.parseResponse(response);
     const chatMessages: ChatMessage[] = [];
@@ -119,7 +119,7 @@ export class AyroService {
   public static async postMessage(apiToken: string, message: string): Promise<ChatMessage> {
     const response = await fetch(AyroService.getUrl('/chat'), {
       method: 'POST',
-      headers: AyroService.getHeaders(apiToken),
+      headers: AyroService.getDefaultHeaders(apiToken),
       body: JSON.stringify({
         type: 'text',
         text: message,
@@ -129,27 +129,44 @@ export class AyroService {
     return new ChatMessage(result);
   }
 
+  public static async postFile(apiToken: string, file: File): Promise<ChatMessage> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    const response = await fetch(AyroService.getUrl('/chat/files'), {
+      method: 'POST',
+      headers: AyroService.getHeaders(apiToken),
+      body: formData,
+    });
+    const result = await AyroService.parseResponse(response);
+    return new ChatMessage(result);
+  }
+
   public static async connectEmail(apiToken: string, email: string): Promise<void> {
     const response = await fetch(AyroService.getUrl('/users/connect/email'), {
       method: 'POST',
-      headers: AyroService.getHeaders(apiToken),
+      headers: AyroService.getDefaultHeaders(apiToken),
       body: JSON.stringify({email}),
     });
     await AyroService.parseResponse(response);
   }
 
   private static readonly API_HEADERS: any = {'Content-Type': 'application/json'};
+  private static readonly HEADER_AUTHORIZATION = 'Authorization';
 
   private static getUrl(url: string): string {
     return process.env.API_URL + url;
   }
 
-  private static getHeaders(apiToken: string): any {
-    const headers = Object.assign({}, AyroService.API_HEADERS);
+  private static getHeaders(apiToken?: string, customHeaders?: any): any {
+    const headers = Object.assign({}, customHeaders);
     if (apiToken) {
-      headers.authorization = `Bearer ${apiToken}`;
+      headers[AyroService.HEADER_AUTHORIZATION] = `Bearer ${apiToken}`;
     }
     return headers;
+  }
+
+  private static getDefaultHeaders(apiToken?: string): any {
+    return AyroService.getHeaders(apiToken, AyroService.API_HEADERS);
   }
 
   private static async parseResponse(response: Response): Promise<any> {

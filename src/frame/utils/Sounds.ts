@@ -15,7 +15,7 @@ export class Sounds {
     }
   }
 
-  private static readonly INCOMING_MESSAGE = new Sound('https://cdn.ayro.io/incoming-message.mp3');
+  private static readonly INCOMING_MESSAGE = new Sound('https://cdn.ayro.io/sounds/incoming_message.mp3');
 
   private constructor() {
 
