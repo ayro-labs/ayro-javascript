@@ -4,7 +4,7 @@ export class ConnectChannelsMessageSettings {
 
   private static readonly DEFAULT_ASK_FOR_EMAIL = 'Deixe seu email:';
   private static readonly DEFAULT_EMAIL_PROVIDED = 'Agora também podemos trocar mensagens por e-mail.';
-  private static readonly DEFAULT_EMAIL_INPUT_PLACEHOLDER = 'Digite seu email...';
+  private static readonly DEFAULT_EMAIL_INPUT_PLACEHOLDER = 'Email';
   private static readonly DEFAULT_SEND_EMAIL_BUTTON = 'Enviar';
   private static readonly DEFAULT_EDIT_EMAIL_BUTTON = 'Editar';
 
