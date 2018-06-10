@@ -9,7 +9,7 @@ export class User {
   public last_name: string;
   public email: string;
   public photo_url: string;
-  public photo: string;
+  public avatar_url: string;
   public sign_up_date: Date;
   public properties: Map<string, string>;
 
@@ -22,7 +22,7 @@ export class User {
       this.last_name = data.last_name;
       this.email = data.email;
       this.photo_url = data.photo_url;
-      this.photo = data.photo;
+      this.avatar_url = data.avatar_url;
       this.sign_up_date = data.sign_up_date instanceof Date ? data.sign_up_date : new Date(data.sign_up_date);
       this.properties = data.properties;
     }

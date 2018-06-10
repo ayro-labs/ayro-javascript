@@ -26,9 +26,9 @@ export class MessagingService {
     }
   }
 
-  private static readonly EVENT_CHAT_MESSAGE: string = 'chat_message';
-  private static readonly FAYE_RETRY_SECONDS: number = 5;
-  private static readonly FAYE_TIMEOUT_SECONDS: number = 60;
+  private static readonly EVENT_CHAT_MESSAGE = 'chat_message';
+  private static readonly FAYE_RETRY_SECONDS = 5;
+  private static readonly FAYE_TIMEOUT_SECONDS = 60;
 
   private static socket: any;
   private static subscription: any;

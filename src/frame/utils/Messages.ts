@@ -2,8 +2,8 @@ import {AyroError} from 'frame/errors/AyroError';
 
 export class Messages {
 
-  public static readonly APP_DOES_NOT_EXIST: string = 'app.doesNotExist';
-  public static readonly CHANNEL_NOT_SUPPORTED: string = 'channel.notSupported';
+  public static readonly APP_DOES_NOT_EXIST = 'app.doesNotExist';
+  public static readonly CHANNEL_NOT_SUPPORTED = 'channel.notSupported';
 
   public static init(): void {
     Messages.MESSAGES.set(Messages.APP_DOES_NOT_EXIST, 'App does not exist, please make sure you initialize Ayro with the correct app token.');
@@ -20,7 +20,7 @@ export class Messages {
     }
   }
 
-  private static readonly MESSAGES: Map<string, string> = new Map<string, string>();
+  private static readonly MESSAGES = new Map<string, string>();
 
   private constructor() {
 

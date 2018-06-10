@@ -23,8 +23,8 @@ export class AppUtils {
     return [hours > 9 ? hours : '0' + hours, minutes > 9 ? minutes : '0' + minutes].join(':');
   }
 
-  private static readonly DEVICE_UID: string = 'device_uid';
-  private static readonly DEVICE_PLATFORM: string = 'browser';
+  private static readonly DEVICE_UID = 'device_uid';
+  private static readonly DEVICE_PLATFORM = 'browser';
 
   private static getDeviceUid(): string {
     let uid = Storage.get(AppUtils.DEVICE_UID);

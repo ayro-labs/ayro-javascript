@@ -6,7 +6,7 @@ export interface User {
   last_name: string;
   email: string;
   photo_url: string;
-  photo: string;
+  avatar_url: string;
   sign_up_date: Date;
   properties: Map<string, string>;
 }

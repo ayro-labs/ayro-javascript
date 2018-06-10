@@ -76,7 +76,7 @@ class ConnectChannelMessage extends React.Component<StateProps & DispatchProps &
     }
     return (
       <div className="agent-photo">
-        <img src={this.props.chatMessage.agent.photo}/>
+        <img src={this.props.chatMessage.agent.photo_url}/>
       </div>
     );
   }

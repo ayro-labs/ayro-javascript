@@ -130,7 +130,7 @@ export class AyroService {
   }
 
   public static async postFile(apiToken: string, file: File): Promise<ChatMessage> {
-    const formData: FormData = new FormData();
+    const formData = new FormData();
     formData.append('file', file);
     const response = await fetch(AyroService.getUrl('/chat/files'), {
       method: 'POST',

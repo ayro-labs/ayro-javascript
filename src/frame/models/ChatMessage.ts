@@ -4,15 +4,15 @@ import {Agent} from 'frame/models/Agent';
 
 export class ChatMessage {
 
-  public static readonly TYPE_TEXT: string = 'text';
-  public static readonly TYPE_CONNECT_CHANNELS: string = 'connect_channels';
+  public static readonly TYPE_TEXT = 'text';
+  public static readonly TYPE_CONNECT_CHANNELS = 'connect_channels';
 
-  public static readonly DIRECTION_OUTGOING: string = 'outgoing';
-  public static readonly DIRECTION_INCOMING: string = 'incoming';
+  public static readonly DIRECTION_OUTGOING = 'outgoing';
+  public static readonly DIRECTION_INCOMING = 'incoming';
 
-  public static readonly STATUS_SENDING: string = 'sending';
-  public static readonly STATUS_SENT: string = 'sent';
-  public static readonly STATUS_ERROR: string = 'error';
+  public static readonly STATUS_SENDING = 'sending';
+  public static readonly STATUS_SENT = 'sent';
+  public static readonly STATUS_ERROR = 'error';
 
   public id: string;
   public device: string;

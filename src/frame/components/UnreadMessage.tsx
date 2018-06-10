@@ -32,7 +32,7 @@ class UnreadMessage extends React.Component<StateProps & DispatchProps> {
       <div key={this.props.lastUnread.id} className="message message-unread">
         <div className="balloon">
           <div className="agent-photo">
-            <img src={this.props.lastUnread.agent.photo}/>
+            <img src={this.props.lastUnread.agent.photo_url}/>
           </div>
           <div className="message-content">
             <svg onClick={this.closeUnreadMessage} className="close-icon" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">

@@ -10,26 +10,26 @@ import {ChatMessage} from 'frame/models/ChatMessage';
 
 export class Actions {
 
-  public static readonly SHOW_BUTTON: string = 'SHOW_BUTTON';
-  public static readonly HIDE_BUTTON: string = 'HIDE_BUTTON';
-  public static readonly SHOW_CHAT: string = 'SHOW_CHAT';
-  public static readonly HIDE_CHAT: string = 'HIDE_CHAT';
+  public static readonly SHOW_BUTTON = 'SHOW_BUTTON';
+  public static readonly HIDE_BUTTON = 'HIDE_BUTTON';
+  public static readonly SHOW_CHAT = 'SHOW_CHAT';
+  public static readonly HIDE_CHAT = 'HIDE_CHAT';
 
-  public static readonly SET_APP_STATUS: string = 'SET_APP_STATUS';
-  public static readonly SET_USER_STATUS: string = 'SET_USER_STATUS';
-  public static readonly SET_SETTINGS: string = 'SET_SETTINGS';
-  public static readonly SET_APP: string = 'SET_APP';
-  public static readonly SET_INTEGRATION: string = 'SET_INTEGRATION';
-  public static readonly SET_USER: string = 'SET_USER';
-  public static readonly SET_DEVICE: string = 'SET_DEVICE';
-  public static readonly SET_DEVICES: string = 'SET_DEVICES';
-  public static readonly SET_API_TOKEN: string = 'SET_API_TOKEN';
-  public static readonly SET_CHAT_MESSAGES: string = 'SET_CHAT_MESSAGES';
-  public static readonly ADD_CHAT_MESSAGE: string = 'ADD_CHAT_MESSAGE';
-  public static readonly UPDATE_CHAT_MESSAGE: string = 'UPDATE_CHAT_MESSAGE';
-  public static readonly REMOVE_CHAT_MESSAGE: string = 'REMOVE_CHAT_MESSAGE';
-  public static readonly SET_LAST_UNREAD: string = 'SET_LAST_UNREAD';
-  public static readonly UNSET_LAST_UNREAD: string = 'UNSET_LAST_UNREAD';
+  public static readonly SET_APP_STATUS = 'SET_APP_STATUS';
+  public static readonly SET_USER_STATUS = 'SET_USER_STATUS';
+  public static readonly SET_SETTINGS = 'SET_SETTINGS';
+  public static readonly SET_APP = 'SET_APP';
+  public static readonly SET_INTEGRATION = 'SET_INTEGRATION';
+  public static readonly SET_USER = 'SET_USER';
+  public static readonly SET_DEVICE = 'SET_DEVICE';
+  public static readonly SET_DEVICES = 'SET_DEVICES';
+  public static readonly SET_API_TOKEN = 'SET_API_TOKEN';
+  public static readonly SET_CHAT_MESSAGES = 'SET_CHAT_MESSAGES';
+  public static readonly ADD_CHAT_MESSAGE = 'ADD_CHAT_MESSAGE';
+  public static readonly UPDATE_CHAT_MESSAGE = 'UPDATE_CHAT_MESSAGE';
+  public static readonly REMOVE_CHAT_MESSAGE = 'REMOVE_CHAT_MESSAGE';
+  public static readonly SET_LAST_UNREAD = 'SET_LAST_UNREAD';
+  public static readonly UNSET_LAST_UNREAD = 'UNSET_LAST_UNREAD';
 
   public static showButton(): AnyAction {
     return {
