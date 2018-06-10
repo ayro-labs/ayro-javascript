@@ -127,6 +127,7 @@ class ConnectChannelMessage extends React.Component<StateProps & DispatchProps &
   private messageClasses(): string {
     return classNames({
       message: true,
+      'message-incoming': true,
       'message-connect-channel': true,
       'message-discontinuation': !this.props.continuation,
     });
