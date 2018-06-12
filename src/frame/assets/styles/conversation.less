@@ -35,54 +35,34 @@
   }
 }
 
-.message-content {
-  position: relative;
-  > .agent-name {
-    margin-bottom: 4px;
-    font-weight: bold;
-    font-size: 13px;
-  }
-  > .text {
-    &::after {
-      content: "\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0";
-      display: inline;
-    }
-  }
-  > .status {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    font-size: 11px;
-  }
-}
-
 .message {
   flex: 0 0 auto;
   margin-top: 8px;
   margin-bottom: 8px;
-  &.message-unread {
-    position: absolute;
-    right: 15px;
-    bottom: 95px;
-    max-width: 330px;
-    > .balloon {
-      display: flex;
-      padding: 14px 12px;
-      > .message-content {
-        min-width: 150px;
-        margin-left: 12px;
-        >.close-icon {
-          float: right;
-          width: 14px;
-          height: 14px;
-          margin-left: 20px;
-          cursor: pointer;
-          fill: @gray;
+  > .balloon {
+    overflow: hidden;
+    > .content {
+      position: relative;
+      > .agent-name {
+        margin-bottom: 4px;
+        font-weight: bold;
+        font-size: 13px;
+      }
+      > .text {
+        &::after {
+          content: "\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0";
+          display: inline;
         }
+      }
+      > .status {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        font-size: 11px;
       }
     }
   }
-  &.message-incoming {
+  &.incoming {
     position: relative;
     padding-left: 55px;
     max-width: 92%;
@@ -96,13 +76,13 @@
       border: 1px solid #d1d1d1;
     }
   }
-  &.message-outgoing {
+  &.outgoing {
     display: flex;
     justify-content: flex-end;
     > .balloon {
       max-width: 80%;
       padding: 8px 14px;
-      > .message-content {
+      > .content {
         color: @white;
         > .text {
           &::after {
@@ -134,20 +114,71 @@
       }
     }
   }
-  &.message-connect-channel {
+  &.unread {
+    position: absolute;
+    right: 15px;
+    bottom: 95px;
+    max-width: 330px;
+    > .balloon {
+      display: flex;
+      padding: 14px 12px;
+      > .content {
+        min-width: 150px;
+        margin-left: 12px;
+        >.close-icon {
+          float: right;
+          width: 14px;
+          height: 14px;
+          margin-left: 20px;
+          cursor: pointer;
+          fill: @gray;
+        }
+      }
+    }
+  }
+  &.connect-channel {
     max-width: 100%;
     > .balloon {
-      > .message-content {
+      > .content {
         > .available-channels {
           margin-top: 8px;
         }
       }
     }
   }
-  &.message-incoming, &.message-unread {
+  &.file {
+    > .balloon {
+      max-width: 65%;
+      padding: 0px;
+      border: 1px solid #d1d1d1;
+      > .content {
+        > img {
+          width: 100%;
+          vertical-align: bottom;
+        }
+        > .status {
+          justify-content: flex-end;
+          width: 100%;
+          padding: 8px 14px;
+          > .status-time {
+            color: @white;
+          }
+        }
+        > .status-bg {
+          position: absolute;
+          bottom: 0px;
+          width: 100%;
+          height: 32px;
+          background-color: #000000;
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+  &.incoming, &.unread {
     > .balloon {
       background-color: @white;
-      > .message-content {
+      > .content {
         > .agent-name {
           color: @gray;
         }
@@ -159,7 +190,7 @@
       }
     }
   }
-  &.message-discontinuation {
+  &.discontinuation {
     margin-top: 12px;
   }
 }

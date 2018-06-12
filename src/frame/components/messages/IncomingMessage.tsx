@@ -17,7 +17,7 @@ class IncomingMessage extends React.Component<OwnProps> {
       <div key={this.props.chatMessage.id} className={this.messageClasses()}>
         {this.renderAgentPhoto()}
         <div className="balloon">
-          <div className="message-content">
+          <div className="content">
             {this.renderAgentName()}
             <div className="text">
               <span>{this.props.chatMessage.text}</span>
@@ -58,8 +58,8 @@ class IncomingMessage extends React.Component<OwnProps> {
   private messageClasses(): string {
     return classNames({
       message: true,
-      'message-incoming': true,
-      'message-discontinuation': !this.props.continuation,
+      incoming: true,
+      discontinuation: !this.props.continuation,
     });
   }
 }

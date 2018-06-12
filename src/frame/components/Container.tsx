@@ -6,7 +6,7 @@ import * as debounce from 'lodash.debounce';
 
 import ChatButton from 'frame/components/ChatButton';
 import Chatbox from 'frame/components/Chatbox';
-import UnreadMessage from 'frame/components/UnreadMessage';
+import UnreadMessage from 'frame/components/messages/UnreadMessage';
 
 import {ChatMessage} from 'frame/models/ChatMessage';
 import {StoreState} from 'frame/stores/Store';

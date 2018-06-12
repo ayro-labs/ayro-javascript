@@ -3,9 +3,10 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, AnyAction} from 'redux';
 import * as PubSub from 'pubsub-js';
 
-import ConnectChannelsMessage from 'frame/components/ConnectChannelsMessage';
-import IncomingMessage from 'frame/components/IncomingMessage';
-import OutgoingMessage from 'frame/components/OutgoingMessage';
+import IncomingMessage from 'frame/components/messages/IncomingMessage';
+import OutgoingMessage from 'frame/components/messages/OutgoingMessage';
+import ConnectChannelsMessage from 'frame/components/messages/ConnectChannelsMessage';
+import FileMessage from 'frame/components/messages/FileMessage';
 
 import {AyroService} from 'frame/services/AyroService';
 import {UserStatus} from 'frame/enums/UserStatus';
@@ -79,6 +80,8 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
       switch (chatMessage.type) {
         case ChatMessage.TYPE_TEXT:
           return <OutgoingMessage key={chatMessage.id} chatMessage={chatMessage} continuation={continuation}/>;
+        case ChatMessage.TYPE_FILE:
+          return <FileMessage key={chatMessage.id} chatMessage={chatMessage} continuation={continuation}/>;
         default:
           return null;
       }

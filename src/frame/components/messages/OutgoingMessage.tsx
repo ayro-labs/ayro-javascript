@@ -37,7 +37,7 @@ class OutgoingMessage extends React.Component<StateProps & DispatchProps & OwnPr
     return (
       <div key={this.props.chatMessage.id} className={this.messageClasses()}>
         <div className="balloon" style={this.balloonStyles()}>
-          <div className="message-content">
+          <div className="content">
             <div className="text">
               <span>{this.props.chatMessage.text}</span>
             </div>
@@ -95,8 +95,8 @@ class OutgoingMessage extends React.Component<StateProps & DispatchProps & OwnPr
   private messageClasses(): string {
     return classNames({
       message: true,
-      'message-outgoing': true,
-      'message-discontinuation': !this.props.continuation,
+      outgoing: true,
+      discontinuation: !this.props.continuation,
     });
   }
 
@@ -107,16 +107,14 @@ class OutgoingMessage extends React.Component<StateProps & DispatchProps & OwnPr
   }
 
   private async retryMessage(): Promise<void> {
-    this.props.removeChatMessage(this.props.chatMessage);
-    const now = new Date();
-    const chatMessage = new ChatMessage(this.props.chatMessage);
-    chatMessage.id = String(now.getTime());
-    chatMessage.date = now;
-    this.props.addChatMessage(chatMessage);
+    const chatMessage = this.props.chatMessage;
+    chatMessage.status = ChatMessage.STATUS_SENDING;
+    this.props.updateChatMessage(chatMessage.id, chatMessage);
     try {
       const postedMessage = await AyroService.postMessage(this.props.apiToken, chatMessage.text);
       postedMessage.status = ChatMessage.STATUS_SENT;
-      this.props.updateChatMessage(chatMessage.id, postedMessage);
+      this.props.removeChatMessage(chatMessage);
+      this.props.addChatMessage(postedMessage);
     } catch (err) {
       chatMessage.status = ChatMessage.STATUS_ERROR;
       this.props.updateChatMessage(chatMessage.id, chatMessage);

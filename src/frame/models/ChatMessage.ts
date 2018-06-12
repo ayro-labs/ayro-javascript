@@ -1,11 +1,13 @@
 /* tslint:disable:variable-name */
 
 import {Agent} from 'frame/models/Agent';
+import {Media} from 'frame/models/Media';
 
 export class ChatMessage {
 
   public static readonly TYPE_TEXT = 'text';
   public static readonly TYPE_CONNECT_CHANNELS = 'connect_channels';
+  public static readonly TYPE_FILE = 'file';
 
   public static readonly DIRECTION_OUTGOING = 'outgoing';
   public static readonly DIRECTION_INCOMING = 'incoming';
@@ -25,6 +27,7 @@ export class ChatMessage {
 
   // Specific attributes
   public available_channels: string[];
+  public media: Media;
 
   constructor(data?: any) {
     if (data) {
@@ -39,6 +42,7 @@ export class ChatMessage {
 
       // Specific attributes
       this.available_channels = data.available_channels;
+      this.media = data.media ? new Media(data.media) : null;
     }
   }
 }
