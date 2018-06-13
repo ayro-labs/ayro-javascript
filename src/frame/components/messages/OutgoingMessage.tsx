@@ -42,7 +42,7 @@ class OutgoingMessage extends React.Component<StateProps & DispatchProps & OwnPr
               <span>{this.props.chatMessage.text}</span>
             </div>
             <div className="status">
-              <span className="status-time">
+              <span className="time">
                 {AppUtils.formatMessageTime(this.props.chatMessage)}
               </span>
               {this.renderStatusIcon()}

@@ -23,7 +23,7 @@ class IncomingMessage extends React.Component<OwnProps> {
               <span>{this.props.chatMessage.text}</span>
             </div>
             <div className="status">
-              <span className="status-time">
+              <span className="time">
                 {AppUtils.formatMessageTime(this.props.chatMessage)}
               </span>
             </div>

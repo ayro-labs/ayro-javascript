@@ -146,11 +146,13 @@
       }
     }
   }
-  &.file {
+  &.image {
     > .balloon {
       max-width: 65%;
       padding: 0px;
       border: 1px solid #d1d1d1;
+      background-color: @white;
+      cursor: pointer;
       > .content {
         > img {
           width: 100%;
@@ -160,7 +162,54 @@
           justify-content: flex-end;
           width: 100%;
           padding: 8px 14px;
-          > .status-time {
+          > .time {
+            color: @white;
+          }
+        }
+        > .status-bg {
+          position: absolute;
+          bottom: 0px;
+          width: 100%;
+          height: 32px;
+          background-color: #000000;
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+  &.file {
+    > .balloon {
+      max-width: 65%;
+      padding: 0px;
+      border: 1px solid #d1d1d1;
+      background-color: @white;
+      cursor: pointer;
+      > .content {
+        > .attachment {
+          padding: 8px 14px 8px 10px;
+          color: @gray-dark;
+          > .icon {
+            position: absolute;
+            width: 35px;
+            height: 38px;
+            fill: @gray-dark;
+          }
+          > .info {
+              table-layout: fixed;
+              width: 100%;
+              padding-left: 48px;
+              word-wrap: break-word;
+            > .size {
+              font-size: 12px;
+            }
+          }
+        }
+        > .status {
+          position: relative;
+          justify-content: flex-end;
+          width: 100%;
+          padding: 8px 14px;
+          > .time {
             color: @white;
           }
         }
@@ -183,7 +232,7 @@
           color: @gray;
         }
         > .status {
-          > .status-time {
+          > .time {
             color: @gray;
           }
         }

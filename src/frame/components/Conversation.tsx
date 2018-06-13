@@ -107,7 +107,9 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
   private async loadMessages(): Promise<void> {
     const chatMessages = await AyroService.listMessages(this.props.apiToken);
     this.props.setChatMessages(chatMessages);
-    this.scrollToBottom();
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 200);
   }
 }
 

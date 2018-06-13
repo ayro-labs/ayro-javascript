@@ -2,6 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, AnyAction} from 'redux';
 import * as classNames from 'classnames';
+import * as truncate from 'lodash.truncate';
 
 import {AyroService} from 'frame/services/AyroService';
 import {ChatMessage} from 'frame/models/ChatMessage';
@@ -28,12 +29,15 @@ class FileMessage extends React.Component<StateProps & DispatchProps & OwnProps>
 
   constructor(props: StateProps & DispatchProps & OwnProps) {
     super(props);
+    this.getFileName = this.getFileName.bind(this);
+    this.getFileSize = this.getFileSize.bind(this);
+    this.openMediaUrl = this.openMediaUrl.bind(this);
     this.retryMessage = this.retryMessage.bind(this);
   }
 
   public render(): JSX.Element {
     return (
-      <div key={this.props.chatMessage.id} className={this.messageClasses()}>
+      <div key={this.props.chatMessage.id} onClick={this.openMediaUrl} className={this.messageClasses()}>
         {this.renderAgentPhoto()}
         <div className="balloon">
           <div className="content">
@@ -41,7 +45,7 @@ class FileMessage extends React.Component<StateProps & DispatchProps & OwnProps>
             {this.renderFile()}
             <div className="status-bg"/>
             <div className="status">
-              <span className="status-time">
+              <span className="time">
                 {AppUtils.formatMessageTime(this.props.chatMessage)}
               </span>
               {this.renderStatusIcon()}
@@ -82,8 +86,14 @@ class FileMessage extends React.Component<StateProps & DispatchProps & OwnProps>
       );
     }
     return (
-      <div>
-        {this.props.chatMessage.media.name}
+      <div className="attachment">
+        <svg className="icon" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1596 1385q0 117-79 196t-196 79q-135 0-235-100l-777-776q-113-115-113-271 0-159 110-270t269-111q158 0 273 113l605 606q10 10 10 22 0 16-30.5 46.5t-46.5 30.5q-13 0-23-10l-606-607q-79-77-181-77-106 0-179 75t-73 181q0 105 76 181l776 777q63 63 145 63 64 0 106-42t42-106q0-82-63-145l-581-581q-26-24-60-24-29 0-48 19t-19 48q0 32 25 59l410 410q10 10 10 22 0 16-31 47t-47 31q-12 0-22-10l-410-410q-63-61-63-149 0-82 57-139t139-57q88 0 149 63l581 581q100 98 100 235z"/>
+        </svg>
+        <div className="info">
+          <div className="name">{this.getFileName()}</div>
+          <div className="size">{this.getFileSize()}</div>
+        </div>
       </div>
     );
   }
@@ -134,9 +144,28 @@ class FileMessage extends React.Component<StateProps & DispatchProps & OwnProps>
       message: true,
       incoming: this.props.chatMessage.direction === ChatMessage.DIRECTION_INCOMING,
       outgoing: this.props.chatMessage.direction === ChatMessage.DIRECTION_OUTGOING,
-      file: true,
+      image: this.props.chatMessage.media.type.startsWith('image'),
+      file: !this.props.chatMessage.media.type.startsWith('image'),
       discontinuation: !this.props.continuation,
     });
+  }
+
+  private getFileName(): string {
+    return truncate(this.props.chatMessage.media.name, {
+      length: 20,
+      separator: ' ',
+      omission: '...',
+    });
+  }
+
+  private getFileSize(): string {
+    const sizeInMB = this.props.chatMessage.media.size / 1000000;
+    return `${Math.round(sizeInMB * 100) / 100} MB`;
+  }
+
+  private openMediaUrl(): void {
+    const win = window.open();
+    win.location.href = this.props.chatMessage.media.url;
   }
 
   private async retryMessage(): Promise<void> {

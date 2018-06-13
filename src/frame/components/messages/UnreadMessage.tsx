@@ -45,7 +45,7 @@ class UnreadMessage extends React.Component<StateProps & DispatchProps> {
               <span>{this.getTruncatedText()}</span>
             </div>
             <div className="status">
-              <span className="status-time">
+              <span className="time">
                 {AppUtils.formatMessageTime(this.props.lastUnread)}
               </span>
             </div>
