@@ -12,7 +12,7 @@ import {ChatMessage} from 'frame/models/ChatMessage';
 import {StoreState} from 'frame/stores/Store';
 import {Actions} from 'frame/stores/Actions';
 import {Sounds} from 'frame/utils/Sounds';
-import {Constants} from 'utils/Constants';
+import {ApplicationConstants} from 'utils/ApplicationConstants';
 
 interface StateProps {
   showButton: boolean;
@@ -87,8 +87,8 @@ class Container extends React.Component<StateProps & DispatchProps, OwnState> {
     if (expectedMessageType) {
       if (!this.props.showChat) {
         window.parent.postMessage({
-          type: Constants.EVENT_SIZE_CHANGED,
-          size: Constants.SIZE_UNREAD,
+          type: ApplicationConstants.EVENT_SIZE_CHANGED,
+          size: ApplicationConstants.SIZE_UNREAD,
         }, '*');
         setTimeout(() => {
           this.props.setLastUnread(chatMessage);

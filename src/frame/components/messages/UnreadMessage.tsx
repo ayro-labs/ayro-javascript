@@ -7,7 +7,7 @@ import {ChatMessage} from 'frame/models/ChatMessage';
 import {Actions} from 'frame/stores/Actions';
 import {StoreState} from 'frame/stores/Store';
 import {AppUtils} from 'frame/utils/AppUtils';
-import {Constants} from 'utils/Constants';
+import {ApplicationConstants} from 'utils/ApplicationConstants';
 
 interface StateProps {
   lastUnread: ChatMessage;
@@ -66,8 +66,8 @@ class UnreadMessage extends React.Component<StateProps & DispatchProps> {
   private closeUnreadMessage(): void {
     this.props.unsetLastUnread();
     window.parent.postMessage({
-      type: Constants.EVENT_SIZE_CHANGED,
-      size: Constants.SIZE_BUTTON,
+      type: ApplicationConstants.EVENT_SIZE_CHANGED,
+      size: ApplicationConstants.SIZE_BUTTON,
     }, '*');
   }
 }

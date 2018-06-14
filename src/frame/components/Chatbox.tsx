@@ -14,7 +14,8 @@ import {Actions} from 'frame/stores/Actions';
 import {StoreState} from 'frame/stores/Store';
 import {AyroError} from 'frame/errors/AyroError';
 import {Messages} from 'frame/utils/Messages';
-import {Constants} from 'utils/Constants';
+import {Constants} from 'frame/utils/Constants';
+import {ApplicationConstants} from 'utils/ApplicationConstants';
 
 interface StateProps {
   showChat: boolean;
@@ -140,8 +141,8 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
   private closeChat(): void {
     this.props.hideChat();
     window.parent.postMessage({
-      type: Constants.EVENT_SIZE_CHANGED,
-      size: Constants.SIZE_BUTTON,
+      type: ApplicationConstants.EVENT_SIZE_CHANGED,
+      size: ApplicationConstants.SIZE_BUTTON,
     }, '*');
     setTimeout(() => {
       this.props.showButton();
@@ -175,6 +176,10 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
 
   private async postFile(event: any): Promise<void> {
     const file: File = event.target.files[0];
+    if (file.size > Constants.FILE_MAX_SIZE) {
+      this.onAlert(new AyroError({code: Messages.FILE_SIZE_LIMIT_EXCEEDED}));
+      return;
+    }
     const reader = new FileReader();
     reader.onload = async (readEvent: any) => {
       const now = new Date();
@@ -197,13 +202,8 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
         postedMessage.status = ChatMessage.STATUS_SENT;
         this.props.updateChatMessage(chatMessage.id, postedMessage);
       } catch (err) {
-        if (err.code === Messages.FILE_SIZE_LIMIT_EXCEEDED) {
-          this.props.removeChatMessage(chatMessage);
-        } else {
-          chatMessage.status = ChatMessage.STATUS_ERROR;
-          this.props.updateChatMessage(chatMessage.id, chatMessage);
-        }
-        this.onAlert(err);
+        chatMessage.status = ChatMessage.STATUS_ERROR;
+        this.props.updateChatMessage(chatMessage.id, chatMessage);
       }
     };
     reader.readAsDataURL(file);

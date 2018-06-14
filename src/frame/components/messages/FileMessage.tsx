@@ -11,7 +11,7 @@ import {Actions} from 'frame/stores/Actions';
 import {StoreState} from 'frame/stores/Store';
 import {AppUtils} from 'frame/utils/AppUtils';
 import {Messages} from 'frame/utils/Messages';
-import {Constants} from 'utils/Constants';
+import {Constants} from 'frame/utils/Constants';
 
 interface StateProps {
   apiToken: string;
@@ -175,6 +175,10 @@ class FileMessage extends React.Component<StateProps & DispatchProps & OwnProps>
 
   private async retryMessage(): Promise<void> {
     const chatMessage = this.props.chatMessage;
+    if (chatMessage.media.file.size > Constants.FILE_MAX_SIZE) {
+      PubSub.publish(Constants.EVENT_ALERT, {code: Messages.FILE_SIZE_LIMIT_EXCEEDED});
+      return;
+    }
     chatMessage.status = ChatMessage.STATUS_SENDING;
     this.props.updateChatMessage(chatMessage.id, chatMessage);
     try {
@@ -183,13 +187,8 @@ class FileMessage extends React.Component<StateProps & DispatchProps & OwnProps>
       this.props.removeChatMessage(chatMessage);
       this.props.addChatMessage(postedMessage);
     } catch (err) {
-      if (err.code === Messages.FILE_SIZE_LIMIT_EXCEEDED) {
-        this.props.removeChatMessage(chatMessage);
-      } else {
-        chatMessage.status = ChatMessage.STATUS_ERROR;
-        this.props.updateChatMessage(chatMessage.id, chatMessage);
-      }
-      PubSub.publish(Constants.EVENT_ALERT, err);
+      chatMessage.status = ChatMessage.STATUS_ERROR;
+      this.props.updateChatMessage(chatMessage.id, chatMessage);
     }
   }
 }

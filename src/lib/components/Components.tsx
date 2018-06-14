@@ -1,6 +1,6 @@
 import {Ayro} from 'lib/interfaces/Ayro';
 import {Html} from 'utils/Html';
-import {Constants} from 'utils/Constants';
+import {ApplicationConstants} from 'utils/ApplicationConstants';
 
 export class Components {
 
@@ -64,16 +64,16 @@ export class Components {
 
   private static registerEvents(): void {
     window.addEventListener('message', (event) => {
-      if (event.data.type === Constants.EVENT_SIZE_CHANGED) {
+      if (event.data.type === ApplicationConstants.EVENT_SIZE_CHANGED) {
         const iframe = Components.getFrame();
         switch (event.data.size) {
-          case Constants.SIZE_BUTTON:
+          case ApplicationConstants.SIZE_BUTTON:
             iframe.className = Components.CLASS_BUTTON;
             break;
-          case Constants.SIZE_BOX:
+          case ApplicationConstants.SIZE_BOX:
             iframe.className = Components.CLASS_BOX;
             break;
-          case Constants.SIZE_UNREAD:
+          case ApplicationConstants.SIZE_UNREAD:
             iframe.className = Components.CLASS_UNREAD;
             break;
           default:

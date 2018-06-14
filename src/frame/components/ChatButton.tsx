@@ -5,7 +5,7 @@ import {bindActionCreators, Dispatch, AnyAction} from 'redux';
 import {Integration} from 'frame/models/Integration';
 import {Actions} from 'frame/stores/Actions';
 import {StoreState} from 'frame/stores/Store';
-import {Constants} from 'utils/Constants';
+import {ApplicationConstants} from 'utils/ApplicationConstants';
 
 interface StateProps {
   showButton: boolean;
@@ -48,8 +48,8 @@ class ChatButton extends React.Component<StateProps & DispatchProps> {
     this.props.unsetLastUnread();
     this.props.hideButton();
     window.parent.postMessage({
-      type: Constants.EVENT_SIZE_CHANGED,
-      size: Constants.SIZE_BOX,
+      type: ApplicationConstants.EVENT_SIZE_CHANGED,
+      size: ApplicationConstants.SIZE_BOX,
     }, '*');
     setTimeout(() => {
       this.props.showChat();
