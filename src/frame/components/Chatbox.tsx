@@ -1,6 +1,8 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, AnyAction} from 'redux';
+import * as PubSub from 'pubsub-js';
+import * as classNames from 'classnames';
 
 import Conversation from 'frame/components/Conversation';
 
@@ -10,6 +12,8 @@ import {Integration} from 'frame/models/Integration';
 import {ChatMessage} from 'frame/models/ChatMessage';
 import {Actions} from 'frame/stores/Actions';
 import {StoreState} from 'frame/stores/Store';
+import {AyroError} from 'frame/errors/AyroError';
+import {Messages} from 'frame/utils/Messages';
 import {Constants} from 'utils/Constants';
 
 interface StateProps {
@@ -24,25 +28,42 @@ interface DispatchProps {
   showButton: () => void;
   addChatMessage: (chatMessage: ChatMessage) => void;
   updateChatMessage: (id: string, chatMessage: ChatMessage) => void;
+  removeChatMessage: (chatMessage: ChatMessage) => void;
 }
 
 interface OwnState {
   message: string;
+  alert: string;
 }
 
 class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
 
+  private static readonly ALERT_TIME = 5000;
+
   private inputElement: HTMLInputElement;
+  private subscriptions: any[] = [];
 
   constructor(props: StateProps & DispatchProps) {
     super(props);
     this.setInputElement = this.setInputElement.bind(this);
+    this.onAlert = this.onAlert.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
     this.onMessageChanged = this.onMessageChanged.bind(this);
     this.closeChat = this.closeChat.bind(this);
     this.postMessage = this.postMessage.bind(this);
     this.postFile = this.postFile.bind(this);
-    this.state = {message: ''};
+    this.state = {
+      message: '',
+      alert: null,
+    };
+  }
+
+  public componentDidMount(): void {
+    this.subscriptions.push(PubSub.subscribe(Constants.EVENT_ALERT, this.onAlert));
+  }
+
+  public componentWillUnmount(): void {
+    this.subscriptions.forEach(subscription => PubSub.unsubscribe(subscription));
   }
 
   public render(): JSX.Element {
@@ -57,6 +78,7 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
             <path d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"/>
           </svg>
         </div>
+        <div className={this.alertClasses()}>{this.state.alert}</div>
         <Conversation/>
         <div className="footer">
           <input ref={this.setInputElement} placeholder={this.props.settings.chatbox.input_placeholder} value={this.state.message} onChange={this.onMessageChanged} onKeyPress={this.onKeyPress} type="text" name="message"/>
@@ -74,6 +96,14 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
     );
   }
 
+  private alertClasses(): any {
+    return classNames({
+      alert: true,
+      show: this.state.alert,
+      hide: !this.state.alert,
+    });
+  }
+
   private headerStyles(): any {
     return {
       backgroundColor: this.props.integration.configuration.primary_color,
@@ -84,6 +114,16 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
     this.inputElement = input;
     if (this.inputElement) {
       this.inputElement.focus();
+    }
+  }
+
+  private onAlert(err: AyroError): void {
+    const message = Messages.get(err);
+    if (message) {
+      this.setState({...this.state, alert: message});
+      setTimeout(() => {
+        this.setState({...this.state, alert: null});
+      }, Chatbox.ALERT_TIME);
     }
   }
 
@@ -142,10 +182,10 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
         id: String(now.getTime()),
         type: ChatMessage.TYPE_FILE,
         media: {
+          file,
           name: file.name,
           type: file.type,
           url: readEvent.target.result,
-          file: file,
         },
         direction: ChatMessage.DIRECTION_OUTGOING,
         status: ChatMessage.STATUS_SENDING,
@@ -157,8 +197,13 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
         postedMessage.status = ChatMessage.STATUS_SENT;
         this.props.updateChatMessage(chatMessage.id, postedMessage);
       } catch (err) {
-        chatMessage.status = ChatMessage.STATUS_ERROR;
-        this.props.updateChatMessage(chatMessage.id, chatMessage);
+        if (err.code === Messages.FILE_SIZE_LIMIT_EXCEEDED) {
+          this.props.removeChatMessage(chatMessage);
+        } else {
+          chatMessage.status = ChatMessage.STATUS_ERROR;
+          this.props.updateChatMessage(chatMessage.id, chatMessage);
+        }
+        this.onAlert(err);
       }
     };
     reader.readAsDataURL(file);
@@ -181,6 +226,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>): DispatchProps {
     unsetLastUnread: Actions.unsetLastUnread,
     addChatMessage: Actions.addChatMessage,
     updateChatMessage: Actions.updateChatMessage,
+    removeChatMessage: Actions.removeChatMessage,
   }, dispatch);
 }
 

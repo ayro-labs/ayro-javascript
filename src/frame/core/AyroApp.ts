@@ -35,6 +35,8 @@ export class AyroApp {
       if (!AyroApp.SUPPORTED_CHANNELS.includes(settings.channel)) {
         throw new AyroError({code: Messages.CHANNEL_NOT_SUPPORTED});
       }
+      Sounds.init(settings);
+      Messages.init(settings);
       Store.dispatch(Actions.setSettings(settings));
       const device = AppUtils.getDevice();
       const result = await AyroService.init(settings.app_token, settings.channel, device);
@@ -47,7 +49,6 @@ export class AyroApp {
       Store.dispatch(Actions.setDevices(devices));
       Store.dispatch(Actions.setApiToken(result.token));
       Components.init();
-      Sounds.init();
       MessagingService.stop();
       MessagingService.start();
     } catch (err) {

@@ -52,6 +52,10 @@ class Container extends React.Component<StateProps & DispatchProps, OwnState> {
     this.onWindowResize();
   }
 
+  public componentWillUnmount(): void {
+    this.subscriptions.forEach(subscription => PubSub.unsubscribe(subscription));
+  }
+
   public render(): JSX.Element {
     return (
       <div id="container" className={this.containerClasses()} ref={this.containerRef}>

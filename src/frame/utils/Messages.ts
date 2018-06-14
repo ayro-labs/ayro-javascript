@@ -1,13 +1,16 @@
+import {Settings} from 'frame/models/Settings';
 import {AyroError} from 'frame/errors/AyroError';
 
 export class Messages {
 
-  public static readonly APP_DOES_NOT_EXIST = 'app.doesNotExist';
-  public static readonly CHANNEL_NOT_SUPPORTED = 'channel.notSupported';
+  public static readonly APP_NOT_FOUND = 'app_not_found';
+  public static readonly CHANNEL_NOT_SUPPORTED = 'channel_not_supported';
+  public static readonly FILE_SIZE_LIMIT_EXCEEDED = 'file_size_limit_exceeded';
 
-  public static init(): void {
-    Messages.MESSAGES.set(Messages.APP_DOES_NOT_EXIST, 'App does not exist, please make sure you initialize Ayro with the correct app token.');
+  public static init(settings: Settings): void {
+    Messages.MESSAGES.set(Messages.APP_NOT_FOUND, 'App does not exist, please make sure you initialize Ayro with the correct app token.');
     Messages.MESSAGES.set(Messages.CHANNEL_NOT_SUPPORTED, 'Channel not supported');
+    Messages.MESSAGES.set(Messages.FILE_SIZE_LIMIT_EXCEEDED, settings.chatbox.errors.file_size_limit_exceeded);
   }
 
   public static get(err: AyroError): string {
@@ -26,5 +29,3 @@ export class Messages {
 
   }
 }
-
-Messages.init();

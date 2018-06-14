@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, AnyAction} from 'redux';
+import * as PubSub from 'pubsub-js';
 import * as classNames from 'classnames';
 import * as truncate from 'lodash.truncate';
 
@@ -9,6 +10,8 @@ import {ChatMessage} from 'frame/models/ChatMessage';
 import {Actions} from 'frame/stores/Actions';
 import {StoreState} from 'frame/stores/Store';
 import {AppUtils} from 'frame/utils/AppUtils';
+import {Messages} from 'frame/utils/Messages';
+import {Constants} from 'utils/Constants';
 
 interface StateProps {
   apiToken: string;
@@ -164,8 +167,10 @@ class FileMessage extends React.Component<StateProps & DispatchProps & OwnProps>
   }
 
   private openMediaUrl(): void {
-    const win = window.open();
-    win.location.href = this.props.chatMessage.media.url;
+    if (this.props.chatMessage.media.url) {
+      const win = window.open();
+      win.location.href = this.props.chatMessage.media.url;
+    }
   }
 
   private async retryMessage(): Promise<void> {
@@ -178,8 +183,13 @@ class FileMessage extends React.Component<StateProps & DispatchProps & OwnProps>
       this.props.removeChatMessage(chatMessage);
       this.props.addChatMessage(postedMessage);
     } catch (err) {
-      chatMessage.status = ChatMessage.STATUS_ERROR;
-      this.props.updateChatMessage(chatMessage.id, chatMessage);
+      if (err.code === Messages.FILE_SIZE_LIMIT_EXCEEDED) {
+        this.props.removeChatMessage(chatMessage);
+      } else {
+        chatMessage.status = ChatMessage.STATUS_ERROR;
+        this.props.updateChatMessage(chatMessage.id, chatMessage);
+      }
+      PubSub.publish(Constants.EVENT_ALERT, err);
     }
   }
 }
