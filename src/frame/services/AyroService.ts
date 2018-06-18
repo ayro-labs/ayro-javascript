@@ -116,14 +116,11 @@ export class AyroService {
     return chatMessages;
   }
 
-  public static async postMessage(apiToken: string, message: string): Promise<ChatMessage> {
+  public static async postMessage(apiToken: string, message: any): Promise<ChatMessage> {
     const response = await fetch(AyroService.getUrl('/chat'), {
       method: 'POST',
       headers: AyroService.getDefaultHeaders(apiToken),
-      body: JSON.stringify({
-        type: 'text',
-        text: message,
-      }),
+      body: JSON.stringify(message),
     });
     const result = await AyroService.parseResponse(response);
     return new ChatMessage(result);

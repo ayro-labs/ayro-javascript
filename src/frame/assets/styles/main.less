@@ -18,7 +18,7 @@
 
 @import "general";
 @import "utils";
-@import "chat";
+@import "chatbox";
 @import "conversation";
 
 .main-button {
@@ -77,18 +77,6 @@
       fill: @white;
     }
   }
-  > .alert {
-    z-index: 99999999;
-    position: absolute;
-    top: 50px;
-    width: 100%;
-    height: auto;
-    padding: 4px 10px;
-    text-align: center;
-    font-size: 14px;
-    color: #fff;
-    background-color: #dc3545;
-  }
   > .content {
     flex: 1 1 auto;
     display: flex;
@@ -103,14 +91,6 @@
     padding: 0px 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     background-color: @white;
-  }
-}
-
-.main-box {
-  &.without-footer {
-    > .content {
-      height: 450px;
-    }
   }
 }
 

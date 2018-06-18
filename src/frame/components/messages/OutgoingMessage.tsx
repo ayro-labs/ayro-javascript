@@ -108,10 +108,15 @@ class OutgoingMessage extends React.Component<StateProps & DispatchProps & OwnPr
 
   private async retryMessage(): Promise<void> {
     const chatMessage = this.props.chatMessage;
+    const messageData = {
+      type: chatMessage.type,
+      text: chatMessage.text,
+      payload: chatMessage.payload,
+    };
     chatMessage.status = ChatMessage.STATUS_SENDING;
     this.props.updateChatMessage(chatMessage.id, chatMessage);
     try {
-      const postedMessage = await AyroService.postMessage(this.props.apiToken, chatMessage.text);
+      const postedMessage = await AyroService.postMessage(this.props.apiToken, messageData);
       postedMessage.status = ChatMessage.STATUS_SENT;
       this.props.removeChatMessage(chatMessage);
       this.props.addChatMessage(postedMessage);

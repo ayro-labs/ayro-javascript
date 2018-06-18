@@ -26,6 +26,7 @@ export interface StoreState {
   apiToken: string;
   chatMessages: ChatMessage[];
   lastUnread: ChatMessage;
+  lastMessage: ChatMessage;
 }
 
 export class Store {
@@ -56,6 +57,7 @@ export class Store {
     apiToken: null,
     chatMessages: [],
     lastUnread: null,
+    lastMessage: null,
   };
 
   private static STORE: ReduxStore<StoreState> = createStore((state: StoreState, action: AnyAction) => {
@@ -179,12 +181,17 @@ export class Store {
   }
 
   private static setChatMessages(state: StoreState, action: AnyAction): StoreState {
-    return DotProp.set(state, 'chatMessages', action.extraProps.chatMessages);
+    const chatMessages = action.extraProps.chatMessages as ChatMessage[];
+    let newState = DotProp.set(state, 'chatMessages', chatMessages);
+    newState = DotProp.set(newState, 'lastMessage', chatMessages[chatMessages.length - 1]);
+    return newState;
   }
 
   private static addChatMessage(state: StoreState, action: AnyAction): StoreState {
-    const chatMessage: ChatMessage = action.extraProps.chatMessage;
-    return DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => [...chatMessages, chatMessage]);
+    const chatMessage = action.extraProps.chatMessage as ChatMessage;
+    let newState = DotProp.set(state, 'chatMessages', (chatMessages: ChatMessage[]) => [...chatMessages, chatMessage]);
+    newState = DotProp.set(newState, 'lastMessage', chatMessage);
+    return newState;
   }
 
   private static updateChatMessage(state: StoreState, action: AnyAction): StoreState {
