@@ -36,20 +36,15 @@ interface DispatchProps {
 class Conversation extends React.Component<StateProps & DispatchProps> {
 
   private subscriptions: any[] = [];
-  private contentRef: React.RefObject<HTMLDivElement>;
 
   constructor(props: StateProps & DispatchProps) {
     super(props);
-    this.onChatMessageAdded = this.onChatMessageAdded.bind(this);
     this.onUserChanged = this.onUserChanged.bind(this);
     this.postQuickReply = this.postQuickReply.bind(this);
-    this.contentRef = React.createRef<HTMLDivElement>();
   }
 
   public componentDidMount(): void {
-    this.subscriptions.push(PubSub.subscribe(Actions.ADD_CHAT_MESSAGE, this.onChatMessageAdded));
     this.subscriptions.push(PubSub.subscribe(Actions.SET_USER, this.onUserChanged));
-    this.scrollToBottom();
     if (this.props.chatMessages.length === 0) {
       this.loadMessages();
     }
@@ -61,13 +56,11 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
 
   public render(): JSX.Element {
     return (
-      <div className="content" ref={this.contentRef}>
-        <div className="conversation">
-          <div className={this.messagesClasses()}>
-            {this.renderMessages()}
-          </div>
-          {this.renderQuickReplies()}
+      <div className="conversation">
+        <div className={this.messagesClasses()}>
+          {this.renderMessages()}
         </div>
+        {this.renderQuickReplies()}
       </div>
     );
   }
@@ -127,16 +120,8 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
     });
   }
 
-  private scrollToBottom(): void {
-    this.contentRef.current.scrollTop = this.contentRef.current.scrollHeight;
-  }
-
   private onUserChanged(): void {
     this.loadMessages();
-  }
-
-  private onChatMessageAdded(): void {
-    this.scrollToBottom();
   }
 
   private isSameAgent(previousMessage: ChatMessage, chatMessage: ChatMessage): boolean {
@@ -146,9 +131,6 @@ class Conversation extends React.Component<StateProps & DispatchProps> {
   private async loadMessages(): Promise<void> {
     const chatMessages = await AyroService.listMessages(this.props.apiToken);
     this.props.setChatMessages(chatMessages);
-    setTimeout(() => {
-      this.scrollToBottom();
-    }, 200);
   }
 
   private async postQuickReply(quickReply: QuickReply): Promise<void> {

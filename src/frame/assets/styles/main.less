@@ -1,21 +1,4 @@
-@white: #ffffff;
-@gray: #989898;
-@gray-light: #d8d8d8;
-@gray-dark: #525252;
-
-.border-box() {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-.border-radius(@radius) {
-  -moz-border-radius: @radius;
-  -ms-border-radius: @radius;
-  -webkit-border-radius: @radius;
-  border-radius: @radius;
-}
-
+@import "variables";
 @import "general";
 @import "utils";
 @import "chatbox";
@@ -36,9 +19,9 @@
   cursor: pointer;
   > .button-icon {
     position: relative;
-    display: block;
     right: 1px;
     bottom: 1px;
+    display: block;
     width: 40px;
     height: 40px;
     margin: auto;
@@ -49,10 +32,10 @@
 .main-box {
   .border-radius(6px);
   position: absolute;
-  display: flex;
-  flex-direction: column;
   right: 15px;
   bottom: 20px;
+  display: flex;
+  flex-direction: column;
   width: 360px;
   height: calc(100% - 40px);
   border: 1px solid rgba(0, 0, 0, 0.15);

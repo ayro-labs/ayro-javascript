@@ -20,8 +20,8 @@
   "main": "lib/ayro.js",
   "scripts": {
     "lint": "eslint '**/*.js' && tslint 'src/**/*.ts?(x)'",
-    "build": "webpack --config 'webpack/webpack.config.js'",
-    "build-prod": "webpack --config 'webpack/webpack.config.js' --env.production",
+    "build": "webpack --config 'webpack/webpack-config.js'",
+    "build-prod": "webpack --config 'webpack/webpack-config.js' --env.production",
     "test-server": "node tests/server.js",
     "release-lib": "node tasks/release.js",
     "publish-lib": "node tasks/publish.js"
@@ -29,7 +29,6 @@
   "devDependencies": {
     "@ayro/commons": "0.0.29",
     "@octokit/rest": "15.8.1",
-    "@types/core-js": "2.5.0",
     "@types/pubsub-js": "1.5.18",
     "@types/react": "16.3.17",
     "@types/react-dom": "16.0.6",

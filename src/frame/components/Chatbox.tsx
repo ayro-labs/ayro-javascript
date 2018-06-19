@@ -40,18 +40,24 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
 
   private static readonly ALERT_TIME = 5000;
 
-  private inputElement: HTMLInputElement;
+  private contentReference: React.RefObject<HTMLDivElement>;
+  private inputReference: React.RefObject<HTMLInputElement>;
   private subscriptions: any[] = [];
 
   constructor(props: StateProps & DispatchProps) {
     super(props);
-    this.setInputElement = this.setInputElement.bind(this);
     this.onAlert = this.onAlert.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
     this.onMessageChanged = this.onMessageChanged.bind(this);
-    this.closeChat = this.closeChat.bind(this);
+    this.onSetChatMessages = this.onSetChatMessages.bind(this);
+    this.onChatMessageAdded = this.onChatMessageAdded.bind(this);
+    this.scrollToBottom = this.scrollToBottom.bind(this);
+    this.inputFocus = this.inputFocus.bind(this);
     this.postMessage = this.postMessage.bind(this);
     this.postFile = this.postFile.bind(this);
+    this.closeChat = this.closeChat.bind(this);
+    this.contentReference = React.createRef<HTMLDivElement>();
+    this.inputReference = React.createRef<HTMLInputElement>();
     this.state = {
       message: '',
       alert: null,
@@ -59,6 +65,8 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
   }
 
   public componentDidMount(): void {
+    this.subscriptions.push(PubSub.subscribe(Actions.SET_CHAT_MESSAGES, this.onSetChatMessages));
+    this.subscriptions.push(PubSub.subscribe(Actions.ADD_CHAT_MESSAGE, this.onChatMessageAdded));
     this.subscriptions.push(PubSub.subscribe(Constants.EVENT_ALERT, this.onAlert));
   }
 
@@ -74,7 +82,7 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
       <div className="chat main-box">
         {this.renderHeader()}
         {this.renderAlert()}
-        <Conversation/>
+        {this.renderContent()}
         {this.renderFooter()}
       </div>
     );
@@ -87,6 +95,14 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
         <svg className="close-icon" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
           <path d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"/>
         </svg>
+      </div>
+    );
+  }
+
+  private renderContent(): JSX.Element {
+    return (
+      <div className="content" ref={this.contentReference}>
+        <Conversation/>
       </div>
     );
   }
@@ -105,7 +121,7 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
   private renderFooter(): JSX.Element {
     return (
       <div className="footer">
-        <input ref={this.setInputElement} placeholder={this.props.settings.chatbox.input_placeholder} value={this.state.message} onChange={this.onMessageChanged} onKeyPress={this.onKeyPress} type="text" name="message"/>
+        <input ref={this.inputReference} placeholder={this.props.settings.chatbox.input_placeholder} value={this.state.message} onChange={this.onMessageChanged} onKeyPress={this.onKeyPress} type="text" name="message"/>
         <label className="upload-file">
           <svg className="attachment-icon" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
             <path d="M1596 1385q0 117-79 196t-196 79q-135 0-235-100l-777-776q-113-115-113-271 0-159 110-270t269-111q158 0 273 113l605 606q10 10 10 22 0 16-30.5 46.5t-46.5 30.5q-13 0-23-10l-606-607q-79-77-181-77-106 0-179 75t-73 181q0 105 76 181l776 777q63 63 145 63 64 0 106-42t42-106q0-82-63-145l-581-581q-26-24-60-24-29 0-48 19t-19 48q0 32 25 59l410 410q10 10 10 22 0 16-31 47t-47 31q-12 0-22-10l-410-410q-63-61-63-149 0-82 57-139t139-57q88 0 149 63l581 581q100 98 100 235z"/>
@@ -123,13 +139,6 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
     return {
       backgroundColor: this.props.integration.configuration.primary_color,
     };
-  }
-
-  private setInputElement(input: HTMLInputElement): void {
-    this.inputElement = input;
-    if (this.inputElement) {
-      this.inputElement.focus();
-    }
   }
 
   private onAlert(err: AyroError): void {
@@ -152,20 +161,32 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
     this.setState({message: event.target.value});
   }
 
-  private closeChat(): void {
-    this.props.hideChat();
-    window.parent.postMessage({
-      type: ApplicationConstants.EVENT_SIZE_CHANGED,
-      size: ApplicationConstants.SIZE_BUTTON,
-    }, '*');
-    setTimeout(() => {
-      this.props.showButton();
-    }, 100);
+  private onSetChatMessages(): void {
+    this.scrollToBottom();
+    this.inputFocus();
+  }
+
+  private onChatMessageAdded(): void {
+    this.scrollToBottom();
+  }
+
+  private scrollToBottom(): void {
+    const contentElement = this.contentReference.current;
+    if (contentElement) {
+      contentElement.scrollTop = contentElement.scrollHeight;
+    }
+  }
+
+  private inputFocus(): void {
+    const inputElement = this.inputReference.current;
+    if (inputElement) {
+      inputElement.focus();
+    }
   }
 
   private async postMessage(): Promise<void> {
     if (this.state.message.length > 0) {
-      this.inputElement.focus();
+      this.inputFocus();
       const now = new Date();
       const messageData = {type: ChatMessage.TYPE_TEXT, text: this.state.message};
       const chatMessage = new ChatMessage({
@@ -221,6 +242,17 @@ class Chatbox extends React.Component<StateProps & DispatchProps, OwnState> {
       }
     };
     reader.readAsDataURL(file);
+  }
+
+  private closeChat(): void {
+    this.props.hideChat();
+    window.parent.postMessage({
+      type: ApplicationConstants.EVENT_SIZE_CHANGED,
+      size: ApplicationConstants.SIZE_BUTTON,
+    }, '*');
+    setTimeout(() => {
+      this.props.showButton();
+    }, 100);
   }
 }
 
