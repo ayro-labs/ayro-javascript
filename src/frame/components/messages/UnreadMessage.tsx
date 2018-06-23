@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, AnyAction} from 'redux';
-import * as truncate from 'lodash.truncate';
+import truncate from 'lodash-es/truncate';
 
 import {ChatMessage} from 'frame/models/ChatMessage';
 import {Actions} from 'frame/stores/Actions';

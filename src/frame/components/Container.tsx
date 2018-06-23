@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, AnyAction} from 'redux';
 import * as PubSub from 'pubsub-js';
-import * as debounce from 'lodash.debounce';
+import debounce from 'lodash-es/debounce';
 
 import ChatButton from 'frame/components/ChatButton';
 import Chatbox from 'frame/components/Chatbox';

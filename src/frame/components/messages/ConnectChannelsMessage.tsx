@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, AnyAction} from 'redux';
 import * as classNames from 'classnames';
-import * as isNil from 'lodash.isnil';
+import isNil from 'lodash-es/isNil';
 
 import {AyroService} from 'frame/services/AyroService';
 import {Settings} from 'frame/models/Settings';

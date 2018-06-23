@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, AnyAction} from 'redux';
 import * as PubSub from 'pubsub-js';
 import * as classNames from 'classnames';
-import * as truncate from 'lodash.truncate';
+import truncate from 'lodash-es/truncate';
 
 import {AyroService} from 'frame/services/AyroService';
 import {ChatMessage} from 'frame/models/ChatMessage';
