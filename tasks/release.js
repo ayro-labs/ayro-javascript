@@ -2,7 +2,7 @@
 
 'use strict';
 
-const {commands, release} = require('@ayro/commons');
+const {commands, release} = require('release-n-publish');
 const path = require('path');
 
 const WORKING_DIR = path.resolve();
@@ -19,8 +19,8 @@ async function buildLibrary() {
 
 // Run this if call directly from command line
 if (require.main === module) {
-  release.withWorkingDir(WORKING_DIR);
-  release.withLintTask(lintLibrary);
-  release.withBuildTask(buildLibrary);
-  release.run(process.argv[2], process.argv[3]);
+  release.setWorkingDir(WORKING_DIR);
+  release.setLintTask(lintLibrary);
+  release.setBuildTask(buildLibrary);
+  release.run(process.argv[2]);
 }

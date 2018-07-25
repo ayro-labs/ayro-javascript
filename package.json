@@ -27,7 +27,7 @@
     "publish-lib": "node tasks/publish.js"
   },
   "devDependencies": {
-    "@ayro/commons": "0.0.29",
+    "@ayro/commons": "0.0.30",
     "@octokit/rest": "15.8.1",
     "@types/lodash-es": "4.17.0",
     "@types/pubsub-js": "1.5.18",

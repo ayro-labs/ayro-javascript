@@ -3,7 +3,7 @@
 'use strict';
 
 const project = require('../package');
-const {commands, publish} = require('@ayro/commons');
+const {commands, publish} = require('release-n-publish');
 const path = require('path');
 const GitHubApi = require('@octokit/rest');
 const Promise = require('bluebird');
@@ -85,11 +85,11 @@ async function publishToS3() {
 
 // Run this if call directly from command line
 if (require.main === module) {
-  publish.withWorkingDir(WORKING_DIR);
-  publish.withLintTask(lintLibrary);
-  publish.withBuildTask(buildLibrary);
-  publish.withBeforePublishTask(beforePublish);
-  publish.withPublishTask(publishToS3);
-  publish.isNpmProject(true);
+  publish.setWorkingDir(WORKING_DIR);
+  publish.setLintTask(lintLibrary);
+  publish.setBuildTask(buildLibrary);
+  publish.setBeforePublishTask(beforePublish);
+  publish.setPublishTask(publishToS3);
+  publish.setNpmProject(true);
   publish.run();
 }
